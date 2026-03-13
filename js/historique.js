@@ -162,5 +162,18 @@ const Historique = (() => {
     return { projections, participation };
   }
 
-  return { getElection, getDefaultMatrix, projeter, europeennes2024, legislatives2024 };
+  /** Sigmas par defaut pour la matrice de reports (delegation vers HistoriqueBV) */
+  function getDefaultSigmas(scenario) {
+    const matrixData = getDefaultMatrix(scenario);
+    if (!matrixData) return null;
+    if (typeof HistoriqueBV !== 'undefined' && HistoriqueBV.getProfiles()) {
+      return HistoriqueBV.getDefaultSigmas(matrixData);
+    }
+    // Heuristique: 15% du mean, min 3, max 15
+    return matrixData.matrix.map(row =>
+      row.map(val => Math.min(15, Math.max(3, val * 0.15)))
+    );
+  }
+
+  return { getElection, getDefaultMatrix, getDefaultSigmas, projeter, europeennes2024, legislatives2024 };
 })();

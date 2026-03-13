@@ -177,6 +177,13 @@
         </select>
       </div>
       <div class="card">
+        <div class="toggle-row">
+          <label for="proj-mc-toggle">Simulation Monte Carlo</label>
+          <input type="checkbox" id="proj-mc-toggle" class="toggle-input">
+        </div>
+        <p class="muted" id="mc-status">2000 simulations avec intervalles de confiance</p>
+      </div>
+      <div class="card">
         <h2>Matrice de reports</h2>
         <p class="muted">% des electeurs de chaque bloc qui votent pour chaque liste municipale</p>
         <div class="table-scroll">
@@ -190,6 +197,18 @@
           <button class="btn-share" onclick="Share.capture('proj-share-zone')">Partager</button>
         </div>
         <div id="proj-details"></div>
+      </div>
+      <div class="card" id="proj-probabilities" style="display:none">
+        <h2>Probabilite de victoire</h2>
+        <div id="prob-bars"></div>
+        <p class="muted" id="prob-second-tour"></p>
+      </div>
+      <div class="card" id="proj-confidence" style="display:none">
+        <h2>Confiance</h2>
+        <div class="confidence-meter">
+          <div class="confidence-fill" id="confidence-fill"></div>
+        </div>
+        <p class="muted" id="confidence-text">Projection theorique</p>
       </div>
     </section>
 
@@ -249,6 +268,8 @@
   <script src="js/store.js"></script>
   <script src="js/sieges.js"></script>
   <script src="js/historique.js"></script>
+  <script src="js/historique_bv.js"></script>
+  <script src="js/montecarlo.js"></script>
   <script src="js/saisie.js"></script>
   <script src="js/resultats.js"></script>
   <script src="js/projections.js"></script>

@@ -125,9 +125,24 @@ const Store = (() => {
     init();
   }
 
+  // Monte Carlo settings
+  const MC_KEY = 'elections-lafleche-mc';
+
+  function getMCSettings() {
+    try {
+      const raw = localStorage.getItem(MC_KEY);
+      return raw ? JSON.parse(raw) : { enabled: false, n: 2000 };
+    } catch (e) { return { enabled: false, n: 2000 }; }
+  }
+
+  function setMCSettings(settings) {
+    localStorage.setItem(MC_KEY, JSON.stringify(settings));
+  }
+
   return {
     init, getConfig, setConfig, getBureaux,
     getResultats, setResultat, deleteResultat,
-    getAggregate, exportJSON, importJSON, reset
+    getAggregate, exportJSON, importJSON, reset,
+    getMCSettings, setMCSettings
   };
 })();
