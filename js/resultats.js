@@ -3,6 +3,11 @@ const Resultats = (() => {
   let chartBarres = null;
   let chartPie = null;
 
+  // Register datalabels plugin globally
+  if (window.ChartDataLabels) {
+    Chart.register(ChartDataLabels);
+  }
+
   function render() {
     const config = Store.getConfig();
     const agg = Store.getAggregate();
@@ -35,7 +40,7 @@ const Resultats = (() => {
     const labels = config.listes.map(l => l.nom);
     const colors = config.listes.map(l => l.couleur);
     const pcts = agg.exprimes > 0
-      ? agg.voix.map(v => ((v / agg.exprimes) * 100).toFixed(1))
+      ? agg.voix.map(v => parseFloat(((v / agg.exprimes) * 100).toFixed(1)))
       : agg.voix.map(() => 0);
 
     if (chartBarres) chartBarres.destroy();
@@ -55,27 +60,37 @@ const Resultats = (() => {
         responsive: true,
         maintainAspectRatio: true,
         indexAxis: 'y',
+        layout: { padding: { right: 60 } },
         plugins: {
           legend: { display: false },
           tooltip: {
             callbacks: {
-              label: (ctx) => {
-                const idx = ctx.dataIndex;
-                return `${ctx.parsed.x}% (${agg.voix[idx].toLocaleString('fr-FR')} voix)`;
+              label: (tip) => {
+                const idx = tip.dataIndex;
+                return `${tip.parsed.x}% — ${agg.voix[idx].toLocaleString('fr-FR')} voix`;
               }
+            }
+          },
+          datalabels: {
+            anchor: 'end',
+            align: 'end',
+            color: '#E0E7EF',
+            font: { size: 12, weight: 'bold' },
+            formatter: (val) => {
+              return `${val}%`;
             }
           }
         },
         scales: {
           x: {
             beginAtZero: true,
-            max: 100,
+            max: Math.min(100, Math.max(...pcts) + 20),
             grid: { color: 'rgba(255,255,255,0.05)' },
             ticks: { color: '#8899AA', callback: v => v + '%' }
           },
           y: {
             grid: { display: false },
-            ticks: { color: '#E0E7EF', font: { size: 12 } }
+            ticks: { color: '#E0E7EF', font: { size: 12, weight: '600' } }
           }
         }
       }
@@ -86,6 +101,7 @@ const Resultats = (() => {
     const ctx = document.getElementById('chart-pie');
     const labels = config.listes.map(l => l.nom);
     const colors = config.listes.map(l => l.couleur);
+    const total = agg.exprimes || 1;
 
     if (chartPie) chartPie.destroy();
 
@@ -106,15 +122,41 @@ const Resultats = (() => {
         plugins: {
           legend: {
             position: 'bottom',
-            labels: { color: '#E0E7EF', padding: 12, font: { size: 12 } }
+            labels: {
+              color: '#E0E7EF', padding: 14, font: { size: 12 },
+              generateLabels: (chart) => {
+                const data = chart.data;
+                return data.labels.map((label, i) => {
+                  const val = data.datasets[0].data[i] || 0;
+                  const pct = total > 0 ? ((val / total) * 100).toFixed(1) : 0;
+                  return {
+                    text: `${label}  ${pct}%`,
+                    fillStyle: data.datasets[0].backgroundColor[i],
+                    strokeStyle: '#1B2A4A',
+                    lineWidth: 2,
+                    hidden: false,
+                    index: i
+                  };
+                });
+              }
+            }
           },
           tooltip: {
             callbacks: {
-              label: (ctx) => {
-                const pct = agg.exprimes > 0
-                  ? ((ctx.parsed / agg.exprimes) * 100).toFixed(1) : 0;
-                return `${ctx.label}: ${pct}% (${ctx.parsed.toLocaleString('fr-FR')} voix)`;
+              label: (tip) => {
+                const pct = ((tip.parsed / total) * 100).toFixed(1);
+                return `${tip.label}: ${pct}% (${tip.parsed.toLocaleString('fr-FR')} voix)`;
               }
+            }
+          },
+          datalabels: {
+            color: '#fff',
+            font: { size: 14, weight: 'bold' },
+            textShadowColor: 'rgba(0,0,0,0.6)',
+            textShadowBlur: 4,
+            formatter: (val) => {
+              const pct = ((val / total) * 100).toFixed(1);
+              return parseFloat(pct) >= 5 ? pct + '%' : '';
             }
           }
         }
@@ -200,12 +242,10 @@ const Resultats = (() => {
       return `<div class="result-bar-row">
         <div class="result-bar-label">
           <span>${liste.nom}</span>
-          <span>${pctVoix}%</span>
+          <span><strong>${pctVoix}%</strong> &mdash; ${voix.toLocaleString('fr-FR')} voix</span>
         </div>
         <div class="result-bar-track">
-          <div class="result-bar-fill" style="width:${pctVoix}%;background:${liste.couleur}">
-            ${voix.toLocaleString('fr-FR')} voix
-          </div>
+          <div class="result-bar-fill" style="width:${pctVoix}%;background:${liste.couleur}"></div>
         </div>
       </div>`;
     }).join('');

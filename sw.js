@@ -1,4 +1,4 @@
-const CACHE_NAME = 'elections-lafleche-v1';
+const CACHE_NAME = 'elections-lafleche-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -14,6 +14,7 @@ const ASSETS = [
   './data/historique.json',
   './manifest.json',
   'https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js',
+  'https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js',
   'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js'
 ];
 

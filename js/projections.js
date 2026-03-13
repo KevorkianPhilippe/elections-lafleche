@@ -151,12 +151,17 @@ const Projections = (() => {
       });
     }
 
+    const maxVal = Math.max(
+      ...datasets.flatMap(ds => ds.data.map(v => parseFloat(v)))
+    );
+
     chartProjection = new Chart(ctx, {
       type: 'bar',
       data: { labels: listeNoms, datasets },
       options: {
         responsive: true,
         maintainAspectRatio: true,
+        layout: { padding: { top: 25 } },
         plugins: {
           legend: {
             position: 'bottom',
@@ -164,14 +169,21 @@ const Projections = (() => {
           },
           tooltip: {
             callbacks: {
-              label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}%`
+              label: (tip) => `${tip.dataset.label}: ${tip.parsed.y}%`
             }
+          },
+          datalabels: {
+            anchor: 'end',
+            align: 'end',
+            color: '#E0E7EF',
+            font: { size: 12, weight: 'bold' },
+            formatter: (val) => val + '%'
           }
         },
         scales: {
           y: {
             beginAtZero: true,
-            max: 70,
+            max: Math.min(100, maxVal + 15),
             grid: { color: 'rgba(255,255,255,0.05)' },
             ticks: { color: '#8899AA', callback: v => v + '%' }
           },
