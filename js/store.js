@@ -4,9 +4,9 @@ const Store = (() => {
 
   const DEFAULT_CONFIG = {
     listes: [
-      { nom: 'Grelet-Certenais', couleur: '#E91E63', abrev: 'NGC' },
+      { nom: 'Lemoigne', couleur: '#5C6BC0', abrev: 'RL' },
       { nom: 'Da Silva', couleur: '#2196F3', abrev: 'MDS' },
-      { nom: 'Lemoigne', couleur: '#5C6BC0', abrev: 'RL' }
+      { nom: 'Grelet-Certenais', couleur: '#E91E63', abrev: 'NGC' }
     ],
     nbBureaux: 17,
     totalSieges: 33,

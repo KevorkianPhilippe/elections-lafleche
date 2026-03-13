@@ -54,37 +54,37 @@ const Historique = (() => {
   const defaultMatrices = {
     europeennes: {
       blocs: europeennes2024.blocs.filter(b => b !== 'Abstention'),
-      // [Grelet-Certenais, Da Silva, Lemoigne, Abstention]
-      destinations: ['Grelet-Certenais', 'Da Silva', 'Lemoigne', 'Abstention'],
+      // [Lemoigne, Da Silva, Grelet-Certenais, Abstention]
+      destinations: ['Lemoigne', 'Da Silva', 'Grelet-Certenais', 'Abstention'],
       matrix: [
         // Gauche -> municipales
-        [80, 5, 2, 13],
+        [2, 5, 80, 13],
         // Macron -> municipales
-        [35, 45, 5, 15],
+        [5, 45, 35, 15],
         // LR -> municipales
         [10, 65, 10, 15],
         // RN -> municipales
-        [3, 10, 75, 12],
+        [75, 10, 3, 12],
         // Reconquete -> municipales
-        [2, 30, 50, 18],
+        [50, 30, 2, 18],
         // Autres -> municipales
-        [25, 25, 15, 35]
+        [15, 25, 25, 35]
       ],
       sourcePcts: europeennes2024.global.resultats.map(r => r.pct),
       abstentionPct: 46.0 // 100 - 54% participation
     },
     legislatives: {
       blocs: legislatives2024.blocs.filter(b => b !== 'Abstention'),
-      destinations: ['Grelet-Certenais', 'Da Silva', 'Lemoigne', 'Abstention'],
+      destinations: ['Lemoigne', 'Da Silva', 'Grelet-Certenais', 'Abstention'],
       matrix: [
         // Gauche NFP -> municipales
-        [82, 3, 2, 13],
+        [2, 3, 82, 13],
         // Macron Ensemble -> municipales
-        [30, 50, 5, 15],
+        [5, 50, 30, 15],
         // LR -> municipales
         [8, 70, 8, 14],
         // RN -> municipales
-        [2, 8, 78, 12],
+        [78, 8, 2, 12],
         // Autres -> municipales
         [20, 25, 20, 35]
       ],
