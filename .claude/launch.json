@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "elections-dev",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "3030", "-s", "."],
+      "port": 3030
+    }
+  ]
+}

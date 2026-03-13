@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1B2A4A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Elections La Fleche 2026</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header id="app-header">
+    <h1 id="page-title">Elections La Fleche</h1>
+    <button id="btn-config" class="header-btn" aria-label="Configuration">&#9881;</button>
+  </header>
+
+  <!-- Pages container -->
+  <main id="app-main">
+
+    <!-- PAGE: Dashboard -->
+    <section id="page-dashboard" class="page active">
+      <div class="card">
+        <h2>Progression</h2>
+        <div id="dash-progress-bar" class="progress-bar">
+          <div id="dash-progress-fill" class="progress-fill"></div>
+        </div>
+        <p id="dash-progress-text">0 / 17 bureaux saisis</p>
+      </div>
+      <div class="card">
+        <h2>Participation</h2>
+        <div class="stat-row">
+          <div class="stat-box">
+            <span id="dash-votants" class="stat-value">0</span>
+            <span class="stat-label">Votants</span>
+          </div>
+          <div class="stat-box">
+            <span id="dash-inscrits" class="stat-value">0</span>
+            <span class="stat-label">Inscrits</span>
+          </div>
+          <div class="stat-box">
+            <span id="dash-participation" class="stat-value">-</span>
+            <span class="stat-label">Taux</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Resultats partiels</h2>
+        <div id="dash-results-bars"></div>
+        <p id="dash-no-data" class="muted">Aucun bureau saisi pour l'instant</p>
+      </div>
+      <div class="card quick-actions">
+        <button class="btn btn-primary btn-large" onclick="App.navigate('saisie')">Saisir un bureau</button>
+        <button class="btn btn-secondary" onclick="App.navigate('resultats')">Voir resultats</button>
+      </div>
+    </section>
+
+    <!-- PAGE: Saisie -->
+    <section id="page-saisie" class="page">
+      <div class="card">
+        <h2>Bureau de vote</h2>
+        <div class="bureau-grid" id="bureau-grid"></div>
+      </div>
+      <div id="saisie-form-container" class="card" style="display:none">
+        <h2>Bureau n<sup>o</sup><span id="saisie-bv-num"></span></h2>
+        <form id="saisie-form" autocomplete="off">
+          <div class="form-group">
+            <label for="f-inscrits">Inscrits</label>
+            <input type="number" id="f-inscrits" min="0" inputmode="numeric" required>
+          </div>
+          <div class="form-group">
+            <label for="f-votants">Votants</label>
+            <input type="number" id="f-votants" min="0" inputmode="numeric" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group half">
+              <label for="f-blancs">Blancs</label>
+              <input type="number" id="f-blancs" min="0" inputmode="numeric" required>
+            </div>
+            <div class="form-group half">
+              <label for="f-nuls">Nuls</label>
+              <input type="number" id="f-nuls" min="0" inputmode="numeric" required>
+            </div>
+          </div>
+          <div class="form-info" id="f-exprimes-info">Exprimes : -</div>
+          <div id="saisie-listes-fields"></div>
+          <div class="form-info" id="f-total-voix-info">Total voix : -</div>
+          <div id="saisie-validation-msg" class="validation-msg"></div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="button" class="btn btn-danger" id="btn-effacer-bv">Effacer</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- PAGE: Resultats -->
+    <section id="page-resultats" class="page">
+      <div class="card" id="resultats-summary">
+        <h2>Resultats agreges</h2>
+        <p id="res-bureaux-count">0 / 17 bureaux depouilles</p>
+        <div id="res-share-zone" class="share-zone">
+          <canvas id="chart-barres" height="250"></canvas>
+          <button class="btn-share" onclick="Share.capture('chart-barres-wrapper')">Partager</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Repartition</h2>
+        <div id="res-share-pie" class="share-zone">
+          <canvas id="chart-pie" height="250"></canvas>
+          <button class="btn-share" onclick="Share.capture('res-share-pie')">Partager</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Participation</h2>
+        <div class="stat-row">
+          <div class="stat-box">
+            <span id="res-inscrits" class="stat-value">0</span>
+            <span class="stat-label">Inscrits</span>
+          </div>
+          <div class="stat-box">
+            <span id="res-votants" class="stat-value">0</span>
+            <span class="stat-label">Votants</span>
+          </div>
+          <div class="stat-box">
+            <span id="res-blancs" class="stat-value">0</span>
+            <span class="stat-label">Blancs</span>
+          </div>
+          <div class="stat-box">
+            <span id="res-nuls" class="stat-value">0</span>
+            <span class="stat-label">Nuls</span>
+          </div>
+          <div class="stat-box highlight">
+            <span id="res-participation" class="stat-value">-</span>
+            <span class="stat-label">Participation</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Detail par bureau</h2>
+        <div class="table-scroll">
+          <table id="res-table">
+            <thead><tr><th>BV</th><th>Insc.</th><th>Vot.</th><th>Expr.</th></tr></thead>
+            <tbody id="res-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE: Sieges -->
+    <section id="page-sieges" class="page">
+      <div class="card">
+        <h2>Repartition des sieges</h2>
+        <p class="muted">33 sieges — Prime majoritaire (17) + Proportionnel (16)</p>
+        <div id="sieges-result"></div>
+        <div id="sieges-share-zone" class="share-zone">
+          <div id="sieges-hemicycle"></div>
+          <button class="btn-share" onclick="Share.capture('sieges-share-zone')">Partager</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Detail du calcul</h2>
+        <div id="sieges-detail"></div>
+      </div>
+    </section>
+
+    <!-- PAGE: Projections -->
+    <section id="page-projections" class="page">
+      <div class="card">
+        <h2>Scenario de projection</h2>
+        <select id="proj-scenario" class="select-full">
+          <option value="europeennes">Europeennes 2024</option>
+          <option value="legislatives">Legislatives 2024 T1</option>
+          <option value="custom">Hypothese personnalisee</option>
+        </select>
+      </div>
+      <div class="card">
+        <h2>Matrice de reports</h2>
+        <p class="muted">% des electeurs de chaque bloc qui votent pour chaque liste municipale</p>
+        <div class="table-scroll">
+          <table id="proj-matrix"></table>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Projection des resultats</h2>
+        <div id="proj-share-zone" class="share-zone">
+          <canvas id="chart-projection" height="250"></canvas>
+          <button class="btn-share" onclick="Share.capture('proj-share-zone')">Partager</button>
+        </div>
+        <div id="proj-details"></div>
+      </div>
+    </section>
+
+    <!-- PAGE: Configuration -->
+    <section id="page-config" class="page">
+      <div class="card">
+        <h2>Listes candidates</h2>
+        <div id="config-listes"></div>
+        <button class="btn btn-secondary btn-small" id="btn-add-liste">+ Ajouter une liste</button>
+      </div>
+      <div class="card">
+        <h2>Bureaux de vote</h2>
+        <div class="form-group">
+          <label for="config-nb-bureaux">Nombre de bureaux</label>
+          <input type="number" id="config-nb-bureaux" min="1" max="50" value="17" inputmode="numeric">
+        </div>
+      </div>
+      <div class="card">
+        <h2>Donnees</h2>
+        <button class="btn btn-secondary" id="btn-export">Exporter (JSON)</button>
+        <button class="btn btn-secondary" id="btn-import">Importer (JSON)</button>
+        <input type="file" id="import-file" accept=".json" style="display:none">
+        <button class="btn btn-danger" id="btn-reset">Tout reinitialiser</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom navigation -->
+  <nav id="bottom-nav">
+    <button class="nav-btn active" data-page="dashboard">
+      <span class="nav-icon">&#127968;</span>
+      <span class="nav-label">Accueil</span>
+    </button>
+    <button class="nav-btn" data-page="saisie">
+      <span class="nav-icon">&#9998;</span>
+      <span class="nav-label">Saisie</span>
+    </button>
+    <button class="nav-btn" data-page="resultats">
+      <span class="nav-icon">&#128202;</span>
+      <span class="nav-label">Resultats</span>
+    </button>
+    <button class="nav-btn" data-page="sieges">
+      <span class="nav-icon">&#127971;</span>
+      <span class="nav-label">Sieges</span>
+    </button>
+    <button class="nav-btn" data-page="projections">
+      <span class="nav-icon">&#128300;</span>
+      <span class="nav-label">Projections</span>
+    </button>
+  </nav>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/sieges.js"></script>
+  <script src="js/historique.js"></script>
+  <script src="js/saisie.js"></script>
+  <script src="js/resultats.js"></script>
+  <script src="js/projections.js"></script>
+  <script src="js/share.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+{
+  "europeennes2024": {
+    "commune": "72154",
+    "nom": "La Fleche",
+    "inscrits": 10200,
+    "votants": 5508,
+    "participation": 54.0,
+    "blocs": {
+      "Gauche": { "pct": 28.5, "detail": "PS/PP 14%, LFI 8%, EELV 4.5%, PCF 2%" },
+      "Macron": { "pct": 16.0, "detail": "Renaissance + Horizons + MoDem" },
+      "LR": { "pct": 7.5, "detail": "Bellamy" },
+      "RN": { "pct": 33.0, "detail": "Bardella" },
+      "Reconquete": { "pct": 5.5, "detail": "Marechal" },
+      "Autres": { "pct": 9.5, "detail": "Divers" }
+    }
+  },
+  "legislatives2024": {
+    "commune": "72154",
+    "nom": "La Fleche",
+    "circonscription": "3eme Sarthe",
+    "inscrits": 10200,
+    "votants": 6834,
+    "participation": 67.0,
+    "blocs": {
+      "Gauche (NFP)": { "pct": 22.0 },
+      "Macron (Ensemble)": { "pct": 20.0 },
+      "LR": { "pct": 8.0 },
+      "RN": { "pct": 38.0 },
+      "Autres": { "pct": 12.0 }
+    }
+  },
+  "municipales2020": {
+    "commune": "72154",
+    "nom": "La Fleche",
+    "tour": 1,
+    "inscrits": 10500,
+    "votants": 4536,
+    "participation": 43.2,
+    "listes": [
+      { "nom": "Grelet-Certenais (PS)", "pct": 69.93, "elue": true },
+      { "nom": "Beaupere (centre-droit)", "pct": 30.07, "elue": false }
+    ],
+    "sieges": {
+      "Grelet-Certenais": 29,
+      "Beaupere": 4
+    }
+  }
+}
