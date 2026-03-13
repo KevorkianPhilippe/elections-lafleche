@@ -236,10 +236,26 @@ const App = (() => {
     // Render dashboard
     navigate('dashboard');
 
-    // Register service worker
+    // Register service worker with auto-update
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js')
-        .then(() => console.log('SW registered'))
+        .then(reg => {
+          console.log('SW registered');
+          // Check for updates immediately, then every 60s
+          reg.update();
+          setInterval(() => reg.update(), 60000);
+          // When a new SW is found, reload once it activates
+          reg.addEventListener('updatefound', () => {
+            const newSW = reg.installing;
+            if (!newSW) return;
+            newSW.addEventListener('statechange', () => {
+              if (newSW.state === 'activated' && navigator.serviceWorker.controller) {
+                console.log('New version available, reloading...');
+                window.location.reload();
+              }
+            });
+          });
+        })
         .catch(err => console.log('SW error:', err));
     }
   }
