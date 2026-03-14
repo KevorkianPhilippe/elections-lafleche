@@ -67,10 +67,9 @@ const Share = (() => {
   function showOverlay(dataUrl, blob, filename) {
     createOverlay();
 
-    // Set image — use blob URL so Android "save/share image" works properly
-    const blobUrl = URL.createObjectURL(blob);
+    // Set image — use data URL (pas de blob URL qui inclut l'adresse du site)
     const img = document.getElementById('share-preview-img');
-    img.src = blobUrl;
+    img.src = dataUrl;
 
     // Setup save button
     const saveBtn = document.getElementById('share-btn-save');
