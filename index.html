@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Elections La Fleche 2026</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="css/style.css?v=8">
+  <link rel="stylesheet" href="css/style.css?v=9">
 </head>
 <body>
   <!-- Header -->
@@ -48,8 +48,11 @@
       </div>
       <div class="card">
         <h2>Resultats partiels</h2>
-        <div id="dash-results-bars"></div>
-        <p id="dash-no-data" class="muted">Aucun bureau saisi pour l'instant</p>
+        <div id="dash-share-zone" class="share-zone">
+          <div id="dash-results-bars"></div>
+          <p id="dash-no-data" class="muted">Aucun bureau saisi pour l'instant</p>
+          <button class="btn-share" onclick="Share.capture('dash-share-zone','dashboard')">Partager</button>
+        </div>
       </div>
       <div class="card quick-actions">
         <button class="btn btn-primary btn-large" onclick="App.navigate('saisie')">Saisir un bureau</button>
@@ -103,14 +106,14 @@
         <p id="res-bureaux-count">0 / 17 bureaux depouilles</p>
         <div id="res-share-zone" class="share-zone">
           <canvas id="chart-barres" height="250"></canvas>
-          <button class="btn-share" onclick="Share.capture('chart-barres-wrapper')">Partager</button>
+          <button class="btn-share" onclick="Share.capture('res-share-zone','resultats-barres')">Partager</button>
         </div>
       </div>
       <div class="card">
         <h2>Repartition</h2>
         <div id="res-share-pie" class="share-zone">
           <canvas id="chart-pie" height="250"></canvas>
-          <button class="btn-share" onclick="Share.capture('res-share-pie')">Partager</button>
+          <button class="btn-share" onclick="Share.capture('res-share-pie','resultats-camembert')">Partager</button>
         </div>
       </div>
       <div class="card">
@@ -140,11 +143,14 @@
       </div>
       <div class="card">
         <h2>Detail par bureau</h2>
-        <div class="table-scroll">
-          <table id="res-table">
-            <thead><tr><th>Bureau</th><th>Insc.</th><th>Vot.</th><th>Expr.</th></tr></thead>
-            <tbody id="res-table-body"></tbody>
-          </table>
+        <div id="res-table-share-zone" class="share-zone">
+          <div class="table-scroll">
+            <table id="res-table">
+              <thead><tr><th>Bureau</th><th>Insc.</th><th>Vot.</th><th>Expr.</th></tr></thead>
+              <tbody id="res-table-body"></tbody>
+            </table>
+          </div>
+          <button class="btn-share" onclick="Share.capture('res-table-share-zone','resultats-detail')">Partager</button>
         </div>
       </div>
     </section>
@@ -154,10 +160,10 @@
       <div class="card">
         <h2>Repartition des sieges</h2>
         <p class="muted">33 sieges — Prime majoritaire (17) + Proportionnel (16)</p>
-        <div id="sieges-result"></div>
         <div id="sieges-share-zone" class="share-zone">
+          <div id="sieges-result"></div>
           <div id="sieges-hemicycle"></div>
-          <button class="btn-share" onclick="Share.capture('sieges-share-zone')">Partager</button>
+          <button class="btn-share" onclick="Share.capture('sieges-share-zone','sieges')">Partager</button>
         </div>
       </div>
       <div class="card">
@@ -195,14 +201,17 @@
         <h2>Projection des resultats</h2>
         <div id="proj-share-zone" class="share-zone">
           <canvas id="chart-projection" height="250"></canvas>
-          <button class="btn-share" onclick="Share.capture('proj-share-zone')">Partager</button>
+          <button class="btn-share" onclick="Share.capture('proj-share-zone','projections')">Partager</button>
         </div>
         <div id="proj-details"></div>
       </div>
       <div class="card" id="proj-probabilities" style="display:none">
         <h2>Probabilite de victoire</h2>
-        <div id="prob-bars"></div>
-        <p class="muted" id="prob-second-tour"></p>
+        <div id="proj-proba-share-zone" class="share-zone">
+          <div id="prob-bars"></div>
+          <p class="muted" id="prob-second-tour"></p>
+          <button class="btn-share" onclick="Share.capture('proj-proba-share-zone','probabilites')">Partager</button>
+        </div>
       </div>
       <div class="card" id="proj-confidence" style="display:none">
         <h2>Confiance</h2>
@@ -218,17 +227,26 @@
       <div class="card">
         <h2>Comparaison des scenarios</h2>
         <p class="muted">Projection MC par scenario de reference</p>
-        <div id="analyse-comparateur"></div>
+        <div id="analyse-comp-share" class="share-zone">
+          <div id="analyse-comparateur"></div>
+          <button class="btn-share" onclick="Share.capture('analyse-comp-share','analyse-scenarios')">Partager</button>
+        </div>
       </div>
       <div class="card">
         <h2>Bureaux strategiques</h2>
         <p class="muted">Classes par potentiel de basculement</p>
-        <div id="analyse-swing"></div>
+        <div id="analyse-swing-share" class="share-zone">
+          <div id="analyse-swing"></div>
+          <button class="btn-share" onclick="Share.capture('analyse-swing-share','analyse-swing')">Partager</button>
+        </div>
       </div>
       <div class="card">
         <h2>Profils demographiques</h2>
         <p class="muted">Tranches d'age par bureau de vote</p>
-        <div id="analyse-demo"></div>
+        <div id="analyse-demo-share" class="share-zone">
+          <div id="analyse-demo"></div>
+          <button class="btn-share" onclick="Share.capture('analyse-demo-share','analyse-demographics')">Partager</button>
+        </div>
       </div>
     </section>
 
@@ -289,16 +307,16 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="js/store.js?v=8"></script>
-  <script src="js/sieges.js?v=8"></script>
-  <script src="js/historique.js?v=8"></script>
-  <script src="js/historique_bv.js?v=8"></script>
-  <script src="js/montecarlo.js?v=8"></script>
-  <script src="js/saisie.js?v=8"></script>
-  <script src="js/resultats.js?v=8"></script>
-  <script src="js/projections.js?v=8"></script>
-  <script src="js/analyse.js?v=8"></script>
-  <script src="js/share.js?v=8"></script>
-  <script src="js/app.js?v=8"></script>
+  <script src="js/store.js?v=9"></script>
+  <script src="js/sieges.js?v=9"></script>
+  <script src="js/historique.js?v=9"></script>
+  <script src="js/historique_bv.js?v=9"></script>
+  <script src="js/montecarlo.js?v=9"></script>
+  <script src="js/saisie.js?v=9"></script>
+  <script src="js/resultats.js?v=9"></script>
+  <script src="js/projections.js?v=9"></script>
+  <script src="js/analyse.js?v=9"></script>
+  <script src="js/share.js?v=9"></script>
+  <script src="js/app.js?v=9"></script>
 </body>
 </html>
