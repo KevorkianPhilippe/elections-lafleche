@@ -2,68 +2,112 @@
 const Share = (() => {
 
   async function capture(elementId, section) {
-    const el = document.getElementById(elementId) ||
-               document.querySelector(`#${elementId}`) ||
-               document.querySelector(`.${elementId}`);
+    const el = document.getElementById(elementId);
     if (!el) {
-      alert('Element introuvable');
+      alert('Element introuvable : ' + elementId);
       return;
     }
 
+    // Find the share button inside to show loading state
+    const btn = el.querySelector('.btn-share');
+    const origText = btn ? btn.textContent : '';
+
     try {
-      // Show a loading state
-      const btn = el.querySelector('.btn-share');
-      const origText = btn ? btn.textContent : '';
-      if (btn) btn.textContent = '...';
+      if (btn) {
+        btn.textContent = 'Capture...';
+        btn.disabled = true;
+      }
+
+      // html2canvas options — adapt scale to element size to avoid too-large canvases
+      const rect = el.getBoundingClientRect();
+      const maxDim = Math.max(rect.width, rect.height);
+      const scale = maxDim > 800 ? 1.5 : 2; // reduce scale for large sections
 
       const canvas = await html2canvas(el, {
         backgroundColor: '#1B2A4A',
-        scale: 2,
+        scale: scale,
         useCORS: true,
-        logging: false
+        allowTaint: true,
+        logging: false,
+        // Scroll to element to ensure it's rendered
+        scrollX: 0,
+        scrollY: -window.scrollY,
+        windowWidth: document.documentElement.scrollWidth,
+        windowHeight: document.documentElement.scrollHeight
       });
 
-      if (btn) btn.textContent = origText;
+      // Validate canvas
+      if (!canvas || canvas.width === 0 || canvas.height === 0) {
+        alert('Erreur : la capture est vide. Essayez une capture d\'ecran manuelle.');
+        return;
+      }
 
-      // Dynamic filename based on section
+      // Convert canvas to blob
+      const blob = await new Promise((resolve) => {
+        canvas.toBlob((b) => resolve(b), 'image/png');
+      });
+
+      if (!blob || blob.size < 1000) {
+        alert('Erreur : image capturee trop petite ou vide. Essayez une capture d\'ecran manuelle.');
+        return;
+      }
+
       const filename = `elections-lafleche-${section || 'resultats'}.png`;
+      const file = new File([blob], filename, { type: 'image/png' });
+      const shareText = getShareText(section);
 
-      // Convert to blob
-      canvas.toBlob(async (blob) => {
-        if (!blob) return;
+      // Try Web Share API with files
+      let shared = false;
+      if (navigator.share && navigator.canShare) {
+        const shareDataWithFile = {
+          title: 'Elections La Fleche 2026',
+          text: shareText,
+          files: [file]
+        };
 
-        // Try Web Share API (works on Android)
-        if (navigator.canShare) {
-          const file = new File([blob], filename, { type: 'image/png' });
-          const shareData = {
-            title: 'Elections La Fleche 2026',
-            text: getShareText(section),
-            files: [file]
-          };
-
-          try {
-            if (navigator.canShare(shareData)) {
-              await navigator.share(shareData);
-              return;
-            }
-          } catch (e) {
-            // User cancelled or not supported, fall through to download
-            if (e.name === 'AbortError') return;
+        try {
+          if (navigator.canShare(shareDataWithFile)) {
+            await navigator.share(shareDataWithFile);
+            shared = true;
           }
+        } catch (e) {
+          if (e.name === 'AbortError') return; // User cancelled
+          console.warn('Share with file failed:', e.message);
+          // Fall through to download
         }
+      }
 
+      if (!shared) {
         // Fallback: download the image
         downloadBlob(blob, filename);
-      }, 'image/png');
+
+        // Also try to share just the text via Web Share (without file)
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: 'Elections La Fleche 2026',
+              text: shareText
+            });
+          } catch (e) {
+            // Ignore
+          }
+        }
+      }
 
     } catch (err) {
       console.error('Capture error:', err);
-      alert('Erreur lors de la capture. Essayez une capture d\'ecran manuelle.');
+      alert('Erreur lors de la capture : ' + err.message);
+    } finally {
+      // Always restore button state
+      if (btn) {
+        btn.textContent = origText;
+        btn.disabled = false;
+      }
     }
   }
 
   function getShareText(section) {
-    const agg = Store.getAggregate();
+    const agg = typeof Store !== 'undefined' ? Store.getAggregate() : { filled: 0, total: 17 };
     const progress = agg.filled > 0 ? ` (${agg.filled}/${agg.total} bureaux)` : '';
 
     const texts = {
@@ -89,7 +133,7 @@ const Share = (() => {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    setTimeout(() => URL.revokeObjectURL(url), 3000);
   }
 
   return { capture };
