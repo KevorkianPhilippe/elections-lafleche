@@ -6,6 +6,7 @@ const App = (() => {
     resultats: 'Resultats',
     sieges: 'Repartition des sieges',
     projections: 'Projections',
+    analyse: 'Analyse strategique',
     config: 'Configuration'
   };
 
@@ -52,6 +53,14 @@ const App = (() => {
         break;
       case 'projections':
         Projections.render();
+        break;
+      case 'analyse':
+        if (typeof Analyse !== 'undefined') {
+          // Defer render to next frame to let DOM settle after page transition
+          requestAnimationFrame(() => {
+            Analyse.render().catch(e => console.warn('Analyse render:', e));
+          });
+        }
         break;
       case 'config':
         renderConfig();
@@ -233,28 +242,28 @@ const App = (() => {
     Projections.init();
     initConfig();
 
+    // Pre-load BV data in background (for Analyse + MC)
+    if (typeof HistoriqueBV !== 'undefined') {
+      HistoriqueBV.load().catch(e => console.warn('BV preload:', e));
+    }
+
     // Render dashboard
     navigate('dashboard');
 
     // Register service worker with auto-update
     if ('serviceWorker' in navigator) {
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (refreshing) return;
+        refreshing = true;
+        console.log('New version available, reloading...');
+        window.location.reload();
+      });
       navigator.serviceWorker.register('./sw.js')
         .then(reg => {
           console.log('SW registered');
-          // Check for updates immediately, then every 60s
-          reg.update();
-          setInterval(() => reg.update(), 60000);
-          // When a new SW is found, reload once it activates
-          reg.addEventListener('updatefound', () => {
-            const newSW = reg.installing;
-            if (!newSW) return;
-            newSW.addEventListener('statechange', () => {
-              if (newSW.state === 'activated' && navigator.serviceWorker.controller) {
-                console.log('New version available, reloading...');
-                window.location.reload();
-              }
-            });
-          });
+          // Check for updates every 5 minutes
+          setInterval(() => reg.update(), 300000);
         })
         .catch(err => console.log('SW error:', err));
     }

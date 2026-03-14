@@ -210,6 +210,13 @@ const Projections = (() => {
 
         const bvNum = bvId.replace(/^0+/, '') || '1';
         const deviation = HistoriqueBV.getBureauDeviation(bvNum, listeNoms);
+        // Enrich deviation with age-based factor
+        const ageFactor = HistoriqueBV.getAgeFactor(bvNum, listeNoms);
+        if (deviation && ageFactor) {
+          for (const nom of listeNoms) {
+            deviation[nom] = (deviation[nom] || 0) + (ageFactor[nom] || 0);
+          }
+        }
         mcResult = MonteCarlo.updateWithBureau(mcResult, bvNum, obsPcts, deviation);
       }
     }
@@ -264,7 +271,7 @@ const Projections = (() => {
     // Resultats reels si disponibles
     if (agg.filled > 0 && agg.exprimes > 0) {
       datasets.push({
-        label: `Reel (${agg.filled}/${agg.total} BV)`,
+        label: `Reel (${agg.filled}/${agg.total} bureaux)`,
         data: agg.voix.map(v => ((v / agg.exprimes) * 100).toFixed(1)),
         backgroundColor: colors.map(c => c + '44'),
         borderColor: colors.map(c => c + '88'),
@@ -407,10 +414,10 @@ const Projections = (() => {
 
     let text = 'Projection theorique';
     if (filledBv === 0) text = 'Projection theorique (aucun bureau saisi)';
-    else if (filledBv <= 4) text = `Estimation precoce (${filledBv}/${totalBv} BV)`;
-    else if (filledBv <= 10) text = `Tendance fiable (${filledBv}/${totalBv} BV)`;
-    else if (filledBv < totalBv) text = `Quasi-definitif (${filledBv}/${totalBv} BV)`;
-    else text = `Definitif (${filledBv}/${totalBv} BV)`;
+    else if (filledBv <= 4) text = `Estimation precoce (${filledBv}/${totalBv} bureaux)`;
+    else if (filledBv <= 10) text = `Tendance fiable (${filledBv}/${totalBv} bureaux)`;
+    else if (filledBv < totalBv) text = `Quasi-definitif (${filledBv}/${totalBv} bureaux)`;
+    else text = `Definitif (${filledBv}/${totalBv} bureaux)`;
 
     document.getElementById('confidence-text').textContent = text;
   }

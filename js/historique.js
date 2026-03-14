@@ -1,101 +1,115 @@
 /* historique.js — Donnees historiques elections La Fleche (72154)
- * Sources: data.gouv.fr
+ * Sources: DataRealis (72154_resultats_elections.xlsx) — donnees exactes
  * Donnees par bureau de vote regroupees en blocs politiques
  */
 const Historique = (() => {
 
-  // Europeennes 2024 - Resultats La Fleche par bureau de vote
-  // Regroupes en blocs pour la matrice de reports
-  // Blocs: GAUCHE (PS/PP + LFI + EELV + PCF + divers gauche)
-  //        MACRON (Renaissance + Horizons + MoDem)
-  //        LR (Bellamy)
-  //        RN (Bardella)
-  //        RECONQUETE (Maréchal)
-  //        AUTRES (reste)
-  //        ABSTENTION (inscrits - votants)
+  // ── Europeennes 2024 — Resultats exacts La Fleche (DataRealis) ──
+  // Gauche = PS(16%) + LFI(5.01%) + EELV(4.45%) + PCF(2.10%) = 27.56%
   const europeennes2024 = {
     blocs: ['Gauche', 'Macron', 'LR', 'RN', 'Reconquete', 'Autres', 'Abstention'],
-    // Pourcentages moyens La Fleche (a affiner avec les donnees exactes par BV)
-    // Resultats nationaux ajustes pour une ville moyenne de l'Ouest
     global: {
-      inscrits: 10200,
-      votants: 5508, // ~54% participation aux europeennes
+      inscrits: 10267,
+      votants: 5649,
       resultats: [
-        { bloc: 'Gauche', pct: 28.5 },    // PS/PP 14% + LFI 8% + EELV 4.5% + PCF 2%
-        { bloc: 'Macron', pct: 16.0 },     // Renaissance + allies
-        { bloc: 'LR', pct: 7.5 },          // Bellamy
-        { bloc: 'RN', pct: 33.0 },         // Bardella
-        { bloc: 'Reconquete', pct: 5.5 },  // Marechal
-        { bloc: 'Autres', pct: 9.5 }       // Divers
+        { bloc: 'Gauche', pct: 27.6 },
+        { bloc: 'Macron', pct: 15.9 },
+        { bloc: 'LR', pct: 7.5 },
+        { bloc: 'RN', pct: 34.3 },
+        { bloc: 'Reconquete', pct: 6.3 },
+        { bloc: 'Autres', pct: 8.4 }
       ]
     }
   };
 
-  // Legislatives 2024 T1 - 3eme circo Sarthe
-  // Resultats La Fleche
+  // ── Legislatives 2024 T1 — Resultats exacts La Fleche (DataRealis) ──
   const legislatives2024 = {
-    blocs: ['Gauche (NFP)', 'Macron (Ensemble)', 'LR', 'RN', 'Autres', 'Abstention'],
+    blocs: ['Gauche (NFP)', 'Macron (Ensemble)', 'LR', 'RN', 'Reconquete', 'Abstention'],
     global: {
-      inscrits: 10200,
-      votants: 6834, // ~67% participation
+      inscrits: 10266,
+      votants: 7119,
       resultats: [
-        { bloc: 'Gauche (NFP)', pct: 22.0 },
-        { bloc: 'Macron (Ensemble)', pct: 20.0 },
-        { bloc: 'LR', pct: 8.0 },
-        { bloc: 'RN', pct: 38.0 },
-        { bloc: 'Autres', pct: 12.0 }
+        { bloc: 'Gauche (NFP)', pct: 22.9 },
+        { bloc: 'Macron (Ensemble)', pct: 30.5 },
+        { bloc: 'LR', pct: 4.8 },
+        { bloc: 'RN', pct: 36.8 },
+        { bloc: 'Reconquete', pct: 2.3 }
       ]
     }
   };
 
-  // Matrices de reports par defaut
-  // Lignes = blocs source, Colonnes = listes municipales destination
-  // Chaque ligne doit sommer a 100 (ou ~100 avec abstention)
+  // ── Presidentielle 2022 T1 — Resultats exacts La Fleche (DataRealis) ──
+  // Gauche = LFI(18.07%) + EELV(4.82%) = 22.89%
+  // LR = LR(4.82%) + Lassalle(2.55%) = 7.37%
+  const presidentielle2022 = {
+    blocs: ['Gauche', 'Macron', 'LR', 'RN', 'Reconquete', 'Autres', 'Abstention'],
+    global: {
+      inscrits: 11122,
+      votants: 8050,
+      resultats: [
+        { bloc: 'Gauche', pct: 22.9 },
+        { bloc: 'Macron', pct: 30.0 },
+        { bloc: 'LR', pct: 7.4 },
+        { bloc: 'RN', pct: 25.2 },
+        { bloc: 'Reconquete', pct: 6.4 },
+        { bloc: 'Autres', pct: 8.1 }
+      ]
+    }
+  };
+
+  // ── Matrices de reports par defaut ──
+  // Lignes = blocs source, Colonnes = [Lemoigne, Da Silva, Grelet-Certenais, Abstention]
   const defaultMatrices = {
     europeennes: {
       blocs: europeennes2024.blocs.filter(b => b !== 'Abstention'),
-      // [Lemoigne, Da Silva, Grelet-Certenais, Abstention]
+      sources: ['Gauche', 'Macron', 'LR', 'RN', 'Reconquete', 'Autres'],
       destinations: ['Lemoigne', 'Da Silva', 'Grelet-Certenais', 'Abstention'],
       matrix: [
-        // Gauche -> municipales
-        [2, 5, 80, 13],
-        // Macron -> municipales
-        [5, 45, 35, 15],
-        // LR -> municipales
-        [10, 65, 10, 15],
-        // RN -> municipales
-        [75, 10, 3, 12],
-        // Reconquete -> municipales
-        [50, 30, 2, 18],
-        // Autres -> municipales
-        [15, 25, 25, 35]
+        [2, 5, 80, 13],    // Gauche -> municipales
+        [5, 45, 35, 15],   // Macron -> municipales
+        [10, 65, 10, 15],  // LR -> municipales
+        [75, 10, 3, 12],   // RN -> municipales
+        [50, 30, 2, 18],   // Reconquete -> municipales
+        [15, 25, 25, 35]   // Autres -> municipales
       ],
       sourcePcts: europeennes2024.global.resultats.map(r => r.pct),
-      abstentionPct: 46.0 // 100 - 54% participation
+      abstentionPct: 45.0  // 100 - 55%
     },
     legislatives: {
       blocs: legislatives2024.blocs.filter(b => b !== 'Abstention'),
+      sources: ['Gauche', 'Macron', 'LR', 'RN', 'Reconquete'],
       destinations: ['Lemoigne', 'Da Silva', 'Grelet-Certenais', 'Abstention'],
       matrix: [
-        // Gauche NFP -> municipales
-        [2, 3, 82, 13],
-        // Macron Ensemble -> municipales
-        [5, 50, 30, 15],
-        // LR -> municipales
-        [8, 70, 8, 14],
-        // RN -> municipales
-        [78, 8, 2, 12],
-        // Autres -> municipales
-        [20, 25, 20, 35]
+        [2, 3, 82, 13],    // Gauche NFP -> municipales
+        [5, 50, 30, 15],   // Macron Ensemble -> municipales
+        [8, 70, 8, 14],    // LR -> municipales
+        [78, 8, 2, 12],    // RN -> municipales
+        [55, 25, 2, 18]    // Reconquete -> municipales
       ],
       sourcePcts: legislatives2024.global.resultats.map(r => r.pct),
-      abstentionPct: 33.0 // 100 - 67%
+      abstentionPct: 30.7  // 100 - 69.3%
+    },
+    presidentielle: {
+      blocs: presidentielle2022.blocs.filter(b => b !== 'Abstention'),
+      sources: ['Gauche', 'Macron', 'LR', 'RN', 'Reconquete', 'Autres'],
+      destinations: ['Lemoigne', 'Da Silva', 'Grelet-Certenais', 'Abstention'],
+      matrix: [
+        [2, 5, 80, 13],    // Gauche (Melenchon+Jadot) -> municipales
+        [5, 45, 35, 15],   // Macron -> municipales
+        [10, 60, 12, 18],  // LR (Pecresse+Lassalle) -> municipales
+        [75, 10, 3, 12],   // RN (Le Pen) -> municipales
+        [50, 30, 2, 18],   // Reconquete (Zemmour) -> municipales
+        [15, 25, 25, 35]   // Autres -> municipales
+      ],
+      sourcePcts: presidentielle2022.global.resultats.map(r => r.pct),
+      abstentionPct: 27.6  // 100 - 72.4%
     }
   };
 
   function getElection(name) {
     if (name === 'europeennes') return europeennes2024;
     if (name === 'legislatives') return legislatives2024;
+    if (name === 'presidentielle') return presidentielle2022;
     return null;
   }
 
@@ -105,41 +119,29 @@ const Historique = (() => {
 
   /**
    * Projeter les resultats municipaux a partir d'une matrice de reports
-   * @param {object} matrixData - { blocs, destinations, matrix, sourcePcts, abstentionPct }
-   * @param {string[]} listeNoms - Noms des listes municipales
-   * @returns {object} { projections: { nom, pct }[], participation }
    */
   function projeter(matrixData, listeNoms) {
     const { blocs, matrix, sourcePcts, abstentionPct } = matrixData;
     const nbListes = listeNoms.length;
-
-    // Calculer les % projetes pour chaque liste municipale
     const projPcts = new Array(nbListes).fill(0);
     let projAbstention = 0;
 
-    // Part des inscrits qui ont vote a l'election source
     const participationSource = 100 - abstentionPct;
 
     blocs.forEach((bloc, i) => {
-      // Part de l'electorat total = sourcePct * participation / 100
       const partElectorat = (sourcePcts[i] / 100) * participationSource;
-
-      // Reports vers chaque liste municipale
       for (let j = 0; j < nbListes; j++) {
         projPcts[j] += partElectorat * (matrix[i][j] / 100);
       }
-      // Reports vers abstention
       if (matrix[i].length > nbListes) {
         projAbstention += partElectorat * (matrix[i][nbListes] / 100);
       }
     });
 
-    // Ajouter les abstentionnistes de l'election source
-    // Hypothese: 90% restent abstentionnistes, 10% viennent voter
+    // Abstentionnistes source: 90% restent, 10% se mobilisent
     const abstSourceMobilises = abstentionPct * 0.10;
     projAbstention += abstentionPct * 0.90;
 
-    // Repartir les abstentionnistes mobilises proportionnellement
     const totalProjAvant = projPcts.reduce((s, v) => s + v, 0);
     if (totalProjAvant > 0) {
       projPcts.forEach((p, i) => {
@@ -147,7 +149,6 @@ const Historique = (() => {
       });
     }
 
-    // Normaliser en % des exprimes
     const totalExprimes = projPcts.reduce((s, v) => s + v, 0);
     const projections = listeNoms.map((nom, i) => ({
       nom,
@@ -156,24 +157,25 @@ const Historique = (() => {
     }));
 
     const participation = totalExprimes > 0
-      ? totalExprimes / (totalExprimes + projAbstention) * 100
-      : 0;
+      ? totalExprimes / (totalExprimes + projAbstention) * 100 : 0;
 
     return { projections, participation };
   }
 
-  /** Sigmas par defaut pour la matrice de reports (delegation vers HistoriqueBV) */
+  /** Sigmas par defaut (delegation vers HistoriqueBV data-driven) */
   function getDefaultSigmas(scenario) {
     const matrixData = getDefaultMatrix(scenario);
     if (!matrixData) return null;
     if (typeof HistoriqueBV !== 'undefined' && HistoriqueBV.getProfiles()) {
       return HistoriqueBV.getDefaultSigmas(matrixData);
     }
-    // Heuristique: 15% du mean, min 3, max 15
     return matrixData.matrix.map(row =>
       row.map(val => Math.min(15, Math.max(3, val * 0.15)))
     );
   }
 
-  return { getElection, getDefaultMatrix, getDefaultSigmas, projeter, europeennes2024, legislatives2024 };
+  return {
+    getElection, getDefaultMatrix, getDefaultSigmas, projeter,
+    europeennes2024, legislatives2024, presidentielle2022
+  };
 })();

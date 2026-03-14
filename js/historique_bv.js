@@ -1,4 +1,5 @@
-/* historique_bv.js — Donnees bureau de vote + inference ecologique */
+/* historique_bv.js — Donnees bureau de vote enrichies (DataRealis + data.gouv.fr)
+   9 elections, demographics, volatilite data-driven */
 const HistoriqueBV = (() => {
   let data = null;
   let profiles = null;
@@ -18,168 +19,240 @@ const HistoriqueBV = (() => {
     }
   }
 
-  /** Calcule les ecarts de chaque bureau par rapport a la moyenne communale */
+  // ── Elections T1 avec blocs (pour correlations et profils) ──
+  const BLOC_ELECTIONS = [
+    'europeennes2019', 'presidentielle2022t1', 'legislatives2022t1',
+    'europeennes2024', 'legislatives2024t1'
+  ];
+
+  // ── Profils: ecarts de chaque bureau par rapport a la moyenne communale ──
   function computeProfiles() {
-    if (!data) return null;
+    if (!data || !data.elections) return null;
     const result = {};
-    const elections = ['europeennes2024', 'legislatives2024', 'municipales2020'];
 
-    for (const elec of elections) {
-      const elecData = data[elec];
-      if (!elecData || !elecData.bureaux) continue;
+    for (const elecKey of BLOC_ELECTIONS) {
+      const elec = data.elections[elecKey];
+      if (!elec || !elec.bureaux) continue;
 
-      // Totaux communaux
+      // Compute commune-level percentages from bureau sum
       const communeTotals = {};
       let communeExprimes = 0;
-      for (const bv of Object.values(elecData.bureaux)) {
+      for (const bv of Object.values(elec.bureaux)) {
+        if (!bv.blocs) continue;
         communeExprimes += bv.exprimes;
-        for (const [bloc, voix] of Object.entries(bv.voix)) {
+        for (const [bloc, voix] of Object.entries(bv.blocs)) {
           communeTotals[bloc] = (communeTotals[bloc] || 0) + voix;
         }
       }
-
-      // Pourcentages communaux
       const communePcts = {};
       for (const [bloc, voix] of Object.entries(communeTotals)) {
         communePcts[bloc] = communeExprimes > 0 ? (voix / communeExprimes) * 100 : 0;
       }
 
-      // Deviations par bureau
-      for (const [bvId, bv] of Object.entries(elecData.bureaux)) {
+      // Per-bureau deviations
+      for (const [bvId, bv] of Object.entries(elec.bureaux)) {
+        if (!bv.blocs) continue;
         if (!result[bvId]) result[bvId] = {};
-        result[bvId][elec] = {};
-        for (const [bloc, voix] of Object.entries(bv.voix)) {
-          const bureauPct = bv.exprimes > 0 ? (voix / bv.exprimes) * 100 : 0;
-          result[bvId][elec][bloc] = bureauPct - (communePcts[bloc] || 0);
+        result[bvId][elecKey] = {};
+        for (const [bloc, voix] of Object.entries(bv.blocs)) {
+          const pct = bv.exprimes > 0 ? (voix / bv.exprimes) * 100 : 0;
+          result[bvId][elecKey][bloc] = pct - (communePcts[bloc] || 0);
         }
       }
     }
     return result;
   }
 
-  /** Correlation de Pearson entre deux vecteurs */
+  // ── Pearson correlation ──
   function pearson(x, y) {
     const n = x.length;
     if (n < 3) return 0;
-    let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, sumY2 = 0;
+    let sx = 0, sy = 0, sxy = 0, sx2 = 0, sy2 = 0;
     for (let i = 0; i < n; i++) {
-      sumX += x[i]; sumY += y[i];
-      sumXY += x[i] * y[i];
-      sumX2 += x[i] * x[i];
-      sumY2 += y[i] * y[i];
+      sx += x[i]; sy += y[i];
+      sxy += x[i] * y[i];
+      sx2 += x[i] * x[i];
+      sy2 += y[i] * y[i];
     }
-    const num = n * sumXY - sumX * sumY;
-    const den = Math.sqrt((n * sumX2 - sumX * sumX) * (n * sumY2 - sumY * sumY));
+    const num = n * sxy - sx * sy;
+    const den = Math.sqrt((n * sx2 - sx * sx) * (n * sy2 - sy * sy));
     return den > 0 ? num / den : 0;
   }
 
-  /** Correlations entre blocs nationaux et listes municipales 2020 */
+  // ── Correlations blocs nationaux <-> listes municipales 2020 ──
   function computeCorrelations() {
-    if (!data) return null;
-    const result = {};
-    const muniData = data.municipales2020;
-    if (!muniData) return null;
+    if (!data || !data.elections) return null;
+    const muni = data.elections.municipales2020;
+    if (!muni || !muni.bureaux) return null;
 
-    const bvIds = Object.keys(muniData.bureaux).sort((a, b) => parseInt(a) - parseInt(b));
-    const muniListes = Object.keys(muniData.bureaux[bvIds[0]].voix);
+    const bvIds = Object.keys(muni.bureaux).sort((a, b) => +a - +b);
+    const listes = muni.candidats || Object.keys(muni.bureaux[bvIds[0]].voix);
 
-    // % municipales par BV
+    // Municipal % per list per BV
     const muniPcts = {};
-    for (const liste of muniListes) {
+    for (const liste of listes) {
       muniPcts[liste] = bvIds.map(bv => {
-        const d = muniData.bureaux[bv];
-        return d.exprimes > 0 ? (d.voix[liste] / d.exprimes) * 100 : 0;
+        const d = muni.bureaux[bv];
+        return d.exprimes > 0 ? ((d.voix[liste] || 0) / d.exprimes) * 100 : 0;
       });
     }
 
-    for (const sourceElec of ['europeennes2024', 'legislatives2024']) {
-      const elecData = data[sourceElec];
-      if (!elecData) continue;
-      result[sourceElec] = {};
-      const blocs = Object.keys(elecData.bureaux[bvIds[0]].voix);
+    const result = {};
+    for (const elecKey of BLOC_ELECTIONS) {
+      const elec = data.elections[elecKey];
+      if (!elec) continue;
+      result[elecKey] = {};
+      const blocs = Object.keys(elec.bureaux[bvIds[0]].blocs || {});
 
       for (const bloc of blocs) {
         const blocPcts = bvIds.map(bv => {
-          const d = elecData.bureaux[bv];
-          return d.exprimes > 0 ? (d.voix[bloc] / d.exprimes) * 100 : 0;
+          const d = elec.bureaux[bv];
+          return d.blocs && d.exprimes > 0 ? ((d.blocs[bloc] || 0) / d.exprimes) * 100 : 0;
         });
-        for (const liste of muniListes) {
-          const key = `${bloc}_vs_${liste}`;
-          result[sourceElec][key] = pearson(blocPcts, muniPcts[liste]);
+        for (const liste of listes) {
+          result[elecKey][`${bloc}_vs_${liste}`] = pearson(blocPcts, muniPcts[liste]);
         }
       }
     }
     return result;
   }
 
-  /** Derive les sigmas (ecart-types) pour la matrice de reports */
+  // ── Sigmas data-driven: utilise la volatilite reelle calculee par le parser ──
   function getDefaultSigmas(matrixConfig) {
-    if (!data || !profiles) {
-      // Heuristique: 15% du mean, min 3, max 15
+    if (!data || !data.volatility || !data.volatility.commune) {
+      // Fallback heuristique
       return matrixConfig.matrix.map(row =>
         row.map(val => Math.min(15, Math.max(3, val * 0.15)))
       );
     }
 
-    // Utilise la variance inter-bureaux des taux de report implicites
-    const sigmas = matrixConfig.matrix.map((row, i) => {
-      return row.map((val, j) => {
-        // Heuristique calibree: plus le coefficient est eleve, plus l'incertitude absolue est grande
-        // mais proportionnellement moins incertaine
-        const base = Math.max(3, val * 0.12);
-        // Bonus d'incertitude pour les coefficients moyens (30-70%) car plus de variance
-        const midBonus = val > 20 && val < 80 ? 2 : 0;
-        return Math.min(15, base + midBonus);
+    const vol = data.volatility.commune;
+    const sourceBlocs = matrixConfig.sources || [];
+
+    return matrixConfig.matrix.map((row, i) => {
+      // Volatilite du bloc source (si connu)
+      const srcBloc = sourceBlocs[i];
+      const blocVol = (srcBloc && vol[srcBloc]) || 5;
+
+      return row.map(val => {
+        // Sigma = proportion du coefficient * volatilite du bloc source
+        // Plus le bloc est volatile historiquement, plus l'incertitude est grande
+        const propFactor = Math.max(0.05, val / 100);
+        const sigma = blocVol * propFactor * 2;
+        // Floor 2, cap 18 (slightly wider than before since data-backed)
+        return Math.min(18, Math.max(2, sigma));
       });
     });
-    return sigmas;
   }
 
-  /** Deviation moyenne d'un bureau par rapport a la commune (tous blocs, toutes elections) */
+  // ── Deviation moyenne d'un bureau (toutes elections T1, ponderees) ──
   function getBureauDeviation(bvId, listeNoms) {
     if (!profiles || !profiles[bvId]) return null;
 
-    // On utilise les europeennes et legislatives pour estimer les deviations
-    // Mapping des blocs nationaux vers les listes municipales
     const deviations = {};
-    for (const nom of listeNoms) {
-      deviations[nom] = 0;
-    }
+    for (const nom of listeNoms) deviations[nom] = 0;
 
-    // Moyenne des deviations sur les elections disponibles
-    let count = 0;
-    for (const elec of ['europeennes2024', 'legislatives2024']) {
-      if (!profiles[bvId][elec]) continue;
-      const devs = profiles[bvId][elec];
+    // Weight more recent elections higher
+    const weights = {
+      'europeennes2019': 0.5,
+      'presidentielle2022t1': 1.0,
+      'legislatives2022t1': 0.8,
+      'europeennes2024': 1.5,
+      'legislatives2024t1': 1.5
+    };
 
-      // Heuristique de mapping:
-      // RN -> Lemoigne (si present dans listes)
-      // Gauche -> Grelet-Certenais (si presente)
-      // Macron/LR -> Da Silva (si present)
+    let totalWeight = 0;
+    for (const [elecKey, w] of Object.entries(weights)) {
+      if (!profiles[bvId][elecKey]) continue;
+      const devs = profiles[bvId][elecKey];
+      totalWeight += w;
+
       for (const nom of listeNoms) {
         const nomLower = nom.toLowerCase();
         if (nomLower.includes('lemoigne')) {
-          deviations[nom] += (devs['RN'] || 0) * 0.7 + (devs['Reconquete'] || 0) * 0.3;
+          deviations[nom] += w * ((devs['RN'] || 0) * 0.7 + (devs['Reconquete'] || 0) * 0.3);
         } else if (nomLower.includes('grelet')) {
-          deviations[nom] += (devs['Gauche'] || 0) * 0.8 + (devs['Macron'] || 0) * 0.1;
+          deviations[nom] += w * ((devs['Gauche'] || 0) * 0.8 + (devs['Macron'] || 0) * 0.1);
         } else if (nomLower.includes('silva')) {
-          deviations[nom] += (devs['Macron'] || 0) * 0.5 + (devs['LR'] || 0) * 0.4;
+          deviations[nom] += w * ((devs['Macron'] || 0) * 0.5 + (devs['LR'] || 0) * 0.4);
         }
       }
-      count++;
     }
 
-    if (count > 0) {
-      for (const nom of listeNoms) {
-        deviations[nom] /= count;
-      }
+    if (totalWeight > 0) {
+      for (const nom of listeNoms) deviations[nom] /= totalWeight;
     }
     return deviations;
   }
 
+  // ── Bureau-level volatility (for per-bureau sigma modulation) ──
+  function getBureauVolatility(bvId) {
+    if (!data || !data.volatility || !data.volatility.bureaux) return null;
+    return data.volatility.bureaux[bvId] || null;
+  }
+
+  // ── Demographics access ──
+  function getDemographics(bvId) {
+    if (!data || !data.demographics) return null;
+    return bvId ? data.demographics[bvId] : data.demographics;
+  }
+
+  // ── Age-based voting tendency adjustment ──
+  // Bureaux with more elderly voters lean more conservative/RN
+  // Bureaux with more young voters lean more left
+  function getAgeFactor(bvId, listeNoms) {
+    const demo = getDemographics(bvId);
+    if (!demo || !demo.age) return null;
+
+    // Compute average age profile across all bureaux
+    const allDemo = getDemographics();
+    if (!allDemo) return null;
+
+    const avgAge = { '18_35': 0, '36_65': 0, '66_80': 0, '80_plus': 0 };
+    let n = 0;
+    for (const d of Object.values(allDemo)) {
+      if (!d.age) continue;
+      for (const k of Object.keys(avgAge)) avgAge[k] += d.age[k];
+      n++;
+    }
+    if (n === 0) return null;
+    for (const k of Object.keys(avgAge)) avgAge[k] /= n;
+
+    // Deviation from mean for this bureau
+    const ageDev = {};
+    for (const k of Object.keys(avgAge)) {
+      ageDev[k] = demo.age[k] - avgAge[k];
+    }
+
+    // Map age deviation to list tendency
+    // Young surplus → Gauche bonus; Elderly surplus → conservative bonus
+    const factors = {};
+    for (const nom of listeNoms) {
+      const nomLower = nom.toLowerCase();
+      if (nomLower.includes('lemoigne')) {
+        // RN: correlates with 36-65 and 66-80
+        factors[nom] = ageDev['36_65'] * 0.15 + ageDev['66_80'] * 0.1;
+      } else if (nomLower.includes('grelet')) {
+        // Gauche: correlates with young (18-35) and very old (80+, historic left)
+        factors[nom] = ageDev['18_35'] * 0.2 + ageDev['80_plus'] * 0.1;
+      } else if (nomLower.includes('silva')) {
+        // Centre-droit: correlates with 66-80 (retraites CSP+)
+        factors[nom] = ageDev['66_80'] * 0.15 + ageDev['80_plus'] * 0.1;
+      } else {
+        factors[nom] = 0;
+      }
+    }
+    return factors;
+  }
+
+  // ── Accessors ──
   function getData() { return data; }
   function getProfiles() { return profiles; }
   function getCorrelations() { return correlations; }
 
-  return { load, getData, getProfiles, getCorrelations, getDefaultSigmas, getBureauDeviation };
+  return {
+    load, getData, getProfiles, getCorrelations,
+    getDefaultSigmas, getBureauDeviation, getBureauVolatility,
+    getDemographics, getAgeFactor
+  };
 })();

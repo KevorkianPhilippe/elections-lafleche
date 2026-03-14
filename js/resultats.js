@@ -169,7 +169,7 @@ const Resultats = (() => {
     const thead = document.querySelector('#res-table thead tr');
 
     // Build header with liste names
-    thead.innerHTML = '<th>BV</th><th>Insc.</th><th>Vot.</th><th>Expr.</th>' +
+    thead.innerHTML = '<th>Bureau</th><th>Insc.</th><th>Vot.</th><th>Expr.</th>' +
       config.listes.map(l =>
         `<th style="color:${l.couleur}">${l.abrev || l.nom.substring(0, 3)}</th>`
       ).join('');

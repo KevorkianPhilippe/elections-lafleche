@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Elections La Fleche 2026</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=8">
 </head>
 <body>
   <!-- Header -->
@@ -142,7 +142,7 @@
         <h2>Detail par bureau</h2>
         <div class="table-scroll">
           <table id="res-table">
-            <thead><tr><th>BV</th><th>Insc.</th><th>Vot.</th><th>Expr.</th></tr></thead>
+            <thead><tr><th>Bureau</th><th>Insc.</th><th>Vot.</th><th>Expr.</th></tr></thead>
             <tbody id="res-table-body"></tbody>
           </table>
         </div>
@@ -173,6 +173,7 @@
         <select id="proj-scenario" class="select-full">
           <option value="europeennes">Europeennes 2024</option>
           <option value="legislatives">Legislatives 2024 T1</option>
+          <option value="presidentielle">Presidentielle 2022 T1</option>
           <option value="custom">Hypothese personnalisee</option>
         </select>
       </div>
@@ -209,6 +210,25 @@
           <div class="confidence-fill" id="confidence-fill"></div>
         </div>
         <p class="muted" id="confidence-text">Projection theorique</p>
+      </div>
+    </section>
+
+    <!-- PAGE: Analyse -->
+    <section id="page-analyse" class="page">
+      <div class="card">
+        <h2>Comparaison des scenarios</h2>
+        <p class="muted">Projection MC par scenario de reference</p>
+        <div id="analyse-comparateur"></div>
+      </div>
+      <div class="card">
+        <h2>Bureaux strategiques</h2>
+        <p class="muted">Classes par potentiel de basculement</p>
+        <div id="analyse-swing"></div>
+      </div>
+      <div class="card">
+        <h2>Profils demographiques</h2>
+        <p class="muted">Tranches d'age par bureau de vote</p>
+        <div id="analyse-demo"></div>
       </div>
     </section>
 
@@ -259,21 +279,26 @@
       <span class="nav-icon">&#128300;</span>
       <span class="nav-label">Projections</span>
     </button>
+    <button class="nav-btn" data-page="analyse">
+      <span class="nav-icon">&#128202;</span>
+      <span class="nav-label">Analyse</span>
+    </button>
   </nav>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="js/store.js"></script>
-  <script src="js/sieges.js"></script>
-  <script src="js/historique.js"></script>
-  <script src="js/historique_bv.js"></script>
-  <script src="js/montecarlo.js"></script>
-  <script src="js/saisie.js"></script>
-  <script src="js/resultats.js"></script>
-  <script src="js/projections.js"></script>
-  <script src="js/share.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/store.js?v=8"></script>
+  <script src="js/sieges.js?v=8"></script>
+  <script src="js/historique.js?v=8"></script>
+  <script src="js/historique_bv.js?v=8"></script>
+  <script src="js/montecarlo.js?v=8"></script>
+  <script src="js/saisie.js?v=8"></script>
+  <script src="js/resultats.js?v=8"></script>
+  <script src="js/projections.js?v=8"></script>
+  <script src="js/analyse.js?v=8"></script>
+  <script src="js/share.js?v=8"></script>
+  <script src="js/app.js?v=8"></script>
 </body>
 </html>

@@ -3,747 +3,3171 @@
   "codeInsee": "72154",
   "codePostal": "72200",
   "nbBureaux": 17,
-  "europeennes2024": {
-    "date": "2024-06-09",
-    "type": "Européennes",
-    "blocs": [
-      "Gauche",
-      "Macron",
-      "LR",
-      "RN",
-      "Reconquete",
-      "Autres"
-    ],
-    "bureaux": {
-      "1": {
-        "inscrits": 508,
-        "votants": 258,
-        "exprimes": 241,
-        "blancs": 5,
-        "nuls": 12,
-        "voix": {
-          "Gauche": 73,
-          "Macron": 30,
-          "LR": 15,
-          "RN": 83,
-          "Reconquete": 16,
-          "Autres": 24
+  "source": "DataRealis + data.gouv.fr",
+  "elections": {
+    "europeennes2019": {
+      "date": "2019-05-26",
+      "type": "europeennes",
+      "candidats": [
+        "RN",
+        "LREM",
+        "EELV",
+        "LR",
+        "PS",
+        "LFI",
+        "DLF"
+      ],
+      "bureaux": {
+        "1": {
+          "inscrits": 565,
+          "votants": 285,
+          "exprimes": 268,
+          "voix": {
+            "RN": 72,
+            "LREM": 48,
+            "EELV": 35,
+            "LR": 32,
+            "PS": 20,
+            "LFI": 15,
+            "DLF": 6
+          },
+          "blocs": {
+            "RN": 72,
+            "Gauche": 70,
+            "Macron": 48,
+            "LR": 32,
+            "Reconquete": 6,
+            "Autres": 0
+          }
+        },
+        "2": {
+          "inscrits": 744,
+          "votants": 347,
+          "exprimes": 324,
+          "voix": {
+            "RN": 81,
+            "LREM": 66,
+            "EELV": 28,
+            "LR": 29,
+            "PS": 18,
+            "LFI": 21,
+            "DLF": 24
+          },
+          "blocs": {
+            "RN": 81,
+            "Gauche": 67,
+            "Macron": 66,
+            "LR": 29,
+            "Reconquete": 24,
+            "Autres": 0
+          }
+        },
+        "3": {
+          "inscrits": 734,
+          "votants": 362,
+          "exprimes": 336,
+          "voix": {
+            "RN": 86,
+            "LREM": 68,
+            "EELV": 44,
+            "LR": 23,
+            "PS": 24,
+            "LFI": 30,
+            "DLF": 12
+          },
+          "blocs": {
+            "RN": 86,
+            "Gauche": 98,
+            "Macron": 68,
+            "LR": 23,
+            "Reconquete": 12,
+            "Autres": 0
+          }
+        },
+        "4": {
+          "inscrits": 611,
+          "votants": 302,
+          "exprimes": 293,
+          "voix": {
+            "RN": 55,
+            "LREM": 62,
+            "EELV": 49,
+            "LR": 41,
+            "PS": 19,
+            "LFI": 7,
+            "DLF": 16
+          },
+          "blocs": {
+            "RN": 55,
+            "Gauche": 75,
+            "Macron": 62,
+            "LR": 41,
+            "Reconquete": 16,
+            "Autres": 0
+          }
+        },
+        "5": {
+          "inscrits": 753,
+          "votants": 371,
+          "exprimes": 340,
+          "voix": {
+            "RN": 91,
+            "LREM": 67,
+            "EELV": 29,
+            "LR": 25,
+            "PS": 29,
+            "LFI": 29,
+            "DLF": 11
+          },
+          "blocs": {
+            "RN": 91,
+            "Gauche": 87,
+            "Macron": 67,
+            "LR": 25,
+            "Reconquete": 11,
+            "Autres": 0
+          }
+        },
+        "6": {
+          "inscrits": 694,
+          "votants": 381,
+          "exprimes": 344,
+          "voix": {
+            "RN": 96,
+            "LREM": 74,
+            "EELV": 47,
+            "LR": 20,
+            "PS": 23,
+            "LFI": 19,
+            "DLF": 13
+          },
+          "blocs": {
+            "RN": 96,
+            "Gauche": 89,
+            "Macron": 74,
+            "LR": 20,
+            "Reconquete": 13,
+            "Autres": 0
+          }
+        },
+        "7": {
+          "inscrits": 687,
+          "votants": 375,
+          "exprimes": 337,
+          "voix": {
+            "RN": 65,
+            "LREM": 83,
+            "EELV": 53,
+            "LR": 26,
+            "PS": 33,
+            "LFI": 16,
+            "DLF": 14
+          },
+          "blocs": {
+            "RN": 65,
+            "Gauche": 102,
+            "Macron": 83,
+            "LR": 26,
+            "Reconquete": 14,
+            "Autres": 0
+          }
+        },
+        "8": {
+          "inscrits": 511,
+          "votants": 274,
+          "exprimes": 251,
+          "voix": {
+            "RN": 71,
+            "LREM": 38,
+            "EELV": 29,
+            "LR": 15,
+            "PS": 20,
+            "LFI": 19,
+            "DLF": 16
+          },
+          "blocs": {
+            "RN": 71,
+            "Gauche": 68,
+            "Macron": 38,
+            "LR": 15,
+            "Reconquete": 16,
+            "Autres": 0
+          }
+        },
+        "9": {
+          "inscrits": 556,
+          "votants": 294,
+          "exprimes": 277,
+          "voix": {
+            "RN": 84,
+            "LREM": 40,
+            "EELV": 28,
+            "LR": 20,
+            "PS": 28,
+            "LFI": 24,
+            "DLF": 11
+          },
+          "blocs": {
+            "RN": 84,
+            "Gauche": 80,
+            "Macron": 40,
+            "LR": 20,
+            "Reconquete": 11,
+            "Autres": 0
+          }
+        },
+        "10": {
+          "inscrits": 582,
+          "votants": 341,
+          "exprimes": 328,
+          "voix": {
+            "RN": 47,
+            "LREM": 70,
+            "EELV": 56,
+            "LR": 46,
+            "PS": 36,
+            "LFI": 19,
+            "DLF": 9
+          },
+          "blocs": {
+            "RN": 47,
+            "Gauche": 111,
+            "Macron": 70,
+            "LR": 46,
+            "Reconquete": 9,
+            "Autres": 0
+          }
+        },
+        "11": {
+          "inscrits": 617,
+          "votants": 290,
+          "exprimes": 277,
+          "voix": {
+            "RN": 49,
+            "LREM": 68,
+            "EELV": 39,
+            "LR": 36,
+            "PS": 24,
+            "LFI": 14,
+            "DLF": 6
+          },
+          "blocs": {
+            "RN": 49,
+            "Gauche": 77,
+            "Macron": 68,
+            "LR": 36,
+            "Reconquete": 6,
+            "Autres": 0
+          }
+        },
+        "12": {
+          "inscrits": 598,
+          "votants": 308,
+          "exprimes": 292,
+          "voix": {
+            "RN": 51,
+            "LREM": 86,
+            "EELV": 39,
+            "LR": 35,
+            "PS": 24,
+            "LFI": 9,
+            "DLF": 12
+          },
+          "blocs": {
+            "RN": 51,
+            "Gauche": 72,
+            "Macron": 86,
+            "LR": 35,
+            "Reconquete": 12,
+            "Autres": 0
+          }
+        },
+        "13": {
+          "inscrits": 611,
+          "votants": 271,
+          "exprimes": 249,
+          "voix": {
+            "RN": 66,
+            "LREM": 50,
+            "EELV": 25,
+            "LR": 17,
+            "PS": 15,
+            "LFI": 18,
+            "DLF": 11
+          },
+          "blocs": {
+            "RN": 66,
+            "Gauche": 58,
+            "Macron": 50,
+            "LR": 17,
+            "Reconquete": 11,
+            "Autres": 0
+          }
+        },
+        "14": {
+          "inscrits": 571,
+          "votants": 281,
+          "exprimes": 259,
+          "voix": {
+            "RN": 58,
+            "LREM": 55,
+            "EELV": 22,
+            "LR": 27,
+            "PS": 22,
+            "LFI": 16,
+            "DLF": 12
+          },
+          "blocs": {
+            "RN": 58,
+            "Gauche": 60,
+            "Macron": 55,
+            "LR": 27,
+            "Reconquete": 12,
+            "Autres": 0
+          }
+        },
+        "15": {
+          "inscrits": 808,
+          "votants": 450,
+          "exprimes": 410,
+          "voix": {
+            "RN": 113,
+            "LREM": 78,
+            "EELV": 47,
+            "LR": 33,
+            "PS": 22,
+            "LFI": 25,
+            "DLF": 19
+          },
+          "blocs": {
+            "RN": 113,
+            "Gauche": 94,
+            "Macron": 78,
+            "LR": 33,
+            "Reconquete": 19,
+            "Autres": 0
+          }
+        },
+        "16": {
+          "inscrits": 745,
+          "votants": 417,
+          "exprimes": 382,
+          "voix": {
+            "RN": 74,
+            "LREM": 101,
+            "EELV": 57,
+            "LR": 35,
+            "PS": 33,
+            "LFI": 18,
+            "DLF": 15
+          },
+          "blocs": {
+            "RN": 74,
+            "Gauche": 108,
+            "Macron": 101,
+            "LR": 35,
+            "Reconquete": 15,
+            "Autres": 0
+          }
+        },
+        "17": {
+          "inscrits": 564,
+          "votants": 344,
+          "exprimes": 324,
+          "voix": {
+            "RN": 54,
+            "LREM": 70,
+            "EELV": 52,
+            "LR": 40,
+            "PS": 45,
+            "LFI": 14,
+            "DLF": 9
+          },
+          "blocs": {
+            "RN": 54,
+            "Gauche": 111,
+            "Macron": 70,
+            "LR": 40,
+            "Reconquete": 9,
+            "Autres": 0
+          }
         }
       },
-      "2": {
-        "inscrits": 739,
-        "votants": 411,
-        "exprimes": 395,
-        "blancs": 11,
-        "nuls": 5,
+      "commune": {
+        "inscrits": 10951,
+        "votants": 5693,
+        "exprimes": 5291,
         "voix": {
-          "Gauche": 74,
-          "Macron": 55,
-          "LR": 28,
-          "RN": 159,
-          "Reconquete": 37,
-          "Autres": 42
+          "RN": 1213,
+          "LREM": 1124,
+          "EELV": 679,
+          "LR": 500,
+          "PS": 435,
+          "LFI": 313,
+          "DLF": 216
+        },
+        "blocs": {
+          "RN": 1213,
+          "Gauche": 1427,
+          "Macron": 1124,
+          "LR": 500,
+          "Reconquete": 216,
+          "Autres": 0
+        }
+      }
+    },
+    "municipales2020": {
+      "date": "2020-03-15",
+      "type": "municipales",
+      "candidats": [
+        "GRELET-CERTENAIS",
+        "BEAUPÈRE"
+      ],
+      "bureaux": {
+        "1": {
+          "inscrits": 556,
+          "votants": 262,
+          "exprimes": 257,
+          "voix": {
+            "GRELET-CERTENAIS": 178,
+            "BEAUPÈRE": 79
+          }
+        },
+        "2": {
+          "inscrits": 753,
+          "votants": 362,
+          "exprimes": 352,
+          "voix": {
+            "GRELET-CERTENAIS": 243,
+            "BEAUPÈRE": 109
+          }
+        },
+        "3": {
+          "inscrits": 729,
+          "votants": 344,
+          "exprimes": 328,
+          "voix": {
+            "GRELET-CERTENAIS": 229,
+            "BEAUPÈRE": 99
+          }
+        },
+        "4": {
+          "inscrits": 633,
+          "votants": 274,
+          "exprimes": 267,
+          "voix": {
+            "GRELET-CERTENAIS": 155,
+            "BEAUPÈRE": 112
+          }
+        },
+        "5": {
+          "inscrits": 749,
+          "votants": 310,
+          "exprimes": 301,
+          "voix": {
+            "GRELET-CERTENAIS": 210,
+            "BEAUPÈRE": 91
+          }
+        },
+        "6": {
+          "inscrits": 716,
+          "votants": 319,
+          "exprimes": 300,
+          "voix": {
+            "GRELET-CERTENAIS": 243,
+            "BEAUPÈRE": 57
+          }
+        },
+        "7": {
+          "inscrits": 673,
+          "votants": 355,
+          "exprimes": 342,
+          "voix": {
+            "GRELET-CERTENAIS": 255,
+            "BEAUPÈRE": 87
+          }
+        },
+        "8": {
+          "inscrits": 516,
+          "votants": 239,
+          "exprimes": 237,
+          "voix": {
+            "GRELET-CERTENAIS": 170,
+            "BEAUPÈRE": 67
+          }
+        },
+        "9": {
+          "inscrits": 565,
+          "votants": 245,
+          "exprimes": 234,
+          "voix": {
+            "GRELET-CERTENAIS": 165,
+            "BEAUPÈRE": 69
+          }
+        },
+        "10": {
+          "inscrits": 583,
+          "votants": 293,
+          "exprimes": 285,
+          "voix": {
+            "GRELET-CERTENAIS": 196,
+            "BEAUPÈRE": 89
+          }
+        },
+        "11": {
+          "inscrits": 622,
+          "votants": 265,
+          "exprimes": 260,
+          "voix": {
+            "GRELET-CERTENAIS": 167,
+            "BEAUPÈRE": 93
+          }
+        },
+        "12": {
+          "inscrits": 581,
+          "votants": 285,
+          "exprimes": 273,
+          "voix": {
+            "GRELET-CERTENAIS": 168,
+            "BEAUPÈRE": 105
+          }
+        },
+        "13": {
+          "inscrits": 615,
+          "votants": 221,
+          "exprimes": 210,
+          "voix": {
+            "GRELET-CERTENAIS": 159,
+            "BEAUPÈRE": 51
+          }
+        },
+        "14": {
+          "inscrits": 572,
+          "votants": 255,
+          "exprimes": 243,
+          "voix": {
+            "GRELET-CERTENAIS": 189,
+            "BEAUPÈRE": 54
+          }
+        },
+        "15": {
+          "inscrits": 823,
+          "votants": 392,
+          "exprimes": 380,
+          "voix": {
+            "GRELET-CERTENAIS": 259,
+            "BEAUPÈRE": 121
+          }
+        },
+        "16": {
+          "inscrits": 739,
+          "votants": 375,
+          "exprimes": 359,
+          "voix": {
+            "GRELET-CERTENAIS": 263,
+            "BEAUPÈRE": 96
+          }
+        },
+        "17": {
+          "inscrits": 572,
+          "votants": 303,
+          "exprimes": 300,
+          "voix": {
+            "GRELET-CERTENAIS": 197,
+            "BEAUPÈRE": 103
+          }
         }
       },
-      "3": {
-        "inscrits": 678,
-        "votants": 343,
-        "exprimes": 322,
-        "blancs": 8,
-        "nuls": 13,
+      "commune": {
+        "inscrits": 10997,
+        "votants": 5099,
+        "exprimes": 4928,
         "voix": {
-          "Gauche": 97,
-          "Macron": 52,
-          "LR": 17,
-          "RN": 110,
-          "Reconquete": 18,
-          "Autres": 28
+          "GRELET-CERTENAIS": 3446,
+          "BEAUPÈRE": 1482
+        }
+      }
+    },
+    "presidentielle2022t1": {
+      "date": "2022-04-10",
+      "type": "presidentielle",
+      "candidats": [
+        "LREM",
+        "RN",
+        "LFI",
+        "REC",
+        "LR",
+        "EELV",
+        "LASSALLE"
+      ],
+      "bureaux": {
+        "1": {
+          "inscrits": 586,
+          "votants": 401,
+          "exprimes": 389,
+          "voix": {
+            "LREM": 111,
+            "RN": 104,
+            "LFI": 68,
+            "REC": 26,
+            "LR": 19,
+            "EELV": 16,
+            "LASSALLE": 12
+          },
+          "blocs": {
+            "RN": 104,
+            "Gauche": 84,
+            "Macron": 111,
+            "LR": 31,
+            "Reconquete": 26,
+            "Autres": 0
+          }
+        },
+        "2": {
+          "inscrits": 773,
+          "votants": 603,
+          "exprimes": 587,
+          "voix": {
+            "LREM": 161,
+            "RN": 166,
+            "LFI": 117,
+            "REC": 30,
+            "LR": 26,
+            "EELV": 20,
+            "LASSALLE": 12
+          },
+          "blocs": {
+            "RN": 166,
+            "Gauche": 137,
+            "Macron": 161,
+            "LR": 38,
+            "Reconquete": 30,
+            "Autres": 0
+          }
+        },
+        "3": {
+          "inscrits": 754,
+          "votants": 528,
+          "exprimes": 512,
+          "voix": {
+            "LREM": 144,
+            "RN": 146,
+            "LFI": 97,
+            "REC": 18,
+            "LR": 27,
+            "EELV": 23,
+            "LASSALLE": 13
+          },
+          "blocs": {
+            "RN": 146,
+            "Gauche": 120,
+            "Macron": 144,
+            "LR": 40,
+            "Reconquete": 18,
+            "Autres": 0
+          }
+        },
+        "4": {
+          "inscrits": 627,
+          "votants": 441,
+          "exprimes": 427,
+          "voix": {
+            "LREM": 144,
+            "RN": 83,
+            "LFI": 85,
+            "REC": 34,
+            "LR": 33,
+            "EELV": 21,
+            "LASSALLE": 10
+          },
+          "blocs": {
+            "RN": 83,
+            "Gauche": 106,
+            "Macron": 144,
+            "LR": 43,
+            "Reconquete": 34,
+            "Autres": 0
+          }
+        },
+        "5": {
+          "inscrits": 756,
+          "votants": 510,
+          "exprimes": 495,
+          "voix": {
+            "LREM": 163,
+            "RN": 128,
+            "LFI": 78,
+            "REC": 35,
+            "LR": 15,
+            "EELV": 16,
+            "LASSALLE": 23
+          },
+          "blocs": {
+            "RN": 128,
+            "Gauche": 94,
+            "Macron": 163,
+            "LR": 38,
+            "Reconquete": 35,
+            "Autres": 0
+          }
+        },
+        "6": {
+          "inscrits": 707,
+          "votants": 495,
+          "exprimes": 478,
+          "voix": {
+            "LREM": 146,
+            "RN": 161,
+            "LFI": 75,
+            "REC": 18,
+            "LR": 16,
+            "EELV": 19,
+            "LASSALLE": 10
+          },
+          "blocs": {
+            "RN": 161,
+            "Gauche": 94,
+            "Macron": 146,
+            "LR": 26,
+            "Reconquete": 18,
+            "Autres": 0
+          }
+        },
+        "7": {
+          "inscrits": 663,
+          "votants": 501,
+          "exprimes": 484,
+          "voix": {
+            "LREM": 161,
+            "RN": 120,
+            "LFI": 91,
+            "REC": 34,
+            "LR": 12,
+            "EELV": 18,
+            "LASSALLE": 9
+          },
+          "blocs": {
+            "RN": 120,
+            "Gauche": 109,
+            "Macron": 161,
+            "LR": 21,
+            "Reconquete": 34,
+            "Autres": 0
+          }
+        },
+        "8": {
+          "inscrits": 513,
+          "votants": 364,
+          "exprimes": 347,
+          "voix": {
+            "LREM": 103,
+            "RN": 104,
+            "LFI": 60,
+            "REC": 22,
+            "LR": 12,
+            "EELV": 18,
+            "LASSALLE": 8
+          },
+          "blocs": {
+            "RN": 104,
+            "Gauche": 78,
+            "Macron": 103,
+            "LR": 20,
+            "Reconquete": 22,
+            "Autres": 0
+          }
+        },
+        "9": {
+          "inscrits": 573,
+          "votants": 392,
+          "exprimes": 383,
+          "voix": {
+            "LREM": 99,
+            "RN": 103,
+            "LFI": 74,
+            "REC": 23,
+            "LR": 18,
+            "EELV": 16,
+            "LASSALLE": 6
+          },
+          "blocs": {
+            "RN": 103,
+            "Gauche": 90,
+            "Macron": 99,
+            "LR": 24,
+            "Reconquete": 23,
+            "Autres": 0
+          }
+        },
+        "10": {
+          "inscrits": 556,
+          "votants": 415,
+          "exprimes": 407,
+          "voix": {
+            "LREM": 110,
+            "RN": 57,
+            "LFI": 97,
+            "REC": 43,
+            "LR": 17,
+            "EELV": 36,
+            "LASSALLE": 16
+          },
+          "blocs": {
+            "RN": 57,
+            "Gauche": 133,
+            "Macron": 110,
+            "LR": 33,
+            "Reconquete": 43,
+            "Autres": 0
+          }
+        },
+        "11": {
+          "inscrits": 633,
+          "votants": 442,
+          "exprimes": 433,
+          "voix": {
+            "LREM": 134,
+            "RN": 83,
+            "LFI": 93,
+            "REC": 31,
+            "LR": 26,
+            "EELV": 28,
+            "LASSALLE": 8
+          },
+          "blocs": {
+            "RN": 83,
+            "Gauche": 121,
+            "Macron": 134,
+            "LR": 34,
+            "Reconquete": 31,
+            "Autres": 0
+          }
+        },
+        "12": {
+          "inscrits": 570,
+          "votants": 406,
+          "exprimes": 399,
+          "voix": {
+            "LREM": 155,
+            "RN": 73,
+            "LFI": 57,
+            "REC": 33,
+            "LR": 28,
+            "EELV": 19,
+            "LASSALLE": 10
+          },
+          "blocs": {
+            "RN": 73,
+            "Gauche": 76,
+            "Macron": 155,
+            "LR": 38,
+            "Reconquete": 33,
+            "Autres": 0
+          }
+        },
+        "13": {
+          "inscrits": 608,
+          "votants": 369,
+          "exprimes": 354,
+          "voix": {
+            "LREM": 100,
+            "RN": 114,
+            "LFI": 69,
+            "REC": 10,
+            "LR": 13,
+            "EELV": 11,
+            "LASSALLE": 9
+          },
+          "blocs": {
+            "RN": 114,
+            "Gauche": 80,
+            "Macron": 100,
+            "LR": 22,
+            "Reconquete": 10,
+            "Autres": 0
+          }
+        },
+        "14": {
+          "inscrits": 603,
+          "votants": 448,
+          "exprimes": 438,
+          "voix": {
+            "LREM": 111,
+            "RN": 118,
+            "LFI": 88,
+            "REC": 37,
+            "LR": 16,
+            "EELV": 29,
+            "LASSALLE": 6
+          },
+          "blocs": {
+            "RN": 118,
+            "Gauche": 117,
+            "Macron": 111,
+            "LR": 22,
+            "Reconquete": 37,
+            "Autres": 0
+          }
+        },
+        "15": {
+          "inscrits": 858,
+          "votants": 657,
+          "exprimes": 636,
+          "voix": {
+            "LREM": 165,
+            "RN": 184,
+            "LFI": 99,
+            "REC": 40,
+            "LR": 32,
+            "EELV": 23,
+            "LASSALLE": 13
+          },
+          "blocs": {
+            "RN": 184,
+            "Gauche": 122,
+            "Macron": 165,
+            "LR": 45,
+            "Reconquete": 40,
+            "Autres": 0
+          }
+        },
+        "16": {
+          "inscrits": 774,
+          "votants": 611,
+          "exprimes": 590,
+          "voix": {
+            "LREM": 186,
+            "RN": 122,
+            "LFI": 110,
+            "REC": 39,
+            "LR": 33,
+            "EELV": 24,
+            "LASSALLE": 20
+          },
+          "blocs": {
+            "RN": 122,
+            "Gauche": 134,
+            "Macron": 186,
+            "LR": 53,
+            "Reconquete": 39,
+            "Autres": 0
+          }
+        },
+        "17": {
+          "inscrits": 568,
+          "votants": 467,
+          "exprimes": 455,
+          "voix": {
+            "LREM": 148,
+            "RN": 100,
+            "LFI": 54,
+            "REC": 26,
+            "LR": 34,
+            "EELV": 40,
+            "LASSALLE": 14
+          },
+          "blocs": {
+            "RN": 100,
+            "Gauche": 94,
+            "Macron": 148,
+            "LR": 48,
+            "Reconquete": 26,
+            "Autres": 0
+          }
         }
       },
-      "4": {
-        "inscrits": 566,
-        "votants": 323,
-        "exprimes": 315,
-        "blancs": 3,
-        "nuls": 5,
+      "commune": {
+        "inscrits": 11122,
+        "votants": 8050,
+        "exprimes": 7814,
         "voix": {
-          "Gauche": 92,
-          "Macron": 48,
-          "LR": 40,
-          "RN": 75,
-          "Reconquete": 25,
-          "Autres": 35
+          "LREM": 2341,
+          "RN": 1966,
+          "LFI": 1412,
+          "REC": 499,
+          "LR": 377,
+          "EELV": 377,
+          "LASSALLE": 199
+        },
+        "blocs": {
+          "RN": 1966,
+          "Gauche": 1789,
+          "Macron": 2341,
+          "LR": 576,
+          "Reconquete": 499,
+          "Autres": 0
+        }
+      }
+    },
+    "presidentielle2022t2": {
+      "date": "2022-04-24",
+      "type": "presidentielle",
+      "candidats": [
+        "LREM",
+        "RN"
+      ],
+      "bureaux": {
+        "1": {
+          "inscrits": 585,
+          "votants": 400,
+          "exprimes": 369,
+          "voix": {
+            "LREM": 202,
+            "RN": 167
+          }
+        },
+        "2": {
+          "inscrits": 773,
+          "votants": 615,
+          "exprimes": 544,
+          "voix": {
+            "LREM": 295,
+            "RN": 249
+          }
+        },
+        "3": {
+          "inscrits": 754,
+          "votants": 517,
+          "exprimes": 464,
+          "voix": {
+            "LREM": 272,
+            "RN": 192
+          }
+        },
+        "4": {
+          "inscrits": 626,
+          "votants": 448,
+          "exprimes": 418,
+          "voix": {
+            "LREM": 267,
+            "RN": 151
+          }
+        },
+        "5": {
+          "inscrits": 756,
+          "votants": 522,
+          "exprimes": 482,
+          "voix": {
+            "LREM": 269,
+            "RN": 213
+          }
+        },
+        "6": {
+          "inscrits": 707,
+          "votants": 502,
+          "exprimes": 463,
+          "voix": {
+            "LREM": 237,
+            "RN": 226
+          }
+        },
+        "7": {
+          "inscrits": 662,
+          "votants": 519,
+          "exprimes": 473,
+          "voix": {
+            "LREM": 296,
+            "RN": 177
+          }
+        },
+        "8": {
+          "inscrits": 512,
+          "votants": 372,
+          "exprimes": 347,
+          "voix": {
+            "LREM": 181,
+            "RN": 166
+          }
+        },
+        "9": {
+          "inscrits": 572,
+          "votants": 397,
+          "exprimes": 359,
+          "voix": {
+            "LREM": 186,
+            "RN": 173
+          }
+        },
+        "10": {
+          "inscrits": 555,
+          "votants": 413,
+          "exprimes": 358,
+          "voix": {
+            "LREM": 247,
+            "RN": 111
+          }
+        },
+        "11": {
+          "inscrits": 633,
+          "votants": 436,
+          "exprimes": 395,
+          "voix": {
+            "LREM": 248,
+            "RN": 147
+          }
+        },
+        "12": {
+          "inscrits": 569,
+          "votants": 401,
+          "exprimes": 377,
+          "voix": {
+            "LREM": 253,
+            "RN": 124
+          }
+        },
+        "13": {
+          "inscrits": 607,
+          "votants": 389,
+          "exprimes": 350,
+          "voix": {
+            "LREM": 167,
+            "RN": 183
+          }
+        },
+        "14": {
+          "inscrits": 603,
+          "votants": 458,
+          "exprimes": 407,
+          "voix": {
+            "LREM": 208,
+            "RN": 199
+          }
+        },
+        "15": {
+          "inscrits": 859,
+          "votants": 666,
+          "exprimes": 605,
+          "voix": {
+            "LREM": 306,
+            "RN": 299
+          }
+        },
+        "16": {
+          "inscrits": 774,
+          "votants": 607,
+          "exprimes": 547,
+          "voix": {
+            "LREM": 342,
+            "RN": 205
+          }
+        },
+        "17": {
+          "inscrits": 569,
+          "votants": 460,
+          "exprimes": 429,
+          "voix": {
+            "LREM": 279,
+            "RN": 150
+          }
         }
       },
-      "5": {
-        "inscrits": 674,
-        "votants": 350,
-        "exprimes": 333,
-        "blancs": 4,
-        "nuls": 13,
+      "commune": {
+        "inscrits": 11116,
+        "votants": 8122,
+        "exprimes": 7387,
         "voix": {
-          "Gauche": 85,
-          "Macron": 59,
-          "LR": 14,
-          "RN": 128,
-          "Reconquete": 20,
-          "Autres": 27
+          "LREM": 4255,
+          "RN": 3132
+        }
+      }
+    },
+    "legislatives2022t1": {
+      "date": "2022-06-12",
+      "type": "legislatives",
+      "candidats": [
+        "ENS",
+        "NUP",
+        "RN",
+        "LR",
+        "DVG",
+        "REC",
+        "DSV"
+      ],
+      "bureaux": {
+        "1": {
+          "inscrits": 585,
+          "votants": 244,
+          "exprimes": 240,
+          "voix": {
+            "ENS": 64,
+            "NUP": 64,
+            "RN": 57,
+            "LR": 19,
+            "DVG": 8,
+            "REC": 13,
+            "DSV": 9
+          },
+          "blocs": {
+            "RN": 57,
+            "Gauche": 72,
+            "Macron": 64,
+            "LR": 28,
+            "Reconquete": 13,
+            "Autres": 0
+          }
+        },
+        "2": {
+          "inscrits": 777,
+          "votants": 355,
+          "exprimes": 339,
+          "voix": {
+            "ENS": 95,
+            "NUP": 74,
+            "RN": 92,
+            "LR": 29,
+            "DVG": 18,
+            "REC": 13,
+            "DSV": 12
+          },
+          "blocs": {
+            "RN": 92,
+            "Gauche": 92,
+            "Macron": 95,
+            "LR": 41,
+            "Reconquete": 13,
+            "Autres": 0
+          }
+        },
+        "3": {
+          "inscrits": 760,
+          "votants": 348,
+          "exprimes": 331,
+          "voix": {
+            "ENS": 70,
+            "NUP": 84,
+            "RN": 85,
+            "LR": 32,
+            "DVG": 31,
+            "REC": 14,
+            "DSV": 6
+          },
+          "blocs": {
+            "RN": 85,
+            "Gauche": 115,
+            "Macron": 70,
+            "LR": 38,
+            "Reconquete": 14,
+            "Autres": 0
+          }
+        },
+        "4": {
+          "inscrits": 628,
+          "votants": 297,
+          "exprimes": 291,
+          "voix": {
+            "ENS": 90,
+            "NUP": 62,
+            "RN": 45,
+            "LR": 43,
+            "DVG": 29,
+            "REC": 15,
+            "DSV": 4
+          },
+          "blocs": {
+            "RN": 45,
+            "Gauche": 91,
+            "Macron": 90,
+            "LR": 47,
+            "Reconquete": 15,
+            "Autres": 0
+          }
+        },
+        "5": {
+          "inscrits": 756,
+          "votants": 311,
+          "exprimes": 301,
+          "voix": {
+            "ENS": 92,
+            "NUP": 54,
+            "RN": 53,
+            "LR": 46,
+            "DVG": 18,
+            "REC": 19,
+            "DSV": 8
+          },
+          "blocs": {
+            "RN": 53,
+            "Gauche": 72,
+            "Macron": 92,
+            "LR": 54,
+            "Reconquete": 19,
+            "Autres": 0
+          }
+        },
+        "6": {
+          "inscrits": 711,
+          "votants": 314,
+          "exprimes": 304,
+          "voix": {
+            "ENS": 93,
+            "NUP": 67,
+            "RN": 72,
+            "LR": 31,
+            "DVG": 21,
+            "REC": 10,
+            "DSV": 7
+          },
+          "blocs": {
+            "RN": 72,
+            "Gauche": 88,
+            "Macron": 93,
+            "LR": 38,
+            "Reconquete": 10,
+            "Autres": 0
+          }
+        },
+        "7": {
+          "inscrits": 659,
+          "votants": 342,
+          "exprimes": 329,
+          "voix": {
+            "ENS": 111,
+            "NUP": 85,
+            "RN": 67,
+            "LR": 29,
+            "DVG": 22,
+            "REC": 9,
+            "DSV": 5
+          },
+          "blocs": {
+            "RN": 67,
+            "Gauche": 107,
+            "Macron": 111,
+            "LR": 34,
+            "Reconquete": 9,
+            "Autres": 0
+          }
+        },
+        "8": {
+          "inscrits": 516,
+          "votants": 256,
+          "exprimes": 241,
+          "voix": {
+            "ENS": 61,
+            "NUP": 58,
+            "RN": 42,
+            "LR": 27,
+            "DVG": 26,
+            "REC": 13,
+            "DSV": 8
+          },
+          "blocs": {
+            "RN": 42,
+            "Gauche": 84,
+            "Macron": 61,
+            "LR": 35,
+            "Reconquete": 13,
+            "Autres": 0
+          }
+        },
+        "9": {
+          "inscrits": 575,
+          "votants": 276,
+          "exprimes": 266,
+          "voix": {
+            "ENS": 69,
+            "NUP": 60,
+            "RN": 79,
+            "LR": 16,
+            "DVG": 23,
+            "REC": 9,
+            "DSV": 2
+          },
+          "blocs": {
+            "RN": 79,
+            "Gauche": 83,
+            "Macron": 69,
+            "LR": 18,
+            "Reconquete": 9,
+            "Autres": 0
+          }
+        },
+        "10": {
+          "inscrits": 552,
+          "votants": 296,
+          "exprimes": 292,
+          "voix": {
+            "ENS": 79,
+            "NUP": 85,
+            "RN": 35,
+            "LR": 40,
+            "DVG": 20,
+            "REC": 21,
+            "DSV": 3
+          },
+          "blocs": {
+            "RN": 35,
+            "Gauche": 105,
+            "Macron": 79,
+            "LR": 43,
+            "Reconquete": 21,
+            "Autres": 0
+          }
+        },
+        "11": {
+          "inscrits": 634,
+          "votants": 296,
+          "exprimes": 290,
+          "voix": {
+            "ENS": 85,
+            "NUP": 88,
+            "RN": 38,
+            "LR": 32,
+            "DVG": 27,
+            "REC": 12,
+            "DSV": 5
+          },
+          "blocs": {
+            "RN": 38,
+            "Gauche": 115,
+            "Macron": 85,
+            "LR": 37,
+            "Reconquete": 12,
+            "Autres": 0
+          }
+        },
+        "12": {
+          "inscrits": 565,
+          "votants": 260,
+          "exprimes": 255,
+          "voix": {
+            "ENS": 88,
+            "NUP": 47,
+            "RN": 40,
+            "LR": 42,
+            "DVG": 20,
+            "REC": 10,
+            "DSV": 2
+          },
+          "blocs": {
+            "RN": 40,
+            "Gauche": 67,
+            "Macron": 88,
+            "LR": 44,
+            "Reconquete": 10,
+            "Autres": 0
+          }
+        },
+        "13": {
+          "inscrits": 607,
+          "votants": 219,
+          "exprimes": 211,
+          "voix": {
+            "ENS": 62,
+            "NUP": 49,
+            "RN": 52,
+            "LR": 19,
+            "DVG": 12,
+            "REC": 8,
+            "DSV": 3
+          },
+          "blocs": {
+            "RN": 52,
+            "Gauche": 61,
+            "Macron": 62,
+            "LR": 22,
+            "Reconquete": 8,
+            "Autres": 0
+          }
+        },
+        "14": {
+          "inscrits": 611,
+          "votants": 299,
+          "exprimes": 294,
+          "voix": {
+            "ENS": 78,
+            "NUP": 81,
+            "RN": 63,
+            "LR": 32,
+            "DVG": 19,
+            "REC": 7,
+            "DSV": 8
+          },
+          "blocs": {
+            "RN": 63,
+            "Gauche": 100,
+            "Macron": 78,
+            "LR": 40,
+            "Reconquete": 7,
+            "Autres": 0
+          }
+        },
+        "15": {
+          "inscrits": 852,
+          "votants": 393,
+          "exprimes": 367,
+          "voix": {
+            "ENS": 101,
+            "NUP": 84,
+            "RN": 97,
+            "LR": 34,
+            "DVG": 19,
+            "REC": 19,
+            "DSV": 6
+          },
+          "blocs": {
+            "RN": 97,
+            "Gauche": 103,
+            "Macron": 101,
+            "LR": 40,
+            "Reconquete": 19,
+            "Autres": 0
+          }
+        },
+        "16": {
+          "inscrits": 773,
+          "votants": 414,
+          "exprimes": 393,
+          "voix": {
+            "ENS": 101,
+            "NUP": 102,
+            "RN": 87,
+            "LR": 38,
+            "DVG": 37,
+            "REC": 14,
+            "DSV": 6
+          },
+          "blocs": {
+            "RN": 87,
+            "Gauche": 139,
+            "Macron": 101,
+            "LR": 44,
+            "Reconquete": 14,
+            "Autres": 0
+          }
+        },
+        "17": {
+          "inscrits": 566,
+          "votants": 308,
+          "exprimes": 302,
+          "voix": {
+            "ENS": 105,
+            "NUP": 54,
+            "RN": 54,
+            "LR": 36,
+            "DVG": 24,
+            "REC": 16,
+            "DSV": 7
+          },
+          "blocs": {
+            "RN": 54,
+            "Gauche": 78,
+            "Macron": 105,
+            "LR": 43,
+            "Reconquete": 16,
+            "Autres": 0
+          }
         }
       },
-      "6": {
-        "inscrits": 650,
-        "votants": 327,
-        "exprimes": 298,
-        "blancs": 8,
-        "nuls": 21,
+      "commune": {
+        "inscrits": 11127,
+        "votants": 5228,
+        "exprimes": 5046,
         "voix": {
-          "Gauche": 74,
-          "Macron": 42,
-          "LR": 24,
-          "RN": 130,
-          "Reconquete": 12,
-          "Autres": 16
+          "ENS": 1444,
+          "NUP": 1198,
+          "RN": 1058,
+          "LR": 545,
+          "DVG": 374,
+          "REC": 222,
+          "DSV": 101
+        },
+        "blocs": {
+          "RN": 1058,
+          "Gauche": 1572,
+          "Macron": 1444,
+          "LR": 646,
+          "Reconquete": 222,
+          "Autres": 0
+        }
+      }
+    },
+    "legislatives2022t2": {
+      "date": "2022-06-19",
+      "type": "legislatives",
+      "candidats": [
+        "ENS",
+        "RN"
+      ],
+      "bureaux": {
+        "1": {
+          "inscrits": 584,
+          "votants": 242,
+          "exprimes": 228,
+          "voix": {
+            "ENS": 108,
+            "RN": 120
+          }
+        },
+        "2": {
+          "inscrits": 777,
+          "votants": 336,
+          "exprimes": 304,
+          "voix": {
+            "ENS": 157,
+            "RN": 147
+          }
+        },
+        "3": {
+          "inscrits": 759,
+          "votants": 350,
+          "exprimes": 311,
+          "voix": {
+            "ENS": 165,
+            "RN": 146
+          }
+        },
+        "4": {
+          "inscrits": 629,
+          "votants": 290,
+          "exprimes": 264,
+          "voix": {
+            "ENS": 170,
+            "RN": 94
+          }
+        },
+        "5": {
+          "inscrits": 756,
+          "votants": 316,
+          "exprimes": 296,
+          "voix": {
+            "ENS": 160,
+            "RN": 136
+          }
+        },
+        "6": {
+          "inscrits": 711,
+          "votants": 332,
+          "exprimes": 306,
+          "voix": {
+            "ENS": 168,
+            "RN": 138
+          }
+        },
+        "7": {
+          "inscrits": 658,
+          "votants": 344,
+          "exprimes": 294,
+          "voix": {
+            "ENS": 183,
+            "RN": 111
+          }
+        },
+        "8": {
+          "inscrits": 515,
+          "votants": 248,
+          "exprimes": 223,
+          "voix": {
+            "ENS": 108,
+            "RN": 115
+          }
+        },
+        "9": {
+          "inscrits": 575,
+          "votants": 266,
+          "exprimes": 241,
+          "voix": {
+            "ENS": 123,
+            "RN": 118
+          }
+        },
+        "10": {
+          "inscrits": 552,
+          "votants": 309,
+          "exprimes": 252,
+          "voix": {
+            "ENS": 158,
+            "RN": 94
+          }
+        },
+        "11": {
+          "inscrits": 634,
+          "votants": 291,
+          "exprimes": 261,
+          "voix": {
+            "ENS": 161,
+            "RN": 100
+          }
+        },
+        "12": {
+          "inscrits": 565,
+          "votants": 273,
+          "exprimes": 253,
+          "voix": {
+            "ENS": 176,
+            "RN": 77
+          }
+        },
+        "13": {
+          "inscrits": 607,
+          "votants": 236,
+          "exprimes": 220,
+          "voix": {
+            "ENS": 118,
+            "RN": 102
+          }
+        },
+        "14": {
+          "inscrits": 611,
+          "votants": 276,
+          "exprimes": 244,
+          "voix": {
+            "ENS": 147,
+            "RN": 97
+          }
+        },
+        "15": {
+          "inscrits": 852,
+          "votants": 398,
+          "exprimes": 351,
+          "voix": {
+            "ENS": 176,
+            "RN": 175
+          }
+        },
+        "16": {
+          "inscrits": 773,
+          "votants": 432,
+          "exprimes": 368,
+          "voix": {
+            "ENS": 223,
+            "RN": 145
+          }
+        },
+        "17": {
+          "inscrits": 565,
+          "votants": 306,
+          "exprimes": 280,
+          "voix": {
+            "ENS": 173,
+            "RN": 107
+          }
         }
       },
-      "7": {
-        "inscrits": 649,
-        "votants": 365,
-        "exprimes": 338,
-        "blancs": 6,
-        "nuls": 21,
+      "commune": {
+        "inscrits": 11123,
+        "votants": 5245,
+        "exprimes": 4696,
         "voix": {
-          "Gauche": 114,
-          "Macron": 61,
-          "LR": 23,
-          "RN": 106,
-          "Reconquete": 12,
-          "Autres": 22
+          "ENS": 2674,
+          "RN": 2022
+        }
+      }
+    },
+    "europeennes2024": {
+      "date": "2024-06-09",
+      "type": "europeennes",
+      "candidats": [
+        "RN",
+        "PS",
+        "ENS",
+        "LR",
+        "REC",
+        "LFI",
+        "EELV",
+        "COM"
+      ],
+      "bureaux": {
+        "1": {
+          "inscrits": 508,
+          "votants": 258,
+          "exprimes": 241,
+          "voix": {
+            "RN": 83,
+            "PS": 40,
+            "ENS": 30,
+            "LR": 15,
+            "REC": 16,
+            "LFI": 16,
+            "EELV": 9,
+            "COM": 8
+          },
+          "blocs": {
+            "RN": 83,
+            "Gauche": 73,
+            "Macron": 30,
+            "LR": 15,
+            "Reconquete": 16,
+            "Autres": 0
+          }
+        },
+        "2": {
+          "inscrits": 739,
+          "votants": 411,
+          "exprimes": 395,
+          "voix": {
+            "RN": 159,
+            "PS": 39,
+            "ENS": 55,
+            "LR": 28,
+            "REC": 37,
+            "LFI": 16,
+            "EELV": 14,
+            "COM": 4
+          },
+          "blocs": {
+            "RN": 159,
+            "Gauche": 73,
+            "Macron": 55,
+            "LR": 28,
+            "Reconquete": 37,
+            "Autres": 0
+          }
+        },
+        "3": {
+          "inscrits": 678,
+          "votants": 343,
+          "exprimes": 322,
+          "voix": {
+            "RN": 110,
+            "PS": 61,
+            "ENS": 52,
+            "LR": 17,
+            "REC": 18,
+            "LFI": 15,
+            "EELV": 13,
+            "COM": 8
+          },
+          "blocs": {
+            "RN": 110,
+            "Gauche": 97,
+            "Macron": 52,
+            "LR": 17,
+            "Reconquete": 18,
+            "Autres": 0
+          }
+        },
+        "4": {
+          "inscrits": 566,
+          "votants": 323,
+          "exprimes": 315,
+          "voix": {
+            "RN": 75,
+            "PS": 63,
+            "ENS": 48,
+            "LR": 40,
+            "REC": 25,
+            "LFI": 11,
+            "EELV": 14,
+            "COM": 4
+          },
+          "blocs": {
+            "RN": 75,
+            "Gauche": 92,
+            "Macron": 48,
+            "LR": 40,
+            "Reconquete": 25,
+            "Autres": 0
+          }
+        },
+        "5": {
+          "inscrits": 674,
+          "votants": 350,
+          "exprimes": 333,
+          "voix": {
+            "RN": 128,
+            "PS": 46,
+            "ENS": 59,
+            "LR": 14,
+            "REC": 20,
+            "LFI": 20,
+            "EELV": 12,
+            "COM": 4
+          },
+          "blocs": {
+            "RN": 128,
+            "Gauche": 82,
+            "Macron": 59,
+            "LR": 14,
+            "Reconquete": 20,
+            "Autres": 0
+          }
+        },
+        "6": {
+          "inscrits": 650,
+          "votants": 327,
+          "exprimes": 298,
+          "voix": {
+            "RN": 130,
+            "PS": 43,
+            "ENS": 42,
+            "LR": 24,
+            "REC": 12,
+            "LFI": 12,
+            "EELV": 9,
+            "COM": 10
+          },
+          "blocs": {
+            "RN": 130,
+            "Gauche": 74,
+            "Macron": 42,
+            "LR": 24,
+            "Reconquete": 12,
+            "Autres": 0
+          }
+        },
+        "7": {
+          "inscrits": 649,
+          "votants": 365,
+          "exprimes": 338,
+          "voix": {
+            "RN": 106,
+            "PS": 60,
+            "ENS": 61,
+            "LR": 23,
+            "REC": 12,
+            "LFI": 26,
+            "EELV": 12,
+            "COM": 16
+          },
+          "blocs": {
+            "RN": 106,
+            "Gauche": 114,
+            "Macron": 61,
+            "LR": 23,
+            "Reconquete": 12,
+            "Autres": 0
+          }
+        },
+        "8": {
+          "inscrits": 475,
+          "votants": 265,
+          "exprimes": 252,
+          "voix": {
+            "RN": 109,
+            "PS": 29,
+            "ENS": 34,
+            "LR": 12,
+            "REC": 14,
+            "LFI": 10,
+            "EELV": 18,
+            "COM": 3
+          },
+          "blocs": {
+            "RN": 109,
+            "Gauche": 60,
+            "Macron": 34,
+            "LR": 12,
+            "Reconquete": 14,
+            "Autres": 0
+          }
+        },
+        "9": {
+          "inscrits": 537,
+          "votants": 301,
+          "exprimes": 282,
+          "voix": {
+            "RN": 113,
+            "PS": 50,
+            "ENS": 37,
+            "LR": 18,
+            "REC": 17,
+            "LFI": 13,
+            "EELV": 12,
+            "COM": 5
+          },
+          "blocs": {
+            "RN": 113,
+            "Gauche": 80,
+            "Macron": 37,
+            "LR": 18,
+            "Reconquete": 17,
+            "Autres": 0
+          }
+        },
+        "10": {
+          "inscrits": 501,
+          "votants": 307,
+          "exprimes": 297,
+          "voix": {
+            "RN": 68,
+            "PS": 62,
+            "ENS": 53,
+            "LR": 18,
+            "REC": 15,
+            "LFI": 26,
+            "EELV": 28,
+            "COM": 9
+          },
+          "blocs": {
+            "RN": 68,
+            "Gauche": 125,
+            "Macron": 53,
+            "LR": 18,
+            "Reconquete": 15,
+            "Autres": 0
+          }
+        },
+        "11": {
+          "inscrits": 549,
+          "votants": 279,
+          "exprimes": 273,
+          "voix": {
+            "RN": 66,
+            "PS": 49,
+            "ENS": 45,
+            "LR": 33,
+            "REC": 23,
+            "LFI": 21,
+            "EELV": 12,
+            "COM": 2
+          },
+          "blocs": {
+            "RN": 66,
+            "Gauche": 84,
+            "Macron": 45,
+            "LR": 33,
+            "Reconquete": 23,
+            "Autres": 0
+          }
+        },
+        "12": {
+          "inscrits": 531,
+          "votants": 295,
+          "exprimes": 285,
+          "voix": {
+            "RN": 91,
+            "PS": 43,
+            "ENS": 70,
+            "LR": 18,
+            "REC": 14,
+            "LFI": 11,
+            "EELV": 11,
+            "COM": 5
+          },
+          "blocs": {
+            "RN": 91,
+            "Gauche": 70,
+            "Macron": 70,
+            "LR": 18,
+            "Reconquete": 14,
+            "Autres": 0
+          }
+        },
+        "13": {
+          "inscrits": 522,
+          "votants": 233,
+          "exprimes": 219,
+          "voix": {
+            "RN": 79,
+            "PS": 24,
+            "ENS": 36,
+            "LR": 19,
+            "REC": 19,
+            "LFI": 10,
+            "EELV": 6,
+            "COM": 3
+          },
+          "blocs": {
+            "RN": 79,
+            "Gauche": 43,
+            "Macron": 36,
+            "LR": 19,
+            "Reconquete": 19,
+            "Autres": 0
+          }
+        },
+        "14": {
+          "inscrits": 596,
+          "votants": 326,
+          "exprimes": 313,
+          "voix": {
+            "RN": 115,
+            "PS": 53,
+            "ENS": 40,
+            "LR": 18,
+            "REC": 21,
+            "LFI": 15,
+            "EELV": 14,
+            "COM": 6
+          },
+          "blocs": {
+            "RN": 115,
+            "Gauche": 88,
+            "Macron": 40,
+            "LR": 18,
+            "Reconquete": 21,
+            "Autres": 0
+          }
+        },
+        "15": {
+          "inscrits": 817,
+          "votants": 467,
+          "exprimes": 428,
+          "voix": {
+            "RN": 171,
+            "PS": 55,
+            "ENS": 58,
+            "LR": 30,
+            "REC": 30,
+            "LFI": 15,
+            "EELV": 22,
+            "COM": 13
+          },
+          "blocs": {
+            "RN": 171,
+            "Gauche": 105,
+            "Macron": 58,
+            "LR": 30,
+            "Reconquete": 30,
+            "Autres": 0
+          }
+        },
+        "16": {
+          "inscrits": 736,
+          "votants": 459,
+          "exprimes": 429,
+          "voix": {
+            "RN": 145,
+            "PS": 68,
+            "ENS": 67,
+            "LR": 41,
+            "REC": 27,
+            "LFI": 21,
+            "EELV": 19,
+            "COM": 8
+          },
+          "blocs": {
+            "RN": 145,
+            "Gauche": 116,
+            "Macron": 67,
+            "LR": 41,
+            "Reconquete": 27,
+            "Autres": 0
+          }
+        },
+        "17": {
+          "inscrits": 539,
+          "votants": 340,
+          "exprimes": 325,
+          "voix": {
+            "RN": 86,
+            "PS": 70,
+            "ENS": 61,
+            "LR": 31,
+            "REC": 17,
+            "LFI": 10,
+            "EELV": 13,
+            "COM": 4
+          },
+          "blocs": {
+            "RN": 86,
+            "Gauche": 97,
+            "Macron": 61,
+            "LR": 31,
+            "Reconquete": 17,
+            "Autres": 0
+          }
         }
       },
-      "8": {
-        "inscrits": 475,
-        "votants": 265,
-        "exprimes": 252,
-        "blancs": 7,
-        "nuls": 6,
+      "commune": {
+        "inscrits": 10267,
+        "votants": 5649,
+        "exprimes": 5345,
         "voix": {
-          "Gauche": 63,
-          "Macron": 34,
-          "LR": 12,
-          "RN": 109,
-          "Reconquete": 14,
-          "Autres": 20
+          "RN": 1834,
+          "PS": 855,
+          "ENS": 848,
+          "LR": 399,
+          "REC": 337,
+          "LFI": 268,
+          "EELV": 238,
+          "COM": 112
+        },
+        "blocs": {
+          "RN": 1834,
+          "Gauche": 1473,
+          "Macron": 848,
+          "LR": 399,
+          "Reconquete": 337,
+          "Autres": 0
+        }
+      }
+    },
+    "legislatives2024t1": {
+      "date": "2024-07-07",
+      "type": "legislatives",
+      "candidats": [
+        "RN",
+        "ENS",
+        "UG",
+        "LR",
+        "REC"
+      ],
+      "bureaux": {
+        "1": {
+          "inscrits": 508,
+          "votants": 339,
+          "exprimes": 323,
+          "voix": {
+            "RN": 123,
+            "ENS": 86,
+            "UG": 74,
+            "LR": 24,
+            "REC": 7
+          },
+          "blocs": {
+            "RN": 123,
+            "Gauche": 74,
+            "Macron": 86,
+            "LR": 24,
+            "Reconquete": 7,
+            "Autres": 0
+          }
+        },
+        "2": {
+          "inscrits": 743,
+          "votants": 538,
+          "exprimes": 514,
+          "voix": {
+            "RN": 206,
+            "ENS": 149,
+            "UG": 108,
+            "LR": 24,
+            "REC": 18
+          },
+          "blocs": {
+            "RN": 206,
+            "Gauche": 108,
+            "Macron": 149,
+            "LR": 24,
+            "Reconquete": 18,
+            "Autres": 0
+          }
+        },
+        "3": {
+          "inscrits": 678,
+          "votants": 432,
+          "exprimes": 418,
+          "voix": {
+            "RN": 151,
+            "ENS": 108,
+            "UG": 112,
+            "LR": 26,
+            "REC": 7
+          },
+          "blocs": {
+            "RN": 151,
+            "Gauche": 112,
+            "Macron": 108,
+            "LR": 26,
+            "Reconquete": 7,
+            "Autres": 0
+          }
+        },
+        "4": {
+          "inscrits": 564,
+          "votants": 397,
+          "exprimes": 385,
+          "voix": {
+            "RN": 121,
+            "ENS": 136,
+            "UG": 89,
+            "LR": 13,
+            "REC": 12
+          },
+          "blocs": {
+            "RN": 121,
+            "Gauche": 89,
+            "Macron": 136,
+            "LR": 13,
+            "Reconquete": 12,
+            "Autres": 0
+          }
+        },
+        "5": {
+          "inscrits": 672,
+          "votants": 451,
+          "exprimes": 427,
+          "voix": {
+            "RN": 169,
+            "ENS": 140,
+            "UG": 75,
+            "LR": 19,
+            "REC": 13
+          },
+          "blocs": {
+            "RN": 169,
+            "Gauche": 75,
+            "Macron": 140,
+            "LR": 19,
+            "Reconquete": 13,
+            "Autres": 0
+          }
+        },
+        "6": {
+          "inscrits": 651,
+          "votants": 411,
+          "exprimes": 395,
+          "voix": {
+            "RN": 173,
+            "ENS": 116,
+            "UG": 66,
+            "LR": 21,
+            "REC": 10
+          },
+          "blocs": {
+            "RN": 173,
+            "Gauche": 66,
+            "Macron": 116,
+            "LR": 21,
+            "Reconquete": 10,
+            "Autres": 0
+          }
+        },
+        "7": {
+          "inscrits": 649,
+          "votants": 463,
+          "exprimes": 441,
+          "voix": {
+            "RN": 140,
+            "ENS": 159,
+            "UG": 120,
+            "LR": 13,
+            "REC": 3
+          },
+          "blocs": {
+            "RN": 140,
+            "Gauche": 120,
+            "Macron": 159,
+            "LR": 13,
+            "Reconquete": 3,
+            "Autres": 0
+          }
+        },
+        "8": {
+          "inscrits": 475,
+          "votants": 318,
+          "exprimes": 299,
+          "voix": {
+            "RN": 127,
+            "ENS": 78,
+            "UG": 59,
+            "LR": 15,
+            "REC": 13
+          },
+          "blocs": {
+            "RN": 127,
+            "Gauche": 59,
+            "Macron": 78,
+            "LR": 15,
+            "Reconquete": 13,
+            "Autres": 0
+          }
+        },
+        "9": {
+          "inscrits": 536,
+          "votants": 365,
+          "exprimes": 352,
+          "voix": {
+            "RN": 146,
+            "ENS": 92,
+            "UG": 83,
+            "LR": 10,
+            "REC": 10
+          },
+          "blocs": {
+            "RN": 146,
+            "Gauche": 83,
+            "Macron": 92,
+            "LR": 10,
+            "Reconquete": 10,
+            "Autres": 0
+          }
+        },
+        "10": {
+          "inscrits": 503,
+          "votants": 397,
+          "exprimes": 380,
+          "voix": {
+            "RN": 93,
+            "ENS": 108,
+            "UG": 132,
+            "LR": 19,
+            "REC": 12
+          },
+          "blocs": {
+            "RN": 93,
+            "Gauche": 132,
+            "Macron": 108,
+            "LR": 19,
+            "Reconquete": 12,
+            "Autres": 0
+          }
+        },
+        "11": {
+          "inscrits": 546,
+          "votants": 354,
+          "exprimes": 348,
+          "voix": {
+            "RN": 102,
+            "ENS": 125,
+            "UG": 95,
+            "LR": 14,
+            "REC": 10
+          },
+          "blocs": {
+            "RN": 102,
+            "Gauche": 95,
+            "Macron": 125,
+            "LR": 14,
+            "Reconquete": 10,
+            "Autres": 0
+          }
+        },
+        "12": {
+          "inscrits": 530,
+          "votants": 371,
+          "exprimes": 350,
+          "voix": {
+            "RN": 109,
+            "ENS": 141,
+            "UG": 62,
+            "LR": 18,
+            "REC": 8
+          },
+          "blocs": {
+            "RN": 109,
+            "Gauche": 62,
+            "Macron": 141,
+            "LR": 18,
+            "Reconquete": 8,
+            "Autres": 0
+          }
+        },
+        "13": {
+          "inscrits": 525,
+          "votants": 298,
+          "exprimes": 285,
+          "voix": {
+            "RN": 122,
+            "ENS": 82,
+            "UG": 50,
+            "LR": 14,
+            "REC": 5
+          },
+          "blocs": {
+            "RN": 122,
+            "Gauche": 50,
+            "Macron": 82,
+            "LR": 14,
+            "Reconquete": 5,
+            "Autres": 0
+          }
+        },
+        "14": {
+          "inscrits": 593,
+          "votants": 424,
+          "exprimes": 408,
+          "voix": {
+            "RN": 172,
+            "ENS": 106,
+            "UG": 101,
+            "LR": 16,
+            "REC": 6
+          },
+          "blocs": {
+            "RN": 172,
+            "Gauche": 101,
+            "Macron": 106,
+            "LR": 16,
+            "Reconquete": 6,
+            "Autres": 0
+          }
+        },
+        "15": {
+          "inscrits": 817,
+          "votants": 575,
+          "exprimes": 545,
+          "voix": {
+            "RN": 235,
+            "ENS": 144,
+            "UG": 116,
+            "LR": 24,
+            "REC": 16
+          },
+          "blocs": {
+            "RN": 235,
+            "Gauche": 116,
+            "Macron": 144,
+            "LR": 24,
+            "Reconquete": 16,
+            "Autres": 0
+          }
+        },
+        "16": {
+          "inscrits": 735,
+          "votants": 563,
+          "exprimes": 535,
+          "voix": {
+            "RN": 185,
+            "ENS": 164,
+            "UG": 138,
+            "LR": 32,
+            "REC": 3
+          },
+          "blocs": {
+            "RN": 185,
+            "Gauche": 138,
+            "Macron": 164,
+            "LR": 32,
+            "Reconquete": 3,
+            "Autres": 0
+          }
+        },
+        "17": {
+          "inscrits": 541,
+          "votants": 423,
+          "exprimes": 410,
+          "voix": {
+            "RN": 135,
+            "ENS": 147,
+            "UG": 82,
+            "LR": 26,
+            "REC": 7
+          },
+          "blocs": {
+            "RN": 135,
+            "Gauche": 82,
+            "Macron": 147,
+            "LR": 26,
+            "Reconquete": 7,
+            "Autres": 0
+          }
         }
       },
-      "9": {
-        "inscrits": 537,
-        "votants": 301,
-        "exprimes": 282,
-        "blancs": 4,
-        "nuls": 15,
+      "commune": {
+        "inscrits": 10266,
+        "votants": 7119,
+        "exprimes": 6815,
         "voix": {
-          "Gauche": 80,
-          "Macron": 37,
-          "LR": 18,
-          "RN": 113,
-          "Reconquete": 17,
-          "Autres": 17
+          "RN": 2509,
+          "ENS": 2081,
+          "UG": 1562,
+          "LR": 328,
+          "REC": 160
+        },
+        "blocs": {
+          "RN": 2509,
+          "Gauche": 1562,
+          "Macron": 2081,
+          "LR": 328,
+          "Reconquete": 160,
+          "Autres": 0
+        }
+      }
+    },
+    "legislatives2024t2": {
+      "date": "2024-07-07",
+      "type": "legislatives",
+      "candidats": [
+        "ENS",
+        "RN"
+      ],
+      "bureaux": {
+        "1": {
+          "inscrits": 509,
+          "votants": 327,
+          "exprimes": 306,
+          "voix": {
+            "ENS": 159,
+            "RN": 147
+          }
+        },
+        "2": {
+          "inscrits": 742,
+          "votants": 537,
+          "exprimes": 503,
+          "voix": {
+            "ENS": 258,
+            "RN": 245
+          }
+        },
+        "3": {
+          "inscrits": 678,
+          "votants": 452,
+          "exprimes": 424,
+          "voix": {
+            "ENS": 251,
+            "RN": 173
+          }
+        },
+        "4": {
+          "inscrits": 565,
+          "votants": 395,
+          "exprimes": 377,
+          "voix": {
+            "ENS": 239,
+            "RN": 138
+          }
+        },
+        "5": {
+          "inscrits": 672,
+          "votants": 453,
+          "exprimes": 434,
+          "voix": {
+            "ENS": 253,
+            "RN": 181
+          }
+        },
+        "6": {
+          "inscrits": 653,
+          "votants": 429,
+          "exprimes": 409,
+          "voix": {
+            "ENS": 219,
+            "RN": 190
+          }
+        },
+        "7": {
+          "inscrits": 647,
+          "votants": 454,
+          "exprimes": 437,
+          "voix": {
+            "ENS": 282,
+            "RN": 155
+          }
+        },
+        "8": {
+          "inscrits": 475,
+          "votants": 322,
+          "exprimes": 292,
+          "voix": {
+            "ENS": 143,
+            "RN": 149
+          }
+        },
+        "9": {
+          "inscrits": 537,
+          "votants": 362,
+          "exprimes": 342,
+          "voix": {
+            "ENS": 178,
+            "RN": 164
+          }
+        },
+        "10": {
+          "inscrits": 503,
+          "votants": 388,
+          "exprimes": 363,
+          "voix": {
+            "ENS": 249,
+            "RN": 114
+          }
+        },
+        "11": {
+          "inscrits": 546,
+          "votants": 359,
+          "exprimes": 342,
+          "voix": {
+            "ENS": 226,
+            "RN": 116
+          }
+        },
+        "12": {
+          "inscrits": 531,
+          "votants": 379,
+          "exprimes": 365,
+          "voix": {
+            "ENS": 236,
+            "RN": 129
+          }
+        },
+        "13": {
+          "inscrits": 525,
+          "votants": 310,
+          "exprimes": 297,
+          "voix": {
+            "ENS": 155,
+            "RN": 142
+          }
+        },
+        "14": {
+          "inscrits": 595,
+          "votants": 419,
+          "exprimes": 403,
+          "voix": {
+            "ENS": 214,
+            "RN": 189
+          }
+        },
+        "15": {
+          "inscrits": 817,
+          "votants": 574,
+          "exprimes": 537,
+          "voix": {
+            "ENS": 282,
+            "RN": 255
+          }
+        },
+        "16": {
+          "inscrits": 736,
+          "votants": 556,
+          "exprimes": 532,
+          "voix": {
+            "ENS": 325,
+            "RN": 207
+          }
+        },
+        "17": {
+          "inscrits": 540,
+          "votants": 433,
+          "exprimes": 416,
+          "voix": {
+            "ENS": 267,
+            "RN": 149
+          }
         }
       },
-      "10": {
-        "inscrits": 501,
-        "votants": 307,
-        "exprimes": 297,
-        "blancs": 5,
-        "nuls": 5,
+      "commune": {
+        "inscrits": 10271,
+        "votants": 7149,
+        "exprimes": 6779,
         "voix": {
-          "Gauche": 125,
-          "Macron": 53,
-          "LR": 18,
-          "RN": 68,
-          "Reconquete": 15,
-          "Autres": 18
-        }
-      },
-      "11": {
-        "inscrits": 549,
-        "votants": 279,
-        "exprimes": 273,
-        "blancs": 1,
-        "nuls": 5,
-        "voix": {
-          "Gauche": 86,
-          "Macron": 45,
-          "LR": 33,
-          "RN": 66,
-          "Reconquete": 23,
-          "Autres": 20
-        }
-      },
-      "12": {
-        "inscrits": 531,
-        "votants": 295,
-        "exprimes": 285,
-        "blancs": 4,
-        "nuls": 6,
-        "voix": {
-          "Gauche": 71,
-          "Macron": 70,
-          "LR": 18,
-          "RN": 91,
-          "Reconquete": 14,
-          "Autres": 21
-        }
-      },
-      "13": {
-        "inscrits": 522,
-        "votants": 233,
-        "exprimes": 219,
-        "blancs": 5,
-        "nuls": 9,
-        "voix": {
-          "Gauche": 44,
-          "Macron": 36,
-          "LR": 19,
-          "RN": 79,
-          "Reconquete": 19,
-          "Autres": 22
-        }
-      },
-      "14": {
-        "inscrits": 596,
-        "votants": 326,
-        "exprimes": 313,
-        "blancs": 5,
-        "nuls": 8,
-        "voix": {
-          "Gauche": 89,
-          "Macron": 40,
-          "LR": 18,
-          "RN": 115,
-          "Reconquete": 21,
-          "Autres": 30
-        }
-      },
-      "15": {
-        "inscrits": 817,
-        "votants": 467,
-        "exprimes": 428,
-        "blancs": 17,
-        "nuls": 22,
-        "voix": {
-          "Gauche": 105,
-          "Macron": 58,
-          "LR": 30,
-          "RN": 171,
-          "Reconquete": 30,
-          "Autres": 34
-        }
-      },
-      "16": {
-        "inscrits": 736,
-        "votants": 459,
-        "exprimes": 429,
-        "blancs": 13,
-        "nuls": 17,
-        "voix": {
-          "Gauche": 117,
-          "Macron": 67,
-          "LR": 41,
-          "RN": 145,
-          "Reconquete": 27,
-          "Autres": 32
-        }
-      },
-      "17": {
-        "inscrits": 539,
-        "votants": 340,
-        "exprimes": 325,
-        "blancs": 5,
-        "nuls": 10,
-        "voix": {
-          "Gauche": 97,
-          "Macron": 61,
-          "LR": 31,
-          "RN": 86,
-          "Reconquete": 17,
-          "Autres": 33
+          "ENS": 3936,
+          "RN": 2843
         }
       }
     }
   },
-  "legislatives2024": {
-    "date": "2024-06-30",
-    "type": "Législatives T1",
-    "blocs": [
-      "Gauche",
-      "Macron",
-      "LR",
-      "RN",
-      "Reconquete",
-      "Autres"
-    ],
-    "candidats": {
-      "Gauche": "JACK Mathilde (UG) + BRUTOUT Maryse (EXG)",
-      "Macron": "MARTINEAU Eric (ENS)",
-      "LR": "GRUAU Vincent",
-      "RN": "LEMOIGNE Romain",
-      "Reconquete": "DE MALHERBE Raymond",
-      "Autres": "TROCHON Éric (DSV)"
+  "demographics": {
+    "1": {
+      "inscrits": 509,
+      "nationalite": {
+        "francaise": 507,
+        "portugaise": 0,
+        "belge": 2,
+        "espagnole": 0,
+        "italienne": 0,
+        "irlandaise": 0
+      },
+      "age": {
+        "18_35": 27.7,
+        "36_65": 36.9,
+        "66_80": 19.8,
+        "80_plus": 15.5
+      }
     },
-    "bureaux": {
-      "1": {
-        "inscrits": 508,
-        "votants": 339,
-        "exprimes": 323,
-        "blancs": 7,
-        "nuls": 9,
-        "voix": {
-          "Gauche": 80,
-          "Macron": 86,
-          "LR": 24,
-          "RN": 123,
-          "Reconquete": 7,
-          "Autres": 3
-        }
+    "2": {
+      "inscrits": 743,
+      "nationalite": {
+        "francaise": 741,
+        "portugaise": 0,
+        "belge": 0,
+        "espagnole": 0,
+        "italienne": 0,
+        "irlandaise": 2
       },
-      "2": {
-        "inscrits": 743,
-        "votants": 538,
-        "exprimes": 514,
-        "blancs": 17,
-        "nuls": 7,
-        "voix": {
-          "Gauche": 114,
-          "Macron": 149,
-          "LR": 24,
-          "RN": 206,
-          "Reconquete": 18,
-          "Autres": 3
-        }
+      "age": {
+        "18_35": 21.1,
+        "36_65": 47.6,
+        "66_80": 24.6,
+        "80_plus": 6.6
+      }
+    },
+    "3": {
+      "inscrits": 682,
+      "nationalite": {
+        "francaise": 680,
+        "portugaise": 2,
+        "belge": 0,
+        "espagnole": 0,
+        "italienne": 0,
+        "irlandaise": 0
       },
-      "3": {
-        "inscrits": 678,
-        "votants": 432,
-        "exprimes": 418,
-        "blancs": 6,
-        "nuls": 8,
-        "voix": {
-          "Gauche": 123,
-          "Macron": 108,
-          "LR": 26,
-          "RN": 151,
-          "Reconquete": 7,
-          "Autres": 3
-        }
+      "age": {
+        "18_35": 22.9,
+        "36_65": 38,
+        "66_80": 23.3,
+        "80_plus": 15.8
+      }
+    },
+    "4": {
+      "inscrits": 568,
+      "nationalite": {
+        "francaise": 568,
+        "portugaise": 0,
+        "belge": 0,
+        "espagnole": 0,
+        "italienne": 0,
+        "irlandaise": 0
       },
-      "4": {
-        "inscrits": 564,
-        "votants": 397,
-        "exprimes": 385,
-        "blancs": 8,
-        "nuls": 4,
-        "voix": {
-          "Gauche": 98,
-          "Macron": 136,
-          "LR": 13,
-          "RN": 121,
-          "Reconquete": 12,
-          "Autres": 5
-        }
+      "age": {
+        "18_35": 24,
+        "36_65": 36.5,
+        "66_80": 22.2,
+        "80_plus": 17.3
+      }
+    },
+    "5": {
+      "inscrits": 676,
+      "nationalite": {
+        "francaise": 674,
+        "portugaise": 0,
+        "belge": 0,
+        "espagnole": 0,
+        "italienne": 2,
+        "irlandaise": 0
       },
-      "5": {
-        "inscrits": 672,
-        "votants": 451,
-        "exprimes": 427,
-        "blancs": 18,
-        "nuls": 6,
-        "voix": {
-          "Gauche": 82,
-          "Macron": 140,
-          "LR": 19,
-          "RN": 169,
-          "Reconquete": 13,
-          "Autres": 4
-        }
+      "age": {
+        "18_35": 22.8,
+        "36_65": 37.4,
+        "66_80": 26.9,
+        "80_plus": 12.9
+      }
+    },
+    "6": {
+      "inscrits": 657,
+      "nationalite": {
+        "francaise": 653,
+        "portugaise": 4,
+        "belge": 0,
+        "espagnole": 0,
+        "italienne": 0,
+        "irlandaise": 0
       },
-      "6": {
-        "inscrits": 651,
-        "votants": 411,
-        "exprimes": 395,
-        "blancs": 12,
-        "nuls": 4,
-        "voix": {
-          "Gauche": 72,
-          "Macron": 116,
-          "LR": 21,
-          "RN": 173,
-          "Reconquete": 10,
-          "Autres": 3
-        }
+      "age": {
+        "18_35": 14.3,
+        "36_65": 35,
+        "66_80": 38.5,
+        "80_plus": 12.2
+      }
+    },
+    "7": {
+      "inscrits": 650,
+      "nationalite": {
+        "francaise": 648,
+        "portugaise": 2,
+        "belge": 0,
+        "espagnole": 0,
+        "italienne": 0,
+        "irlandaise": 0
       },
-      "7": {
-        "inscrits": 649,
-        "votants": 463,
-        "exprimes": 441,
-        "blancs": 10,
-        "nuls": 12,
-        "voix": {
-          "Gauche": 122,
-          "Macron": 159,
-          "LR": 13,
-          "RN": 140,
-          "Reconquete": 3,
-          "Autres": 4
-        }
+      "age": {
+        "18_35": 19.4,
+        "36_65": 39.4,
+        "66_80": 32.2,
+        "80_plus": 9.1
+      }
+    },
+    "8": {
+      "inscrits": 476,
+      "nationalite": {
+        "francaise": 476,
+        "portugaise": 0,
+        "belge": 0,
+        "espagnole": 0,
+        "italienne": 0,
+        "irlandaise": 0
       },
-      "8": {
-        "inscrits": 475,
-        "votants": 318,
-        "exprimes": 299,
-        "blancs": 9,
-        "nuls": 10,
-        "voix": {
-          "Gauche": 65,
-          "Macron": 78,
-          "LR": 15,
-          "RN": 127,
-          "Reconquete": 13,
-          "Autres": 1
-        }
+      "age": {
+        "18_35": 20,
+        "36_65": 31.3,
+        "66_80": 35.3,
+        "80_plus": 13.4
+      }
+    },
+    "9": {
+      "inscrits": 541,
+      "nationalite": {
+        "francaise": 536,
+        "portugaise": 2,
+        "belge": 1,
+        "espagnole": 0,
+        "italienne": 2,
+        "irlandaise": 0
       },
-      "9": {
-        "inscrits": 536,
-        "votants": 365,
-        "exprimes": 352,
-        "blancs": 9,
-        "nuls": 4,
-        "voix": {
-          "Gauche": 90,
-          "Macron": 92,
-          "LR": 10,
-          "RN": 146,
-          "Reconquete": 10,
-          "Autres": 4
-        }
+      "age": {
+        "18_35": 18.7,
+        "36_65": 34.4,
+        "66_80": 32.5,
+        "80_plus": 14.4
+      }
+    },
+    "10": {
+      "inscrits": 503,
+      "nationalite": {
+        "francaise": 501,
+        "portugaise": 0,
+        "belge": 0,
+        "espagnole": 2,
+        "italienne": 0,
+        "irlandaise": 0
       },
-      "10": {
-        "inscrits": 503,
-        "votants": 397,
-        "exprimes": 380,
-        "blancs": 11,
-        "nuls": 6,
-        "voix": {
-          "Gauche": 139,
-          "Macron": 108,
-          "LR": 19,
-          "RN": 93,
-          "Reconquete": 12,
-          "Autres": 9
-        }
+      "age": {
+        "18_35": 21.9,
+        "36_65": 39.4,
+        "66_80": 24.5,
+        "80_plus": 14.3
+      }
+    },
+    "11": {
+      "inscrits": 549,
+      "nationalite": {
+        "francaise": 549,
+        "portugaise": 0,
+        "belge": 0,
+        "espagnole": 0,
+        "italienne": 0,
+        "irlandaise": 0
       },
-      "11": {
-        "inscrits": 546,
-        "votants": 354,
-        "exprimes": 348,
-        "blancs": 3,
-        "nuls": 3,
-        "voix": {
-          "Gauche": 95,
-          "Macron": 125,
-          "LR": 14,
-          "RN": 102,
-          "Reconquete": 10,
-          "Autres": 2
-        }
+      "age": {
+        "18_35": 22.8,
+        "36_65": 38.1,
+        "66_80": 24.8,
+        "80_plus": 14.4
+      }
+    },
+    "12": {
+      "inscrits": 534,
+      "nationalite": {
+        "francaise": 532,
+        "portugaise": 2,
+        "belge": 0,
+        "espagnole": 0,
+        "italienne": 0,
+        "irlandaise": 0
       },
-      "12": {
-        "inscrits": 530,
-        "votants": 371,
-        "exprimes": 350,
-        "blancs": 10,
-        "nuls": 11,
-        "voix": {
-          "Gauche": 68,
-          "Macron": 141,
-          "LR": 18,
-          "RN": 109,
-          "Reconquete": 8,
-          "Autres": 6
-        }
+      "age": {
+        "18_35": 18.2,
+        "36_65": 32.6,
+        "66_80": 30.1,
+        "80_plus": 19.1
+      }
+    },
+    "13": {
+      "inscrits": 527,
+      "nationalite": {
+        "francaise": 525,
+        "portugaise": 2,
+        "belge": 0,
+        "espagnole": 0,
+        "italienne": 0,
+        "irlandaise": 0
       },
-      "13": {
-        "inscrits": 525,
-        "votants": 298,
-        "exprimes": 285,
-        "blancs": 8,
-        "nuls": 5,
-        "voix": {
-          "Gauche": 57,
-          "Macron": 82,
-          "LR": 14,
-          "RN": 122,
-          "Reconquete": 5,
-          "Autres": 5
-        }
+      "age": {
+        "18_35": 26.2,
+        "36_65": 38.3,
+        "66_80": 19.4,
+        "80_plus": 16.1
+      }
+    },
+    "14": {
+      "inscrits": 599,
+      "nationalite": {
+        "francaise": 597,
+        "portugaise": 2,
+        "belge": 0,
+        "espagnole": 0,
+        "italienne": 0,
+        "irlandaise": 0
       },
-      "14": {
-        "inscrits": 593,
-        "votants": 424,
-        "exprimes": 408,
-        "blancs": 10,
-        "nuls": 6,
-        "voix": {
-          "Gauche": 105,
-          "Macron": 106,
-          "LR": 16,
-          "RN": 172,
-          "Reconquete": 6,
-          "Autres": 3
-        }
+      "age": {
+        "18_35": 23.2,
+        "36_65": 44.6,
+        "66_80": 23.9,
+        "80_plus": 8.3
+      }
+    },
+    "15": {
+      "inscrits": 818,
+      "nationalite": {
+        "francaise": 818,
+        "portugaise": 0,
+        "belge": 0,
+        "espagnole": 0,
+        "italienne": 0,
+        "irlandaise": 0
       },
-      "15": {
-        "inscrits": 817,
-        "votants": 575,
-        "exprimes": 545,
-        "blancs": 23,
-        "nuls": 7,
-        "voix": {
-          "Gauche": 120,
-          "Macron": 144,
-          "LR": 24,
-          "RN": 235,
-          "Reconquete": 16,
-          "Autres": 6
-        }
+      "age": {
+        "18_35": 26.2,
+        "36_65": 46.5,
+        "66_80": 21.3,
+        "80_plus": 6.1
+      }
+    },
+    "16": {
+      "inscrits": 739,
+      "nationalite": {
+        "francaise": 735,
+        "portugaise": 0,
+        "belge": 2,
+        "espagnole": 2,
+        "italienne": 0,
+        "irlandaise": 0
       },
-      "16": {
-        "inscrits": 735,
-        "votants": 563,
-        "exprimes": 535,
-        "blancs": 19,
-        "nuls": 9,
-        "voix": {
-          "Gauche": 146,
-          "Macron": 164,
-          "LR": 32,
-          "RN": 185,
-          "Reconquete": 3,
-          "Autres": 5
-        }
+      "age": {
+        "18_35": 24.9,
+        "36_65": 43.4,
+        "66_80": 21.7,
+        "80_plus": 10
+      }
+    },
+    "17": {
+      "inscrits": 541,
+      "nationalite": {
+        "francaise": 541,
+        "portugaise": 0,
+        "belge": 0,
+        "espagnole": 0,
+        "italienne": 0,
+        "irlandaise": 0
       },
-      "17": {
-        "inscrits": 541,
-        "votants": 423,
-        "exprimes": 410,
-        "blancs": 7,
-        "nuls": 6,
-        "voix": {
-          "Gauche": 88,
-          "Macron": 147,
-          "LR": 26,
-          "RN": 135,
-          "Reconquete": 7,
-          "Autres": 7
-        }
+      "age": {
+        "18_35": 19,
+        "36_65": 39,
+        "66_80": 30.7,
+        "80_plus": 11.3
       }
     }
   },
-  "municipales2020": {
-    "date": "2020-03-15",
-    "type": "Municipales T1",
-    "listes": {
-      "BEAUPERE": "ENSEMBLE POUR LE RENOUVEAU DE LA FLECHE",
-      "GRELET-CERTENAIS": "La Flèche Territoire de Projets"
-    },
+  "volatility": {
     "bureaux": {
       "1": {
-        "inscrits": 556,
-        "votants": 262,
-        "exprimes": 257,
-        "blancs": 2,
-        "nuls": 3,
-        "voix": {
-          "BEAUPÈRE": 79,
-          "GRELET-CERTENAIS": 178
-        }
+        "RN": 6.01,
+        "Gauche": 3.98,
+        "Macron": 6.94,
+        "LR": 2.6,
+        "Reconquete": 2.27,
+        "Autres": 0.0
       },
       "2": {
-        "inscrits": 753,
-        "votants": 362,
-        "exprimes": 352,
-        "blancs": 2,
-        "nuls": 8,
-        "voix": {
-          "BEAUPÈRE": 109,
-          "GRELET-CERTENAIS": 243
-        }
+        "RN": 7.41,
+        "Gauche": 3.29,
+        "Macron": 6.47,
+        "LR": 2.82,
+        "Reconquete": 2.5,
+        "Autres": 0.0
       },
       "3": {
-        "inscrits": 729,
-        "votants": 344,
-        "exprimes": 328,
-        "blancs": 2,
-        "nuls": 14,
-        "voix": {
-          "BEAUPÈRE": 99,
-          "GRELET-CERTENAIS": 229
-        }
+        "RN": 4.88,
+        "Gauche": 4.18,
+        "Macron": 4.74,
+        "LR": 2.39,
+        "Reconquete": 1.41,
+        "Autres": 0.0
       },
       "4": {
-        "inscrits": 633,
-        "votants": 274,
-        "exprimes": 267,
-        "blancs": 4,
-        "nuls": 3,
-        "voix": {
-          "BEAUPÈRE": 112,
-          "GRELET-CERTENAIS": 155
-        }
+        "RN": 6.16,
+        "Gauche": 3.34,
+        "Macron": 8.69,
+        "LR": 4.93,
+        "Reconquete": 2.06,
+        "Autres": 0.0
       },
       "5": {
-        "inscrits": 749,
-        "votants": 310,
-        "exprimes": 301,
-        "blancs": 3,
-        "nuls": 6,
-        "voix": {
-          "BEAUPÈRE": 91,
-          "GRELET-CERTENAIS": 210
-        }
+        "RN": 9.27,
+        "Gauche": 3.61,
+        "Macron": 7.42,
+        "LR": 5.61,
+        "Reconquete": 1.86,
+        "Autres": 0.0
       },
       "6": {
-        "inscrits": 716,
-        "votants": 319,
-        "exprimes": 300,
-        "blancs": 6,
-        "nuls": 13,
-        "voix": {
-          "BEAUPÈRE": 57,
-          "GRELET-CERTENAIS": 243
-        }
+        "RN": 9.09,
+        "Gauche": 4.94,
+        "Macron": 7.28,
+        "LR": 3.05,
+        "Reconquete": 0.59,
+        "Autres": 0.0
       },
       "7": {
-        "inscrits": 673,
-        "votants": 355,
-        "exprimes": 342,
-        "blancs": 3,
-        "nuls": 10,
-        "voix": {
-          "BEAUPÈRE": 87,
-          "GRELET-CERTENAIS": 255
-        }
+        "RN": 5.89,
+        "Gauche": 4.51,
+        "Macron": 7.57,
+        "LR": 2.9,
+        "Reconquete": 2.31,
+        "Autres": 0.0
       },
       "8": {
-        "inscrits": 516,
-        "votants": 239,
-        "exprimes": 237,
-        "blancs": 0,
-        "nuls": 2,
-        "voix": {
-          "BEAUPÈRE": 67,
-          "GRELET-CERTENAIS": 170
-        }
+        "RN": 10.8,
+        "Gauche": 5.81,
+        "Macron": 7.18,
+        "LR": 4.12,
+        "Reconquete": 0.83,
+        "Autres": 0.0
       },
       "9": {
-        "inscrits": 565,
-        "votants": 245,
-        "exprimes": 234,
-        "blancs": 3,
-        "nuls": 8,
-        "voix": {
-          "BEAUPÈRE": 69,
-          "GRELET-CERTENAIS": 165
-        }
+        "RN": 6.61,
+        "Gauche": 3.43,
+        "Macron": 6.7,
+        "LR": 1.75,
+        "Reconquete": 1.49,
+        "Autres": 0.0
       },
       "10": {
-        "inscrits": 583,
-        "votants": 293,
-        "exprimes": 285,
-        "blancs": 4,
-        "nuls": 4,
-        "voix": {
-          "BEAUPÈRE": 89,
-          "GRELET-CERTENAIS": 196
-        }
+        "RN": 5.71,
+        "Gauche": 3.68,
+        "Macron": 4.54,
+        "LR": 4.52,
+        "Reconquete": 3.22,
+        "Autres": 0.0
       },
       "11": {
-        "inscrits": 622,
-        "votants": 265,
-        "exprimes": 260,
-        "blancs": 2,
-        "nuls": 3,
-        "voix": {
-          "BEAUPÈRE": 93,
-          "GRELET-CERTENAIS": 167
-        }
+        "RN": 6.23,
+        "Gauche": 5.19,
+        "Macron": 7.35,
+        "LR": 3.91,
+        "Reconquete": 2.72,
+        "Autres": 0.0
       },
       "12": {
-        "inscrits": 581,
-        "votants": 285,
-        "exprimes": 273,
-        "blancs": 3,
-        "nuls": 9,
-        "voix": {
-          "BEAUPÈRE": 105,
-          "GRELET-CERTENAIS": 168
-        }
+        "RN": 7.94,
+        "Gauche": 3.81,
+        "Macron": 6.56,
+        "LR": 4.85,
+        "Reconquete": 2.21,
+        "Autres": 0.0
       },
       "13": {
-        "inscrits": 615,
-        "votants": 221,
-        "exprimes": 210,
-        "blancs": 1,
-        "nuls": 10,
-        "voix": {
-          "BEAUPÈRE": 51,
-          "GRELET-CERTENAIS": 159
-        }
+        "RN": 7.36,
+        "Gauche": 4.31,
+        "Macron": 5.93,
+        "LR": 2.16,
+        "Reconquete": 2.65,
+        "Autres": 0.0
       },
       "14": {
-        "inscrits": 572,
-        "votants": 255,
-        "exprimes": 243,
-        "blancs": 4,
-        "nuls": 8,
-        "voix": {
-          "BEAUPÈRE": 54,
-          "GRELET-CERTENAIS": 189
-        }
+        "RN": 9.14,
+        "Gauche": 4.17,
+        "Macron": 5.75,
+        "LR": 4.11,
+        "Reconquete": 2.91,
+        "Autres": 0.0
       },
       "15": {
-        "inscrits": 823,
-        "votants": 392,
-        "exprimes": 380,
-        "blancs": 8,
-        "nuls": 4,
-        "voix": {
-          "BEAUPÈRE": 121,
-          "GRELET-CERTENAIS": 259
-        }
+        "RN": 7.74,
+        "Gauche": 3.37,
+        "Macron": 6.01,
+        "LR": 2.34,
+        "Reconquete": 1.57,
+        "Autres": 0.0
       },
       "16": {
-        "inscrits": 739,
-        "votants": 375,
-        "exprimes": 359,
-        "blancs": 7,
-        "nuls": 9,
-        "voix": {
-          "BEAUPÈRE": 96,
-          "GRELET-CERTENAIS": 263
-        }
+        "RN": 7.44,
+        "Gauche": 4.69,
+        "Macron": 6.33,
+        "LR": 1.89,
+        "Reconquete": 2.45,
+        "Autres": 0.0
       },
       "17": {
-        "inscrits": 572,
-        "votants": 303,
-        "exprimes": 300,
-        "blancs": 2,
-        "nuls": 1,
-        "voix": {
-          "BEAUPÈRE": 103,
-          "GRELET-CERTENAIS": 197
-        }
+        "RN": 6.67,
+        "Gauche": 6.07,
+        "Macron": 7.93,
+        "LR": 2.98,
+        "Reconquete": 1.79,
+        "Autres": 0.0
       }
-    }
+    },
+    "commune": {
+      "RN": 7.09,
+      "Gauche": 3.49,
+      "Macron": 6.43,
+      "LR": 2.97,
+      "Reconquete": 1.69,
+      "Autres": 0.0
+    },
+    "description": "Ecart-type (%) de chaque bloc sur les elections T1 avec blocs (EUR2019, PRES2022T1, LEG2022T1, EUR2024, LEG2024T1)"
   }
 }
