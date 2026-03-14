@@ -1,10 +1,140 @@
-/* share.js — Capture d'ecran + partage WhatsApp
- *
- * Bug Android/WhatsApp connu: si on envoie text + files ensemble,
- * WhatsApp affiche le texte et ignore l'image.
- * Solution: partager UNIQUEMENT le fichier (sans text ni title).
- */
+/* share.js — Capture d'ecran + partage via overlay de previsualisation */
 const Share = (() => {
+
+  // Create overlay once (reused)
+  let overlay = null;
+
+  function createOverlay() {
+    if (overlay) return overlay;
+
+    overlay = document.createElement('div');
+    overlay.id = 'share-overlay';
+    overlay.innerHTML = `
+      <div class="share-overlay-backdrop"></div>
+      <div class="share-overlay-content">
+        <div class="share-overlay-header">
+          <span>Apercu de la capture</span>
+          <button class="share-overlay-close" id="share-close">&times;</button>
+        </div>
+        <div class="share-overlay-img-wrap">
+          <img id="share-preview-img" alt="Capture">
+        </div>
+        <div class="share-overlay-actions">
+          <button class="share-overlay-btn share-btn-primary" id="share-btn-share">
+            Partager
+          </button>
+          <button class="share-overlay-btn share-btn-secondary" id="share-btn-download">
+            Telecharger
+          </button>
+        </div>
+        <p class="share-overlay-hint" id="share-hint">
+          Vous pouvez aussi maintenir l'image appuyee pour la partager
+        </p>
+      </div>
+    `;
+
+    // Inject styles
+    const style = document.createElement('style');
+    style.textContent = `
+      #share-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; z-index:10000; }
+      #share-overlay.active { display:flex; align-items:center; justify-content:center; }
+      .share-overlay-backdrop { position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.85); }
+      .share-overlay-content { position:relative; background:#1B2A4A; border-radius:12px; width:92vw; max-width:500px; max-height:90vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.5); }
+      .share-overlay-header { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border-bottom:1px solid #2D4268; color:#fff; font-size:15px; font-weight:600; }
+      .share-overlay-close { background:none; border:none; color:#B0BEC5; font-size:28px; cursor:pointer; padding:0 4px; line-height:1; }
+      .share-overlay-img-wrap { flex:1; overflow:auto; padding:8px; display:flex; justify-content:center; background:#0D1B2A; }
+      .share-overlay-img-wrap img { max-width:100%; height:auto; border-radius:6px; }
+      .share-overlay-actions { display:flex; gap:10px; padding:12px 16px; }
+      .share-overlay-btn { flex:1; padding:12px; border:none; border-radius:8px; font-size:15px; font-weight:600; cursor:pointer; }
+      .share-btn-primary { background:#4FC3F7; color:#1B2A4A; }
+      .share-btn-secondary { background:#2D4268; color:#B0BEC5; }
+      .share-overlay-hint { text-align:center; color:#78909C; font-size:11px; padding:0 16px 12px; margin:0; }
+    `;
+    document.head.appendChild(style);
+    document.body.appendChild(overlay);
+
+    // Close handlers
+    overlay.querySelector('.share-overlay-backdrop').addEventListener('click', closeOverlay);
+    document.getElementById('share-close').addEventListener('click', closeOverlay);
+
+    return overlay;
+  }
+
+  function closeOverlay() {
+    if (overlay) overlay.classList.remove('active');
+  }
+
+  function showOverlay(dataUrl, blob, filename) {
+    createOverlay();
+
+    // Set image preview
+    const img = document.getElementById('share-preview-img');
+    img.src = dataUrl;
+
+    // Setup share button
+    const shareBtn = document.getElementById('share-btn-share');
+    const downloadBtn = document.getElementById('share-btn-download');
+    const hint = document.getElementById('share-hint');
+
+    // Clone buttons to remove old event listeners
+    const newShareBtn = shareBtn.cloneNode(true);
+    shareBtn.parentNode.replaceChild(newShareBtn, shareBtn);
+    const newDownloadBtn = downloadBtn.cloneNode(true);
+    downloadBtn.parentNode.replaceChild(newDownloadBtn, downloadBtn);
+
+    // Download button — always works
+    newDownloadBtn.addEventListener('click', () => {
+      downloadBlob(blob, filename);
+      hint.textContent = 'Image telechargee !';
+      hint.style.color = '#66BB6A';
+    });
+
+    // Share button — try multiple approaches
+    if (navigator.share) {
+      newShareBtn.style.display = '';
+      newShareBtn.addEventListener('click', async () => {
+        const file = new File([blob], filename, { type: 'image/png' });
+
+        try {
+          // Approach 1: files only (best for WhatsApp Android)
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({ files: [file] });
+            closeOverlay();
+            return;
+          }
+        } catch (e) {
+          if (e.name === 'AbortError') return;
+          console.warn('Share files-only failed:', e.message);
+        }
+
+        try {
+          // Approach 2: files + title (some devices need title)
+          if (navigator.canShare) {
+            const data2 = { title: 'Elections La Fleche', files: [file] };
+            if (navigator.canShare(data2)) {
+              await navigator.share(data2);
+              closeOverlay();
+              return;
+            }
+          }
+        } catch (e) {
+          if (e.name === 'AbortError') return;
+          console.warn('Share files+title failed:', e.message);
+        }
+
+        // Approach 3: fallback — download
+        downloadBlob(blob, filename);
+        hint.textContent = 'Partage non supporte. Image telechargee a la place.';
+        hint.style.color = '#FFA726';
+      });
+    } else {
+      // No Web Share API at all — hide share button, show download only
+      newShareBtn.style.display = 'none';
+      hint.textContent = 'Telechargez l\'image puis partagez-la depuis votre galerie';
+    }
+
+    overlay.classList.add('active');
+  }
 
   async function capture(elementId, section) {
     const el = document.getElementById(elementId);
@@ -17,12 +147,12 @@ const Share = (() => {
     const origText = btn ? btn.textContent : '';
 
     try {
+      // Hide button during capture so it doesn't appear in screenshot
       if (btn) {
-        btn.textContent = 'Capture...';
-        btn.disabled = true;
+        btn.style.display = 'none';
       }
 
-      // Adapt scale to element size to avoid too-large canvases on mobile
+      // Adapt scale to element size
       const rect = el.getBoundingClientRect();
       const maxDim = Math.max(rect.width, rect.height);
       const scale = maxDim > 800 ? 1.5 : 2;
@@ -44,51 +174,30 @@ const Share = (() => {
         return;
       }
 
-      // Convert canvas to blob
+      // Get data URL for preview
+      const dataUrl = canvas.toDataURL('image/png');
+
+      // Get blob for sharing/download
       const blob = await new Promise((resolve) => {
         canvas.toBlob((b) => resolve(b), 'image/png');
       });
 
-      if (!blob || blob.size < 1000) {
-        alert('Erreur : image capturee trop petite.');
+      if (!blob || blob.size < 500) {
+        alert('Erreur : image trop petite (' + (blob ? blob.size : 0) + ' bytes)');
         return;
       }
 
       const filename = `elections-lafleche-${section || 'resultats'}.png`;
-      const file = new File([blob], filename, { type: 'image/png' });
 
-      // ── PARTAGE ──
-      // On Android + WhatsApp, envoyer SEULEMENT le fichier (pas de text/title)
-      // sinon WhatsApp affiche le texte et ignore l'image
-      let shared = false;
-
-      if (navigator.share && navigator.canShare) {
-        // Tenter le partage avec UNIQUEMENT le fichier
-        const shareData = { files: [file] };
-
-        try {
-          if (navigator.canShare(shareData)) {
-            await navigator.share(shareData);
-            shared = true;
-          }
-        } catch (e) {
-          if (e.name === 'AbortError') return;
-          console.warn('Share failed:', e.message);
-        }
-      }
-
-      // Fallback: telecharger l'image
-      if (!shared) {
-        downloadBlob(blob, filename);
-      }
+      // Show overlay with preview
+      showOverlay(dataUrl, blob, filename);
 
     } catch (err) {
       console.error('Capture error:', err);
-      alert('Erreur lors de la capture : ' + err.message);
+      alert('Erreur capture : ' + err.message);
     } finally {
       if (btn) {
-        btn.textContent = origText;
-        btn.disabled = false;
+        btn.style.display = '';
       }
     }
   }
