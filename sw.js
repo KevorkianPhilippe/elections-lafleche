@@ -1,4 +1,4 @@
-const CACHE_NAME = 'elections-lafleche-v13';
+const CACHE_NAME = 'elections-lafleche-v14';
 const ASSETS = [
   './',
   './index.html',
@@ -39,7 +39,34 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
+  // Navigation (HTML pages): network-first, fallback to cache (offline)
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          // Update cache with fresh HTML
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Assets (JS, CSS, images): stale-while-revalidate
+  // Serve from cache immediately, but also update cache in background
   event.respondWith(
-    caches.match(event.request).then(cached => cached || fetch(event.request))
+    caches.match(event.request).then(cached => {
+      const networkFetch = fetch(event.request).then(response => {
+        // Update cache with fresh version
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+        return response;
+      }).catch(() => cached);
+
+      // Return cached immediately if available, otherwise wait for network
+      return cached || networkFetch;
+    })
   );
 });
