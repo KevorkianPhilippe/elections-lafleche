@@ -1,10 +1,15 @@
-/* projections.js — Matrices de reports + projections + Monte Carlo */
+/* projections.js — Matrices de reports + projections T1/T2 + Monte Carlo */
 const Projections = (() => {
   let chartProjection = null;
   let currentMatrix = null;
   let currentSigmas = null;
   let mcResult = null;
   let bvDataLoaded = false;
+
+  // T2 mode state
+  let currentT2Mode = false;
+  let currentListeNoms = [];
+  let currentColors = [];
 
   // Plugin Chart.js pour barres d'erreur
   const errorBarPlugin = {
@@ -25,12 +30,10 @@ const Projections = (() => {
         ctx.save();
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
         ctx.lineWidth = 2;
-        // Ligne verticale
         ctx.beginPath();
         ctx.moveTo(x, yLow);
         ctx.lineTo(x, yHigh);
         ctx.stroke();
-        // Caps
         ctx.beginPath();
         ctx.moveTo(x - 6, yLow); ctx.lineTo(x + 6, yLow);
         ctx.stroke();
@@ -42,33 +45,67 @@ const Projections = (() => {
     }
   };
 
+  // ── HELPERS T2 ──
+
+  function isT2Scenario(scenario) {
+    return scenario && scenario.startsWith('t2_');
+  }
+
+  function getListeConfig(t2Mode) {
+    const config = Store.getConfig();
+    if (t2Mode) {
+      // T2: seulement Lemoigne et Grelet-Certenais
+      const idxL = config.listes.findIndex(l => l.nom.toLowerCase().includes('lemoigne'));
+      const idxG = config.listes.findIndex(l => l.nom.toLowerCase().includes('grelet'));
+      return {
+        noms: [config.listes[idxL].nom, config.listes[idxG].nom],
+        colors: [config.listes[idxL].couleur, config.listes[idxG].couleur]
+      };
+    }
+    return {
+      noms: config.listes.map(l => l.nom),
+      colors: config.listes.map(l => l.couleur)
+    };
+  }
+
+  // ── RENDER ──
+
   function render() {
     const scenario = document.getElementById('proj-scenario').value;
     loadScenario(scenario);
   }
 
   function loadScenario(scenario) {
-    const config = Store.getConfig();
-    const listeNoms = config.listes.map(l => l.nom);
+    currentT2Mode = isT2Scenario(scenario);
+    const listeConfig = getListeConfig(currentT2Mode);
+    currentListeNoms = listeConfig.noms;
+    currentColors = listeConfig.colors;
 
-    if (scenario === 'custom') {
-      if (!currentMatrix || currentMatrix._scenario !== 'custom') {
-        const euroMatrix = Historique.getDefaultMatrix('europeennes');
-        currentMatrix = JSON.parse(JSON.stringify(euroMatrix));
-        currentMatrix._scenario = 'custom';
-        currentMatrix.destinations = [...listeNoms, 'Abstention'];
+    // Show/hide T1 recap
+    const t1Recap = document.getElementById('proj-t1-recap');
+    if (t1Recap) t1Recap.style.display = currentT2Mode ? 'block' : 'none';
+
+    if (scenario === 'custom' || scenario === 't2_custom') {
+      if (!currentMatrix || (currentT2Mode && !currentMatrix._scenario.startsWith('t2_'))
+          || (!currentT2Mode && currentMatrix._scenario.startsWith('t2_'))) {
+        const baseKey = currentT2Mode ? 't2_neutre' : 'europeennes';
+        const baseMatrix = Historique.getDefaultMatrix(baseKey);
+        currentMatrix = JSON.parse(JSON.stringify(baseMatrix));
+        currentMatrix._scenario = scenario;
+        currentMatrix.destinations = [...currentListeNoms, 'Abstention'];
       }
     } else {
       const defaultMatrix = Historique.getDefaultMatrix(scenario);
       if (defaultMatrix) {
         currentMatrix = JSON.parse(JSON.stringify(defaultMatrix));
         currentMatrix._scenario = scenario;
-        currentMatrix.destinations = [...listeNoms, 'Abstention'];
+        currentMatrix.destinations = [...currentListeNoms, 'Abstention'];
       }
     }
 
     // Charger les sigmas
-    const baseScenario = scenario === 'custom' ? 'europeennes' : scenario;
+    const baseScenario = (scenario === 'custom' || scenario === 't2_custom')
+      ? (currentT2Mode ? 't2_neutre' : 'europeennes') : scenario;
     currentSigmas = Historique.getDefaultSigmas(baseScenario);
 
     renderMatrix();
@@ -112,8 +149,8 @@ const Projections = (() => {
     const val = Math.min(100, Math.max(0, parseInt(e.target.value) || 0));
     e.target.value = val;
     currentMatrix.matrix[row][col] = val;
-    currentMatrix._scenario = 'custom';
-    document.getElementById('proj-scenario').value = 'custom';
+    currentMatrix._scenario = currentT2Mode ? 't2_custom' : 'custom';
+    document.getElementById('proj-scenario').value = currentMatrix._scenario;
     renderMatrix();
     updateProjection();
   }
@@ -127,24 +164,20 @@ const Projections = (() => {
     }
   }
 
-  // === MODE DETERMINISTE (existant) ===
+  // === MODE DETERMINISTE ===
 
   function updateProjectionDeterministic() {
     if (!currentMatrix) return;
-    const config = Store.getConfig();
-    const listeNoms = config.listes.map(l => l.nom);
-    const colors = config.listes.map(l => l.couleur);
+    const result = Historique.projeter(currentMatrix, currentListeNoms);
+    renderProjectionChart(result, currentListeNoms, currentColors, null);
+    renderDeterministicDetails(result, currentListeNoms, currentColors);
 
-    const result = Historique.projeter(currentMatrix, listeNoms);
-    renderProjectionChart(result, listeNoms, colors, null);
-    renderDeterministicDetails(result, listeNoms, colors, config);
-
-    // Masquer les panels MC
     document.getElementById('proj-probabilities').style.display = 'none';
     document.getElementById('proj-confidence').style.display = 'none';
   }
 
-  function renderDeterministicDetails(result, listeNoms, colors, config) {
+  function renderDeterministicDetails(result, listeNoms, colors) {
+    const config = Store.getConfig();
     const details = document.getElementById('proj-details');
     let html = '<div style="margin-top:12px">';
     html += `<p style="font-size:0.85rem">Participation projetee : <strong>${result.participation.toFixed(1)}%</strong></p>`;
@@ -166,9 +199,20 @@ const Projections = (() => {
           <span>${listeNoms[i]}</span><strong>${s} sieges</strong></div>`;
       }
     });
-    if (siegesResult.secondTour) {
+
+    if (currentT2Mode) {
+      const winner = result.projections[0].pct > result.projections[1].pct ? 0 : 1;
+      const loser = 1 - winner;
+      html += `<div style="background:rgba(79,195,247,0.1);padding:10px;border-radius:8px;margin-top:10px">`;
+      html += `<strong style="color:var(--accent)">Victoire de ${listeNoms[winner]}</strong>`;
+      html += `<p style="font-size:0.8rem;margin-top:4px;color:var(--text-muted)">`;
+      html += `${result.projections[winner].pct.toFixed(1)}% vs ${result.projections[loser].pct.toFixed(1)}%`;
+      html += ` — ecart de ${Math.abs(result.projections[0].pct - result.projections[1].pct).toFixed(1)} points</p>`;
+      html += '</div>';
+    } else if (siegesResult.secondTour) {
       html += '<p style="color:var(--warning);margin-top:8px;font-size:0.8rem">2nd tour probable</p>';
     }
+
     html += '</div></div>';
     details.innerHTML = html;
   }
@@ -177,55 +221,63 @@ const Projections = (() => {
 
   async function updateProjectionMC() {
     if (!currentMatrix || !currentSigmas) return;
-    const config = Store.getConfig();
-    const listeNoms = config.listes.map(l => l.nom);
-    const colors = config.listes.map(l => l.couleur);
 
-    // Charger les donnees BV si pas fait
-    if (!bvDataLoaded) {
+    // Charger les donnees BV si pas fait (pour T1 uniquement)
+    if (!bvDataLoaded && !currentT2Mode) {
       await HistoriqueBV.load();
       bvDataLoaded = true;
-      // Recalculer les sigmas avec les donnees ecologiques
       const baseScenario = currentMatrix._scenario === 'custom' ? 'europeennes' : currentMatrix._scenario;
       currentSigmas = Historique.getDefaultSigmas(baseScenario);
     }
 
     // Lancer la simulation
-    mcResult = MonteCarlo.simulate(currentMatrix, currentSigmas, listeNoms, { n: 2000 });
+    mcResult = MonteCarlo.simulate(currentMatrix, currentSigmas, currentListeNoms, { n: 2000 });
 
-    // Bayesian updating avec les bureaux saisis
-    const resultats = Store.getResultats();
-    const filledBvs = Object.keys(resultats).filter(bv => resultats[bv] && resultats[bv].votants > 0);
+    // Bayesian updating: seulement en mode T1 avec des bureaux saisis
+    if (!currentT2Mode) {
+      const resultats = Store.getResultats();
+      const filledBvs = Object.keys(resultats).filter(bv => resultats[bv] && resultats[bv].votants > 0);
 
-    if (filledBvs.length > 0) {
-      for (const bvId of filledBvs) {
-        const bvResult = resultats[bvId];
-        const exprimes = bvResult.votants - bvResult.blancs - bvResult.nuls;
-        if (exprimes <= 0) continue;
+      if (filledBvs.length > 0) {
+        for (const bvId of filledBvs) {
+          const bvResult = resultats[bvId];
+          const exprimes = bvResult.votants - bvResult.blancs - bvResult.nuls;
+          if (exprimes <= 0) continue;
 
-        const obsPcts = { _exprimes: exprimes };
-        listeNoms.forEach((nom, i) => {
-          obsPcts[nom] = (bvResult.voix[i] / exprimes) * 100;
-        });
+          const obsPcts = { _exprimes: exprimes };
+          currentListeNoms.forEach((nom, i) => {
+            obsPcts[nom] = (bvResult.voix[i] / exprimes) * 100;
+          });
 
-        const bvNum = bvId.replace(/^0+/, '') || '1';
-        const deviation = HistoriqueBV.getBureauDeviation(bvNum, listeNoms);
-        // Enrich deviation with age-based factor
-        const ageFactor = HistoriqueBV.getAgeFactor(bvNum, listeNoms);
-        if (deviation && ageFactor) {
-          for (const nom of listeNoms) {
-            deviation[nom] = (deviation[nom] || 0) + (ageFactor[nom] || 0);
+          const bvNum = bvId.replace(/^0+/, '') || '1';
+          const deviation = HistoriqueBV.getBureauDeviation(bvNum, currentListeNoms);
+          const ageFactor = HistoriqueBV.getAgeFactor(bvNum, currentListeNoms);
+          if (deviation && ageFactor) {
+            for (const nom of currentListeNoms) {
+              deviation[nom] = (deviation[nom] || 0) + (ageFactor[nom] || 0);
+            }
           }
+          mcResult = MonteCarlo.updateWithBureau(mcResult, bvNum, obsPcts, deviation);
         }
-        mcResult = MonteCarlo.updateWithBureau(mcResult, bvNum, obsPcts, deviation);
       }
     }
 
     // Rendu
-    renderProjectionChart(null, listeNoms, colors, mcResult);
-    renderMCDetails(mcResult, listeNoms, colors, config);
-    renderProbabilities(mcResult, listeNoms, colors);
-    renderConfidenceIndicator(filledBvs.length, config.nbBureaux);
+    renderProjectionChart(null, currentListeNoms, currentColors, mcResult);
+    renderMCDetails(mcResult, currentListeNoms, currentColors);
+    renderProbabilities(mcResult, currentListeNoms, currentColors);
+
+    if (!currentT2Mode) {
+      const resultats = Store.getResultats();
+      const filledBvs = Object.keys(resultats).filter(bv => resultats[bv] && resultats[bv].votants > 0);
+      renderConfidenceIndicator(filledBvs.length, Store.getConfig().nbBureaux);
+    } else {
+      // En T2, la confiance depend de la qualite des hypotheses de report
+      document.getElementById('proj-confidence').style.display = 'block';
+      document.getElementById('confidence-fill').style.width = '60%';
+      document.getElementById('confidence-text').textContent =
+        'Projection T2 — La fiabilite depend des hypotheses de report de Da Silva';
+    }
   }
 
   // === RENDU CHART ===
@@ -234,12 +286,10 @@ const Projections = (() => {
     const ctx = document.getElementById('chart-projection');
     if (chartProjection) chartProjection.destroy();
 
-    const agg = Store.getAggregate();
     const datasets = [];
     const plugins = [ChartDataLabels];
 
     if (mcRes) {
-      // Mode MC: barres avec erreurs
       const mainData = mcRes.results.map(r => r.mean.toFixed(1));
       const errorBars = mcRes.results.map(r => ({
         low: r.ci95[0],
@@ -247,7 +297,7 @@ const Projections = (() => {
       }));
 
       datasets.push({
-        label: 'Projection MC',
+        label: currentT2Mode ? 'Projection T2 (MC)' : 'Projection MC',
         data: mainData,
         backgroundColor: colors.map(c => c + 'AA'),
         borderColor: colors,
@@ -257,9 +307,8 @@ const Projections = (() => {
       });
       plugins.push(errorBarPlugin);
     } else if (detResult) {
-      // Mode deterministe
       datasets.push({
-        label: 'Projection',
+        label: currentT2Mode ? 'Projection T2' : 'Projection',
         data: detResult.projections.map(p => p.pct.toFixed(1)),
         backgroundColor: colors.map(c => c + 'AA'),
         borderColor: colors,
@@ -268,17 +317,39 @@ const Projections = (() => {
       });
     }
 
-    // Resultats reels si disponibles
-    if (agg.filled > 0 && agg.exprimes > 0) {
-      datasets.push({
-        label: `Reel (${agg.filled}/${agg.total} bureaux)`,
-        data: agg.voix.map(v => ((v / agg.exprimes) * 100).toFixed(1)),
-        backgroundColor: colors.map(c => c + '44'),
-        borderColor: colors.map(c => c + '88'),
+    // Resultats reels: seulement en mode T1
+    if (!currentT2Mode) {
+      const agg = Store.getAggregate();
+      if (agg.filled > 0 && agg.exprimes > 0) {
+        datasets.push({
+          label: `Reel (${agg.filled}/${agg.total} bureaux)`,
+          data: agg.voix.map(v => ((v / agg.exprimes) * 100).toFixed(1)),
+          backgroundColor: colors.map(c => c + '44'),
+          borderColor: colors.map(c => c + '88'),
+          borderWidth: 2,
+          borderDash: [4, 4],
+          borderRadius: 6
+        });
+      }
+    }
+
+    // Ligne 50% pour T2
+    const annotations = {};
+    if (currentT2Mode) {
+      annotations.line50 = {
+        type: 'line',
+        yMin: 50, yMax: 50,
+        borderColor: 'rgba(255, 167, 38, 0.5)',
         borderWidth: 2,
-        borderDash: [4, 4],
-        borderRadius: 6
-      });
+        borderDash: [6, 4],
+        label: {
+          display: true,
+          content: '50%',
+          position: 'start',
+          color: 'rgba(255, 167, 38, 0.7)',
+          font: { size: 10 }
+        }
+      };
     }
 
     const maxVal = Math.max(
@@ -327,9 +398,9 @@ const Projections = (() => {
         scales: {
           y: {
             beginAtZero: true,
-            max: Math.min(100, maxVal + 15),
+            max: Math.ceil(Math.min(100, maxVal + 15) / 10) * 10,
             grid: { color: 'rgba(255,255,255,0.05)' },
-            ticks: { color: '#8899AA', callback: v => v + '%' }
+            ticks: { color: '#8899AA', stepSize: 10, callback: v => Math.round(v) + '%' }
           },
           x: {
             grid: { display: false },
@@ -343,7 +414,8 @@ const Projections = (() => {
 
   // === DETAILS MC ===
 
-  function renderMCDetails(mcRes, listeNoms, colors, config) {
+  function renderMCDetails(mcRes, listeNoms, colors) {
+    const config = Store.getConfig();
     const details = document.getElementById('proj-details');
     let html = '<div style="margin-top:12px">';
     html += `<p style="font-size:0.85rem">Participation projetee : <strong>${mcRes.participation.mean.toFixed(1)}%</strong>`;
@@ -358,7 +430,7 @@ const Projections = (() => {
       </div>`;
     });
 
-    // Sieges projetes (basés sur la moyenne)
+    // Sieges projetes
     const voixProj = mcRes.results.map(r => r.mean * 100);
     const siegesResult = Sieges.calculer(voixProj, config.totalSieges, config.primeMajoritaire);
     html += '<div style="margin-top:12px"><h3 style="font-size:0.9rem;color:var(--accent)">Sieges projetes (estimation)</h3>';
@@ -368,9 +440,21 @@ const Projections = (() => {
           <span>${listeNoms[i]}</span><strong>${s} sieges</strong></div>`;
       }
     });
-    if (siegesResult.secondTour) {
+
+    if (currentT2Mode) {
+      const winner = mcRes.results[0].mean > mcRes.results[1].mean ? 0 : 1;
+      const loser = 1 - winner;
+      const ecart = Math.abs(mcRes.results[0].mean - mcRes.results[1].mean);
+      html += `<div style="background:rgba(79,195,247,0.1);padding:10px;border-radius:8px;margin-top:10px">`;
+      html += `<strong style="color:var(--accent)">Victoire de ${listeNoms[winner]}</strong>`;
+      html += `<p style="font-size:0.8rem;margin-top:4px;color:var(--text-muted)">`;
+      html += `${mcRes.results[winner].mean.toFixed(1)}% vs ${mcRes.results[loser].mean.toFixed(1)}%`;
+      html += ` — ecart moyen de ${ecart.toFixed(1)} points</p>`;
+      html += '</div>';
+    } else if (siegesResult.secondTour) {
       html += `<p style="color:var(--warning);margin-top:8px;font-size:0.8rem">2nd tour probable dans ${(mcRes.secondTourProbability * 100).toFixed(0)}% des simulations</p>`;
     }
+
     html += '</div></div>';
     details.innerHTML = html;
   }
@@ -397,10 +481,17 @@ const Projections = (() => {
     barsDiv.innerHTML = html;
 
     const st = document.getElementById('prob-second-tour');
-    const stPct = (mcRes.secondTourProbability * 100).toFixed(0);
-    st.textContent = mcRes.secondTourProbability > 0.1
-      ? `Second tour probable dans ${stPct}% des simulations`
-      : `Victoire au 1er tour dans ${100 - parseInt(stPct)}% des simulations`;
+    if (currentT2Mode) {
+      const winner = listeNoms.reduce((best, nom) =>
+        (mcRes.winProbabilities[nom] || 0) > (mcRes.winProbabilities[best] || 0) ? nom : best, listeNoms[0]);
+      const winnerProb = ((mcRes.winProbabilities[winner] || 0) * 100).toFixed(0);
+      st.textContent = `${winner} l'emporte dans ${winnerProb}% des simulations`;
+    } else {
+      const stPct = (mcRes.secondTourProbability * 100).toFixed(0);
+      st.textContent = mcRes.secondTourProbability > 0.1
+        ? `Second tour probable dans ${stPct}% des simulations`
+        : `Victoire au 1er tour dans ${100 - parseInt(stPct)}% des simulations`;
+    }
   }
 
   // === CONFIANCE ===
@@ -442,5 +533,5 @@ const Projections = (() => {
     });
   }
 
-  return { render, init };
+  return { render, init, isT2Scenario };
 })();

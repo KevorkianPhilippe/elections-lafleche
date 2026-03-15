@@ -26,83 +26,139 @@ const Analyse = (() => {
   function renderComparateur() {
     const container = document.getElementById('analyse-comparateur');
     const config = Store.getConfig();
+
+    // T2 config
+    const idxL = config.listes.findIndex(l => l.nom.toLowerCase().includes('lemoigne'));
+    const idxG = config.listes.findIndex(l => l.nom.toLowerCase().includes('grelet'));
+    const t2Noms = [config.listes[idxL].nom, config.listes[idxG].nom];
+    const t2Colors = [config.listes[idxL].couleur, config.listes[idxG].couleur];
+
+    // ── T2 Scenarios ──
+    const t2Scenarios = [
+      { key: 't2_neutre', label: 'Reports equilibres', icon: '🔄' },
+      { key: 't2_lemoigne', label: 'Dynamique Lemoigne', icon: '📈' },
+      { key: 't2_grelet', label: 'Dynamique Grelet', icon: '📉' }
+    ];
+
+    const t2Results = [];
+    for (const sc of t2Scenarios) {
+      const matrixData = Historique.getDefaultMatrix(sc.key);
+      if (!matrixData) continue;
+      const sigmas = Historique.getDefaultSigmas(sc.key);
+      if (!sigmas) continue;
+      const mcResult = MonteCarlo.simulate(matrixData, sigmas, t2Noms, { n: 1000 });
+      t2Results.push({ ...sc, mc: mcResult });
+    }
+
+    let html = '';
+
+    if (t2Results.length > 0) {
+      html += '<h3 style="margin-bottom:10px;color:var(--warning)">Projections 2nd tour</h3>';
+      html += '<div class="table-scroll"><table class="comparateur-table">';
+      html += '<thead><tr><th>Scenario T2</th>';
+      t2Noms.forEach((nom, i) => {
+        html += `<th style="color:${t2Colors[i]}">${nom}</th>`;
+      });
+      html += '<th>Part.</th><th>Vainqueur</th></tr></thead><tbody>';
+
+      for (const r of t2Results) {
+        html += `<tr><td><strong>${r.icon} ${r.label}</strong></td>`;
+        r.mc.results.forEach(res => {
+          const ci = res.ci80;
+          const isWinner = res.mean > 50;
+          const style = isWinner ? 'font-weight:bold;color:var(--success)' : '';
+          html += `<td style="${style}"><strong>${res.mean.toFixed(1)}%</strong><br>` +
+                  `<span class="mc-interval">[${ci[0].toFixed(0)}-${ci[1].toFixed(0)}]</span></td>`;
+        });
+        html += `<td>${r.mc.participation.mean.toFixed(0)}%</td>`;
+        const winnerIdx = r.mc.results[0].mean > r.mc.results[1].mean ? 0 : 1;
+        const winnerProb = ((r.mc.winProbabilities[t2Noms[winnerIdx]] || 0) * 100).toFixed(0);
+        html += `<td style="color:${t2Colors[winnerIdx]};font-weight:bold">${t2Noms[winnerIdx]}<br>` +
+                `<span class="mc-interval">${winnerProb}%</span></td>`;
+        html += '</tr>';
+      }
+      html += '</tbody></table></div>';
+
+      // T2 Win probability bars
+      html += '<h3 style="margin-top:16px">Probabilite de victoire T2</h3>';
+      html += '<div class="comparateur-probs">';
+      for (const r of t2Results) {
+        html += `<div class="prob-scenario"><strong>${r.icon} ${r.label}</strong>`;
+        t2Noms.forEach((nom, i) => {
+          const prob = (r.mc.winProbabilities[nom] * 100).toFixed(0);
+          const width = Math.max(15, r.mc.winProbabilities[nom] * 100);
+          html += `<div class="prob-item">` +
+                  `<div class="prob-bar" style="width:${width}%;background:${t2Colors[i]}">` +
+                  `<span class="prob-label">${nom}</span>` +
+                  `<span class="prob-value">${prob}%</span>` +
+                  `</div></div>`;
+        });
+        html += '</div>';
+      }
+      html += '</div>';
+
+      // T2 Synthesis
+      const avgProbs = {};
+      t2Noms.forEach(nom => {
+        avgProbs[nom] = t2Results.reduce((s, r) => s + (r.mc.winProbabilities[nom] || 0), 0) / t2Results.length;
+      });
+      const winner = t2Noms.reduce((best, nom) => avgProbs[nom] > avgProbs[best] ? nom : best, t2Noms[0]);
+      const wIdx = t2Noms.indexOf(winner);
+
+      html += `<div class="synthese-box">` +
+              `<strong>Synthese T2:</strong> ` +
+              `<span style="color:${t2Colors[wIdx]}">${winner}</span> favori ` +
+              `avec ${(avgProbs[winner] * 100).toFixed(0)}% de probabilite moyenne de victoire` +
+              `<br><span class="muted">Variable cle : le report des ${Historique.municipalesT1_2026.resultats['Da Silva'].voix} electeurs Da Silva</span></div>`;
+    }
+
+    // ── T1 Retrospectif ──
     const listeNoms = config.listes.map(l => l.nom);
     const colors = config.listes.map(l => l.couleur);
 
-    const scenarios = [
+    const t1Scenarios = [
       { key: 'europeennes', label: 'Europeennes 2024', icon: '🇪🇺' },
       { key: 'legislatives', label: 'Legislatives 2024', icon: '🏛️' },
       { key: 'presidentielle', label: 'Presidentielle 2022', icon: '🗳️' }
     ];
 
-    const results = [];
-    for (const sc of scenarios) {
+    const t1Results = [];
+    for (const sc of t1Scenarios) {
       const matrixData = Historique.getDefaultMatrix(sc.key);
       if (!matrixData) continue;
-
       const sigmas = Historique.getDefaultSigmas(sc.key);
       if (!sigmas) continue;
-
       const mcResult = MonteCarlo.simulate(matrixData, sigmas, listeNoms, { n: 1000 });
-      results.push({ ...sc, mc: mcResult });
+      t1Results.push({ ...sc, mc: mcResult });
     }
 
-    if (results.length === 0) {
-      container.innerHTML = '<p class="muted">Aucun scenario disponible</p>';
-      return;
-    }
-
-    // Build comparison table
-    let html = '<div class="table-scroll"><table class="comparateur-table">';
-    html += '<thead><tr><th>Scenario</th>';
-    listeNoms.forEach((nom, i) => {
-      html += `<th style="color:${colors[i]}">${nom}</th>`;
-    });
-    html += '<th>Participation</th><th>2nd tour</th></tr></thead><tbody>';
-
-    for (const r of results) {
-      html += `<tr><td><strong>${r.icon} ${r.label}</strong></td>`;
-      r.mc.results.forEach(res => {
-        const ci = res.ci80;
-        html += `<td><strong>${res.mean.toFixed(1)}%</strong><br>` +
-                `<span class="mc-interval">[${ci[0].toFixed(0)}-${ci[1].toFixed(0)}]</span></td>`;
-      });
-      html += `<td>${r.mc.participation.mean.toFixed(0)}%</td>`;
-      html += `<td>${(r.mc.secondTourProbability * 100).toFixed(0)}%</td>`;
-      html += '</tr>';
-    }
-    html += '</tbody></table></div>';
-
-    // Win probability comparison
-    html += '<h3 style="margin-top:16px">Probabilite de victoire par scenario</h3>';
-    html += '<div class="comparateur-probs">';
-    for (const r of results) {
-      html += `<div class="prob-scenario"><strong>${r.icon} ${r.label}</strong>`;
+    if (t1Results.length > 0) {
+      html += '<h3 style="margin-top:20px;margin-bottom:10px;color:var(--text-muted)">Projections T1 (retrospectif)</h3>';
+      html += '<div class="table-scroll"><table class="comparateur-table">';
+      html += '<thead><tr><th>Scenario</th>';
       listeNoms.forEach((nom, i) => {
-        const prob = (r.mc.winProbabilities[nom] * 100).toFixed(0);
-        const width = Math.max(3, r.mc.winProbabilities[nom] * 100);
-        html += `<div class="prob-item">` +
-                `<div class="prob-bar" style="width:${width}%;background:${colors[i]}">` +
-                `<span class="prob-label">${nom}</span>` +
-                `<span class="prob-value">${prob}%</span>` +
-                `</div></div>`;
+        html += `<th style="color:${colors[i]}">${nom}</th>`;
       });
-      html += '</div>';
+      html += '<th>Part.</th></tr></thead><tbody>';
+
+      const t1 = Historique.municipalesT1_2026;
+      html += '<tr style="background:rgba(79,195,247,0.1)"><td><strong>Reel T1</strong></td>';
+      listeNoms.forEach(nom => {
+        const r = t1.resultats[nom];
+        html += `<td><strong>${r ? r.pct.toFixed(1) : '-'}%</strong></td>`;
+      });
+      html += `<td>${t1.participation.toFixed(0)}%</td></tr>`;
+
+      for (const r of t1Results) {
+        html += `<tr><td><strong>${r.icon} ${r.label}</strong></td>`;
+        r.mc.results.forEach(res => {
+          html += `<td>${res.mean.toFixed(1)}%</td>`;
+        });
+        html += `<td>${r.mc.participation.mean.toFixed(0)}%</td>`;
+        html += '</tr>';
+      }
+      html += '</tbody></table></div>';
     }
-    html += '</div>';
-
-    // Synthesis
-    const avgProbs = {};
-    listeNoms.forEach(nom => {
-      avgProbs[nom] = results.reduce((s, r) => s + r.mc.winProbabilities[nom], 0) / results.length;
-    });
-    const winner = listeNoms.reduce((best, nom) => avgProbs[nom] > avgProbs[best] ? nom : best, listeNoms[0]);
-    const winnerIdx = listeNoms.indexOf(winner);
-
-    html += `<div class="synthese-box">` +
-            `<strong>Synthese multi-scenarios:</strong> ` +
-            `<span style="color:${colors[winnerIdx]}">${winner}</span> favori(e) ` +
-            `avec ${(avgProbs[winner] * 100).toFixed(0)}% de probabilite moyenne de victoire</div>`;
 
     container.innerHTML = html;
   }

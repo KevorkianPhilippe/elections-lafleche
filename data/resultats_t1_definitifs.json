@@ -1,0 +1,31 @@
+{
+  "config": {
+    "listes": [
+      { "nom": "Lemoigne", "couleur": "#5C6BC0", "abrev": "RL" },
+      { "nom": "Da Silva", "couleur": "#2196F3", "abrev": "MDS" },
+      { "nom": "Grelet-Certenais", "couleur": "#E91E63", "abrev": "NGC" }
+    ],
+    "nbBureaux": 17,
+    "totalSieges": 33,
+    "primeMajoritaire": 17
+  },
+  "resultats": {
+    "01": { "inscrits": 495, "votants": 332, "blancs": 3, "nuls": 4, "voix": [145, 53, 127] },
+    "02": { "inscrits": 744, "votants": 538, "blancs": 11, "nuls": 7, "voix": [258, 91, 170] },
+    "03": { "inscrits": 667, "votants": 453, "blancs": 5, "nuls": 10, "voix": [186, 66, 186] },
+    "04": { "inscrits": 573, "votants": 402, "blancs": 3, "nuls": 4, "voix": [148, 91, 156] },
+    "05": { "inscrits": 664, "votants": 464, "blancs": 11, "nuls": 8, "voix": [210, 70, 165] },
+    "06": { "inscrits": 616, "votants": 410, "blancs": 10, "nuls": 1, "voix": [195, 60, 144] },
+    "07": { "inscrits": 664, "votants": 469, "blancs": 10, "nuls": 5, "voix": [191, 80, 183] },
+    "08": { "inscrits": 486, "votants": 331, "blancs": 9, "nuls": 6, "voix": [164, 46, 106] },
+    "09": { "inscrits": 547, "votants": 358, "blancs": 5, "nuls": 6, "voix": [167, 56, 124] },
+    "10": { "inscrits": 507, "votants": 368, "blancs": 5, "nuls": 1, "voix": [114, 65, 183] },
+    "11": { "inscrits": 538, "votants": 360, "blancs": 5, "nuls": 3, "voix": [127, 74, 151] },
+    "12": { "inscrits": 519, "votants": 356, "blancs": 8, "nuls": 1, "voix": [130, 68, 149] },
+    "13": { "inscrits": 518, "votants": 293, "blancs": 2, "nuls": 4, "voix": [124, 43, 120] },
+    "14": { "inscrits": 653, "votants": 460, "blancs": 10, "nuls": 3, "voix": [211, 50, 186] },
+    "15": { "inscrits": 839, "votants": 574, "blancs": 17, "nuls": 10, "voix": [272, 79, 196] },
+    "16": { "inscrits": 754, "votants": 537, "blancs": 11, "nuls": 8, "voix": [207, 94, 217] },
+    "17": { "inscrits": 546, "votants": 409, "blancs": 5, "nuls": 3, "voix": [165, 75, 161] }
+  }
+}

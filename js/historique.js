@@ -57,6 +57,21 @@ const Historique = (() => {
     }
   };
 
+  // ── Municipales 2026 T1 — Resultats definitifs ──
+  const municipalesT1_2026 = {
+    inscrits: 10330,
+    votants: 7114,
+    blancs: 130,
+    nuls: 84,
+    exprimes: 6900,
+    participation: 68.87,
+    resultats: {
+      'Lemoigne': { voix: 3014, pct: 43.68 },
+      'Da Silva': { voix: 1161, pct: 16.83 },
+      'Grelet-Certenais': { voix: 2724, pct: 39.48 }
+    }
+  };
+
   // ── Matrices de reports par defaut ──
   // Lignes = blocs source, Colonnes = [Lemoigne, Da Silva, Grelet-Certenais, Abstention]
   const defaultMatrices = {
@@ -103,6 +118,46 @@ const Historique = (() => {
       ],
       sourcePcts: presidentielle2022.global.resultats.map(r => r.pct),
       abstentionPct: 27.6  // 100 - 72.4%
+    },
+
+    // ── Matrices T2: reports des electeurs T1 vers les 2 candidats du 2nd tour ──
+    // Source: electeurs de chaque liste T1 (% des exprimes T1)
+    // Destinations: [Lemoigne, Grelet-Certenais, Abstention]
+    t2_neutre: {
+      blocs: ['Elect. Lemoigne (43.7%)', 'Elect. Da Silva (16.8%)', 'Elect. Grelet (39.5%)'],
+      sources: ['Lemoigne', 'Da Silva', 'Grelet'],
+      destinations: ['Lemoigne', 'Grelet-Certenais', 'Abstention'],
+      matrix: [
+        [93, 2, 5],     // Lemoigne T1: fidelite forte
+        [35, 30, 35],   // Da Silva T1: repartition equilibree (grande inconnue)
+        [2, 92, 6]      // Grelet T1: fidelite forte
+      ],
+      sourcePcts: [43.68, 16.83, 39.48],
+      abstentionPct: 31.13
+    },
+    t2_lemoigne: {
+      blocs: ['Elect. Lemoigne (43.7%)', 'Elect. Da Silva (16.8%)', 'Elect. Grelet (39.5%)'],
+      sources: ['Lemoigne', 'Da Silva', 'Grelet'],
+      destinations: ['Lemoigne', 'Grelet-Certenais', 'Abstention'],
+      matrix: [
+        [95, 1, 4],     // Lemoigne T1: dynamique de victoire
+        [50, 15, 35],   // Da Silva T1: basculement vers Lemoigne
+        [4, 90, 6]      // Grelet T1: legere erosion
+      ],
+      sourcePcts: [43.68, 16.83, 39.48],
+      abstentionPct: 31.13
+    },
+    t2_grelet: {
+      blocs: ['Elect. Lemoigne (43.7%)', 'Elect. Da Silva (16.8%)', 'Elect. Grelet (39.5%)'],
+      sources: ['Lemoigne', 'Da Silva', 'Grelet'],
+      destinations: ['Lemoigne', 'Grelet-Certenais', 'Abstention'],
+      matrix: [
+        [90, 2, 8],     // Lemoigne T1: demobilisation partielle
+        [15, 50, 35],   // Da Silva T1: front republicain -> Grelet
+        [1, 94, 5]      // Grelet T1: mobilisation renforcee
+      ],
+      sourcePcts: [43.68, 16.83, 39.48],
+      abstentionPct: 31.13
     }
   };
 
@@ -176,6 +231,6 @@ const Historique = (() => {
 
   return {
     getElection, getDefaultMatrix, getDefaultSigmas, projeter,
-    europeennes2024, legislatives2024, presidentielle2022
+    europeennes2024, legislatives2024, presidentielle2022, municipalesT1_2026
   };
 })();

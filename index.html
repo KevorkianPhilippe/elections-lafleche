@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Elections La Fleche 2026</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="css/style.css?v=16">
+  <link rel="stylesheet" href="css/style.css?v=17">
 </head>
 <body>
   <!-- Header -->
@@ -177,11 +177,42 @@
       <div class="card">
         <h2>Scenario de projection</h2>
         <select id="proj-scenario" class="select-full">
-          <option value="europeennes">Europeennes 2024</option>
-          <option value="legislatives">Legislatives 2024 T1</option>
-          <option value="presidentielle">Presidentielle 2022 T1</option>
-          <option value="custom">Hypothese personnalisee</option>
+          <optgroup label="2nd tour — Reports de voix T1">
+            <option value="t2_neutre" selected>T2 - Reports equilibres</option>
+            <option value="t2_lemoigne">T2 - Dynamique Lemoigne</option>
+            <option value="t2_grelet">T2 - Dynamique Grelet</option>
+            <option value="t2_custom">T2 - Personnalise</option>
+          </optgroup>
+          <optgroup label="1er tour — Projections pre-electorales">
+            <option value="europeennes">Europeennes 2024</option>
+            <option value="legislatives">Legislatives 2024 T1</option>
+            <option value="presidentielle">Presidentielle 2022 T1</option>
+            <option value="custom">Hypothese personnalisee</option>
+          </optgroup>
         </select>
+      </div>
+      <div id="proj-t1-recap" class="card">
+        <h2>Resultats T1 definitifs</h2>
+        <div class="stat-row">
+          <div class="stat-box" style="border-left:3px solid #5C6BC0">
+            <span class="stat-value" style="color:#5C6BC0">43.7%</span>
+            <span class="stat-label">Lemoigne</span>
+            <span class="stat-label">3 014 voix</span>
+          </div>
+          <div class="stat-box" style="border-left:3px solid #E91E63">
+            <span class="stat-value" style="color:#E91E63">39.5%</span>
+            <span class="stat-label">Grelet-Certenais</span>
+            <span class="stat-label">2 724 voix</span>
+          </div>
+          <div class="stat-box" style="border-left:3px solid #2196F3">
+            <span class="stat-value" style="color:#2196F3">16.8%</span>
+            <span class="stat-label">Da Silva (elimine)</span>
+            <span class="stat-label">1 161 voix</span>
+          </div>
+        </div>
+        <p class="muted" style="text-align:center;margin-top:10px">
+          Participation T1 : 68.9% (7 114 / 10 330) — Enjeu T2 : ou vont les 1 161 voix Da Silva ?
+        </p>
       </div>
       <div class="card">
         <div class="toggle-row">
@@ -226,7 +257,7 @@
     <section id="page-analyse" class="page">
       <div class="card">
         <h2>Comparaison des scenarios</h2>
-        <p class="muted">Projection MC par scenario de reference</p>
+        <p class="muted">Projections T2 + retrospectif T1 (Monte Carlo)</p>
         <div id="analyse-comp-share" class="share-zone">
           <div id="analyse-comparateur"></div>
           <button class="btn-share" onclick="Share.capture('analyse-comp-share','analyse-scenarios')">Partager</button>
@@ -307,16 +338,16 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="js/store.js?v=16"></script>
-  <script src="js/sieges.js?v=16"></script>
-  <script src="js/historique.js?v=16"></script>
-  <script src="js/historique_bv.js?v=16"></script>
-  <script src="js/montecarlo.js?v=16"></script>
-  <script src="js/saisie.js?v=16"></script>
-  <script src="js/resultats.js?v=16"></script>
-  <script src="js/projections.js?v=16"></script>
-  <script src="js/analyse.js?v=16"></script>
-  <script src="js/share.js?v=16"></script>
-  <script src="js/app.js?v=16"></script>
+  <script src="js/store.js?v=17"></script>
+  <script src="js/sieges.js?v=17"></script>
+  <script src="js/historique.js?v=17"></script>
+  <script src="js/historique_bv.js?v=17"></script>
+  <script src="js/montecarlo.js?v=17"></script>
+  <script src="js/saisie.js?v=17"></script>
+  <script src="js/resultats.js?v=17"></script>
+  <script src="js/projections.js?v=17"></script>
+  <script src="js/analyse.js?v=17"></script>
+  <script src="js/share.js?v=17"></script>
+  <script src="js/app.js?v=17"></script>
 </body>
 </html>
