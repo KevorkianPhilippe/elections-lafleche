@@ -33,11 +33,11 @@ const Analyse = (() => {
     const t2Noms = [config.listes[idxL].nom, config.listes[idxG].nom];
     const t2Colors = [config.listes[idxL].couleur, config.listes[idxG].couleur];
 
-    // ── T2 Scenarios ──
+    // ── T2 Scenarios — calcules a partir des donnees reelles ──
     const t2Scenarios = [
-      { key: 't2_neutre', label: 'Reports equilibres', icon: '🔄' },
-      { key: 't2_lemoigne', label: 'Dynamique Lemoigne', icon: '📈' },
-      { key: 't2_grelet', label: 'Dynamique Grelet', icon: '📉' }
+      { key: 't2_datadriven', label: 'Inference ecologique (30% abst.)', icon: '📊' },
+      { key: 't2_abst_basse', label: 'Abst. Da Silva basse (20%)', icon: '📈' },
+      { key: 't2_abst_haute', label: 'Abst. Da Silva haute (40%)', icon: '📉' }
     ];
 
     const t2Results = [];
@@ -105,11 +105,21 @@ const Analyse = (() => {
       const winner = t2Noms.reduce((best, nom) => avgProbs[nom] > avgProbs[best] ? nom : best, t2Noms[0]);
       const wIdx = t2Noms.indexOf(winner);
 
+      // Detail inference ecologique
+      const t2Computed = Historique.computeT2Matrix(30);
+      const det = t2Computed._details;
+      const detailStr = det.detailParScenario.map(d =>
+        `${d.scenario === 'europeennes' ? 'Europ.' : d.scenario === 'legislatives' ? 'Legis.' : 'Presid.'}: ` +
+        `${(d.affiniteL * 100).toFixed(0)}% L / ${(d.affiniteG * 100).toFixed(0)}% G`
+      ).join(' | ');
+
       html += `<div class="synthese-box">` +
               `<strong>Synthese T2:</strong> ` +
               `<span style="color:${t2Colors[wIdx]}">${winner}</span> favori ` +
               `avec ${(avgProbs[winner] * 100).toFixed(0)}% de probabilite moyenne de victoire` +
-              `<br><span class="muted">Variable cle : le report des ${Historique.municipalesT1_2026.resultats['Da Silva'].voix} electeurs Da Silva</span></div>`;
+              `<br><span class="muted">Affinite Da Silva calculee : ` +
+              `${(det.affiniteL * 100).toFixed(0)}% Lemoigne / ${(det.affiniteG * 100).toFixed(0)}% Grelet</span>` +
+              `<br><span class="muted" style="font-size:0.7rem">${detailStr}</span></div>`;
     }
 
     // ── T1 Retrospectif ──

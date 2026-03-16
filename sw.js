@@ -1,4 +1,4 @@
-const CACHE_NAME = 'elections-lafleche-v17';
+const CACHE_NAME = 'elections-lafleche-v19';
 const ASSETS = [
   './',
   './index.html',
@@ -10,6 +10,7 @@ const ASSETS = [
   './js/sieges.js',
   './js/projections.js',
   './js/analyse.js',
+  './js/soiree.js',
   './js/share.js',
   './js/historique.js',
   './js/historique_bv.js',

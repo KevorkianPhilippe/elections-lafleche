@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Elections La Fleche 2026</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="css/style.css?v=17">
+  <link rel="stylesheet" href="css/style.css?v=19">
 </head>
 <body>
   <!-- Header -->
@@ -177,10 +177,10 @@
       <div class="card">
         <h2>Scenario de projection</h2>
         <select id="proj-scenario" class="select-full">
-          <optgroup label="2nd tour — Reports de voix T1">
-            <option value="t2_neutre" selected>T2 - Reports equilibres</option>
-            <option value="t2_lemoigne">T2 - Dynamique Lemoigne</option>
-            <option value="t2_grelet">T2 - Dynamique Grelet</option>
+          <optgroup label="2nd tour — Reports calcules">
+            <option value="t2_datadriven" selected>T2 - Inference ecologique</option>
+            <option value="t2_abst_basse">T2 - Abstention Da Silva basse (20%)</option>
+            <option value="t2_abst_haute">T2 - Abstention Da Silva haute (40%)</option>
             <option value="t2_custom">T2 - Personnalise</option>
           </optgroup>
           <optgroup label="1er tour — Projections pre-electorales">
@@ -281,6 +281,111 @@
       </div>
     </section>
 
+    <!-- PAGE: Soiree T2 -->
+    <section id="page-soiree" class="page">
+      <!-- Alert banner -->
+      <div id="soiree-alert" class="card"></div>
+
+      <!-- Participation -->
+      <div class="card">
+        <h2>📊 Participation</h2>
+        <p class="muted">Comparez avec le T1 (68.9% final)</p>
+        <div id="soiree-participation"></div>
+      </div>
+
+      <!-- Projection live -->
+      <div class="card">
+        <h2>🎯 Projection</h2>
+        <div id="soiree-projection-details"></div>
+      </div>
+
+      <!-- Trend chart -->
+      <div class="card">
+        <h2>📈 Tendance</h2>
+        <p class="muted">Evolution cumulee bureau par bureau</p>
+        <div id="soiree-trend-share" class="share-zone">
+          <canvas id="chart-soiree-trend" height="200"></canvas>
+          <button class="btn-share" onclick="Share.capture('soiree-trend-share','soiree-tendance')">Partager</button>
+        </div>
+      </div>
+
+      <!-- Bureau grid + saisie rapide -->
+      <div class="card">
+        <h2>⚡ Saisie rapide</h2>
+        <p class="muted">★ = bureau sentinelle (a saisir en priorite)</p>
+        <div class="bureau-grid" id="soiree-bureau-grid"></div>
+      </div>
+
+      <!-- Formulaire saisie -->
+      <div class="card" id="soiree-form" style="display:none">
+        <h2 id="soiree-bv-title">Bureau n°-</h2>
+        <input type="hidden" id="soiree-bv-num">
+        <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:12px" id="s-t1-info"></div>
+        <div style="font-size:0.8rem;margin-bottom:8px">Inscrits: <strong id="s-inscrits">-</strong></div>
+        <div class="form-group">
+          <label for="s-votants">Votants</label>
+          <input type="number" id="s-votants" min="0" inputmode="numeric" style="font-size:1.1rem;padding:12px">
+        </div>
+        <div class="form-row">
+          <div class="form-group half">
+            <label for="s-blancs">Blancs</label>
+            <input type="number" id="s-blancs" min="0" value="0" inputmode="numeric">
+          </div>
+          <div class="form-group half">
+            <label for="s-nuls">Nuls</label>
+            <input type="number" id="s-nuls" min="0" value="0" inputmode="numeric">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="s-lemoigne" style="color:#5C6BC0;font-weight:600">Lemoigne</label>
+          <input type="number" id="s-lemoigne" min="0" inputmode="numeric" style="font-size:1.2rem;padding:14px;border-left:3px solid #5C6BC0">
+        </div>
+        <div class="form-group">
+          <label for="s-dasilva" style="color:#2196F3;font-weight:600">Da Silva</label>
+          <input type="number" id="s-dasilva" min="0" inputmode="numeric" style="font-size:1.2rem;padding:14px;border-left:3px solid #2196F3">
+        </div>
+        <div class="form-group">
+          <label for="s-grelet" style="color:#E91E63;font-weight:600">Grelet-Certenais</label>
+          <input type="number" id="s-grelet" min="0" inputmode="numeric" style="font-size:1.2rem;padding:14px;border-left:3px solid #E91E63">
+        </div>
+        <div id="s-check" style="text-align:center;font-size:0.85rem;margin:8px 0;min-height:20px"></div>
+        <div class="form-actions">
+          <button class="btn btn-primary" id="soiree-save-btn">✓ Enregistrer</button>
+          <button class="btn btn-danger btn-small" id="soiree-delete-btn" style="flex:0 0 auto;width:auto;padding:12px">🗑</button>
+        </div>
+      </div>
+
+      <!-- Tableau detail -->
+      <div class="card">
+        <h2>📋 Detail par bureau</h2>
+        <div id="soiree-table-share" class="share-zone">
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>BV</th>
+                  <th style="color:#5C6BC0">Lem</th>
+                  <th style="color:#2196F3">DaS</th>
+                  <th style="color:#E91E63">Gre</th>
+                  <th>%L</th>
+                  <th>%D</th>
+                  <th>%G</th>
+                  <th>Δ</th>
+                </tr>
+              </thead>
+              <tbody id="soiree-table-body"></tbody>
+            </table>
+          </div>
+          <button class="btn-share" onclick="Share.capture('soiree-table-share','soiree-detail')">Partager</button>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="card" style="text-align:center">
+        <button class="btn btn-danger btn-small" id="soiree-reset-btn">Reinitialiser T2</button>
+      </div>
+    </section>
+
     <!-- PAGE: Configuration -->
     <section id="page-config" class="page">
       <div class="card">
@@ -308,7 +413,11 @@
 
   <!-- Bottom navigation -->
   <nav id="bottom-nav">
-    <button class="nav-btn active" data-page="dashboard">
+    <button class="nav-btn active" data-page="soiree">
+      <span class="nav-icon">🗳️</span>
+      <span class="nav-label">Soiree T2</span>
+    </button>
+    <button class="nav-btn" data-page="dashboard">
       <span class="nav-icon">&#127968;</span>
       <span class="nav-label">Accueil</span>
     </button>
@@ -319,10 +428,6 @@
     <button class="nav-btn" data-page="resultats">
       <span class="nav-icon">&#128202;</span>
       <span class="nav-label">Resultats</span>
-    </button>
-    <button class="nav-btn" data-page="sieges">
-      <span class="nav-icon">&#127971;</span>
-      <span class="nav-label">Sieges</span>
     </button>
     <button class="nav-btn" data-page="projections">
       <span class="nav-icon">&#128300;</span>
@@ -338,16 +443,17 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="js/store.js?v=17"></script>
-  <script src="js/sieges.js?v=17"></script>
-  <script src="js/historique.js?v=17"></script>
-  <script src="js/historique_bv.js?v=17"></script>
-  <script src="js/montecarlo.js?v=17"></script>
-  <script src="js/saisie.js?v=17"></script>
-  <script src="js/resultats.js?v=17"></script>
-  <script src="js/projections.js?v=17"></script>
-  <script src="js/analyse.js?v=17"></script>
-  <script src="js/share.js?v=17"></script>
-  <script src="js/app.js?v=17"></script>
+  <script src="js/store.js?v=18"></script>
+  <script src="js/sieges.js?v=18"></script>
+  <script src="js/historique.js?v=18"></script>
+  <script src="js/historique_bv.js?v=18"></script>
+  <script src="js/montecarlo.js?v=18"></script>
+  <script src="js/saisie.js?v=18"></script>
+  <script src="js/resultats.js?v=18"></script>
+  <script src="js/projections.js?v=18"></script>
+  <script src="js/analyse.js?v=18"></script>
+  <script src="js/soiree.js?v=19"></script>
+  <script src="js/share.js?v=18"></script>
+  <script src="js/app.js?v=19"></script>
 </body>
 </html>

@@ -88,7 +88,7 @@ const Projections = (() => {
     if (scenario === 'custom' || scenario === 't2_custom') {
       if (!currentMatrix || (currentT2Mode && !currentMatrix._scenario.startsWith('t2_'))
           || (!currentT2Mode && currentMatrix._scenario.startsWith('t2_'))) {
-        const baseKey = currentT2Mode ? 't2_neutre' : 'europeennes';
+        const baseKey = currentT2Mode ? 't2_datadriven' : 'europeennes';
         const baseMatrix = Historique.getDefaultMatrix(baseKey);
         currentMatrix = JSON.parse(JSON.stringify(baseMatrix));
         currentMatrix._scenario = scenario;
@@ -105,7 +105,7 @@ const Projections = (() => {
 
     // Charger les sigmas
     const baseScenario = (scenario === 'custom' || scenario === 't2_custom')
-      ? (currentT2Mode ? 't2_neutre' : 'europeennes') : scenario;
+      ? (currentT2Mode ? 't2_datadriven' : 'europeennes') : scenario;
     currentSigmas = Historique.getDefaultSigmas(baseScenario);
 
     renderMatrix();
@@ -272,11 +272,18 @@ const Projections = (() => {
       const filledBvs = Object.keys(resultats).filter(bv => resultats[bv] && resultats[bv].votants > 0);
       renderConfidenceIndicator(filledBvs.length, Store.getConfig().nbBureaux);
     } else {
-      // En T2, la confiance depend de la qualite des hypotheses de report
+      // En T2, afficher les details de l'inference ecologique
       document.getElementById('proj-confidence').style.display = 'block';
-      document.getElementById('confidence-fill').style.width = '60%';
-      document.getElementById('confidence-text').textContent =
-        'Projection T2 — La fiabilite depend des hypotheses de report de Da Silva';
+      if (currentMatrix && currentMatrix._computed) {
+        const det = currentMatrix._details;
+        document.getElementById('confidence-fill').style.width = '70%';
+        document.getElementById('confidence-text').textContent =
+          `Inference ecologique : affinite Da Silva → ${(det.affiniteL * 100).toFixed(0)}% Lemoigne / ${(det.affiniteG * 100).toFixed(0)}% Grelet (abst. ${det.daSilvaAbstPct}%)`;
+      } else {
+        document.getElementById('confidence-fill').style.width = '50%';
+        document.getElementById('confidence-text').textContent =
+          'Matrice personnalisee — verifiez la coherence des hypotheses';
+      }
     }
   }
 

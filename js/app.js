@@ -1,6 +1,7 @@
 /* app.js — Routeur SPA + navigation + init */
 const App = (() => {
   const PAGE_TITLES = {
+    soiree: 'Soiree T2 — Live',
     dashboard: 'Elections La Fleche',
     saisie: 'Saisie des resultats',
     resultats: 'Resultats',
@@ -39,6 +40,9 @@ const App = (() => {
 
   function renderPage(page) {
     switch (page) {
+      case 'soiree':
+        Soiree.render();
+        break;
       case 'dashboard':
         Resultats.renderDashboard();
         break;
@@ -240,6 +244,7 @@ const App = (() => {
     // Init modules
     Saisie.init();
     Projections.init();
+    Soiree.init();
     initConfig();
 
     // Pre-load BV data in background (for Analyse + MC)
@@ -247,8 +252,8 @@ const App = (() => {
       HistoriqueBV.load().catch(e => console.warn('BV preload:', e));
     }
 
-    // Render dashboard
-    navigate('dashboard');
+    // Render soiree T2 by default (election day!)
+    navigate('soiree');
 
     // Register service worker with auto-update
     if ('serviceWorker' in navigator) {

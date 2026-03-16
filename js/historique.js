@@ -120,46 +120,102 @@ const Historique = (() => {
       abstentionPct: 27.6  // 100 - 72.4%
     },
 
-    // ── Matrices T2: reports des electeurs T1 vers les 2 candidats du 2nd tour ──
-    // Source: electeurs de chaque liste T1 (% des exprimes T1)
-    // Destinations: [Lemoigne, Grelet-Certenais, Abstention]
-    t2_neutre: {
-      blocs: ['Elect. Lemoigne (43.7%)', 'Elect. Da Silva (16.8%)', 'Elect. Grelet (39.5%)'],
-      sources: ['Lemoigne', 'Da Silva', 'Grelet'],
-      destinations: ['Lemoigne', 'Grelet-Certenais', 'Abstention'],
-      matrix: [
-        [93, 2, 5],     // Lemoigne T1: fidelite forte
-        [35, 30, 35],   // Da Silva T1: repartition equilibree (grande inconnue)
-        [2, 92, 6]      // Grelet T1: fidelite forte
-      ],
-      sourcePcts: [43.68, 16.83, 39.48],
-      abstentionPct: 31.13
-    },
-    t2_lemoigne: {
-      blocs: ['Elect. Lemoigne (43.7%)', 'Elect. Da Silva (16.8%)', 'Elect. Grelet (39.5%)'],
-      sources: ['Lemoigne', 'Da Silva', 'Grelet'],
-      destinations: ['Lemoigne', 'Grelet-Certenais', 'Abstention'],
-      matrix: [
-        [95, 1, 4],     // Lemoigne T1: dynamique de victoire
-        [50, 15, 35],   // Da Silva T1: basculement vers Lemoigne
-        [4, 90, 6]      // Grelet T1: legere erosion
-      ],
-      sourcePcts: [43.68, 16.83, 39.48],
-      abstentionPct: 31.13
-    },
-    t2_grelet: {
-      blocs: ['Elect. Lemoigne (43.7%)', 'Elect. Da Silva (16.8%)', 'Elect. Grelet (39.5%)'],
-      sources: ['Lemoigne', 'Da Silva', 'Grelet'],
-      destinations: ['Lemoigne', 'Grelet-Certenais', 'Abstention'],
-      matrix: [
-        [90, 2, 8],     // Lemoigne T1: demobilisation partielle
-        [15, 50, 35],   // Da Silva T1: front republicain -> Grelet
-        [1, 94, 5]      // Grelet T1: mobilisation renforcee
-      ],
-      sourcePcts: [43.68, 16.83, 39.48],
-      abstentionPct: 31.13
-    }
   };
+
+  /**
+   * Calcule la matrice T2 a partir des donnees reelles des elections nationales.
+   * Inference ecologique : decompose l'electorat Da Silva par bloc politique,
+   * puis estime l'affinite Lemoigne/Grelet de chaque composante.
+   *
+   * @param {number} daSilvaAbstPct - taux d'abstention prevu des electeurs Da Silva (defaut 30)
+   * @param {number} loyaute - taux de fidelite des electeurs Lemoigne/Grelet T1 (defaut 93)
+   * @returns {object} matrice T2 au format standard
+   */
+  function computeT2Matrix(daSilvaAbstPct = 30, loyaute = 93) {
+    const scenarios = ['europeennes', 'legislatives', 'presidentielle'];
+    let totalAffiniteL = 0, totalAffiniteG = 0, totalPoids = 0;
+
+    // Decomposition par scenario et par bloc
+    const detailParScenario = [];
+
+    for (const sc of scenarios) {
+      const m = defaultMatrices[sc];
+      if (!m) continue;
+      let scAffiniteL = 0, scAffiniteG = 0, scPoids = 0;
+
+      for (let i = 0; i < m.matrix.length; i++) {
+        const poidsBloc = m.sourcePcts[i];
+        const versLemoigne = m.matrix[i][0];
+        const versDaSilva = m.matrix[i][1];
+        const versGrelet = m.matrix[i][2];
+
+        // Poids de ce bloc dans l'electorat Da Silva
+        const wDaSilva = poidsBloc * versDaSilva;
+        if (wDaSilva <= 0) continue;
+
+        // Affinite naturelle : parmi les electeurs de ce bloc,
+        // ratio L/(L+G) hors Da Silva et abstention
+        const sommeL_G = versLemoigne + versGrelet;
+        if (sommeL_G <= 0) continue;
+
+        const ratioL = versLemoigne / sommeL_G;
+
+        scAffiniteL += wDaSilva * ratioL;
+        scAffiniteG += wDaSilva * (1 - ratioL);
+        scPoids += wDaSilva;
+      }
+
+      if (scPoids > 0) {
+        detailParScenario.push({
+          scenario: sc,
+          affiniteL: scAffiniteL / scPoids,
+          affiniteG: scAffiniteG / scPoids
+        });
+        totalAffiniteL += scAffiniteL;
+        totalAffiniteG += scAffiniteG;
+        totalPoids += scPoids;
+      }
+    }
+
+    // Affinite moyenne ponderee sur les 3 scrutins
+    const affiniteL = totalPoids > 0 ? totalAffiniteL / totalPoids : 0.5;
+    const affiniteG = totalPoids > 0 ? totalAffiniteG / totalPoids : 0.5;
+
+    // Reports Da Silva parmi ceux qui votent (hors abstention)
+    const daSilvaVotants = 100 - daSilvaAbstPct;
+    const daSilvaVersL = Math.round(affiniteL * daSilvaVotants);
+    const daSilvaVersG = daSilvaVotants - daSilvaVersL;
+
+    // Fuite inter-candidats (2% de switch est standard)
+    const fuite = Math.round((100 - loyaute) * 0.3); // ~2% de switch
+    const abstLoyaute = 100 - loyaute - fuite;
+
+    return {
+      blocs: [
+        `Elect. Lemoigne (${municipalesT1_2026.resultats['Lemoigne'].pct.toFixed(1)}%)`,
+        `Elect. Da Silva (${municipalesT1_2026.resultats['Da Silva'].pct.toFixed(1)}%)`,
+        `Elect. Grelet (${municipalesT1_2026.resultats['Grelet-Certenais'].pct.toFixed(1)}%)`
+      ],
+      sources: ['Lemoigne', 'Da Silva', 'Grelet'],
+      destinations: ['Lemoigne', 'Grelet-Certenais', 'Abstention'],
+      matrix: [
+        [loyaute, fuite, abstLoyaute],
+        [daSilvaVersL, daSilvaVersG, daSilvaAbstPct],
+        [fuite, loyaute, abstLoyaute]
+      ],
+      sourcePcts: [
+        municipalesT1_2026.resultats['Lemoigne'].pct,
+        municipalesT1_2026.resultats['Da Silva'].pct,
+        municipalesT1_2026.resultats['Grelet-Certenais'].pct
+      ],
+      abstentionPct: 100 - municipalesT1_2026.participation,
+      _computed: true,
+      _details: {
+        affiniteL, affiniteG, detailParScenario,
+        daSilvaAbstPct, loyaute
+      }
+    };
+  }
 
   function getElection(name) {
     if (name === 'europeennes') return europeennes2024;
@@ -169,6 +225,11 @@ const Historique = (() => {
   }
 
   function getDefaultMatrix(scenario) {
+    // T2 data-driven : calculee a la volee
+    if (scenario === 't2_datadriven') return computeT2Matrix(30);
+    // Sensibilite : abstention basse/haute pour Da Silva
+    if (scenario === 't2_abst_basse') return computeT2Matrix(20);
+    if (scenario === 't2_abst_haute') return computeT2Matrix(40);
     return defaultMatrices[scenario] || null;
   }
 
@@ -230,7 +291,7 @@ const Historique = (() => {
   }
 
   return {
-    getElection, getDefaultMatrix, getDefaultSigmas, projeter,
+    getElection, getDefaultMatrix, getDefaultSigmas, projeter, computeT2Matrix,
     europeennes2024, legislatives2024, presidentielle2022, municipalesT1_2026
   };
 })();
