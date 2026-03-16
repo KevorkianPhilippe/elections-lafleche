@@ -41,6 +41,7 @@ const Soiree = (() => {
   const SENTINELLES = ['03', '07', '11', '12', '17'];
 
   let chartTrend = null;
+  let finalOverlayShown = false;
 
   // === STORE ===
   function loadT2() {
@@ -236,6 +237,13 @@ const Soiree = (() => {
     renderTrendChart(data);
     renderBureauGrid(data);
     renderBureauTable(data, agg);
+    renderPublishButton(proj, agg);
+
+    // Auto-show final overlay when all 17 BVs are filled (once)
+    if (proj.method === 'definitif' && !finalOverlayShown) {
+      finalOverlayShown = true;
+      setTimeout(() => showFinalOverlay(proj, agg), 600);
+    }
   }
 
   function renderAlertBanner(proj) {
@@ -679,6 +687,150 @@ const Soiree = (() => {
     render();
   }
 
+  // === PUBLISH BUTTON (#6) ===
+  function renderPublishButton(proj, agg) {
+    let btn = document.getElementById('soiree-publish-btn');
+    if (proj.method !== 'definitif') {
+      if (btn) btn.style.display = 'none';
+      return;
+    }
+    if (!btn) {
+      btn = document.createElement('div');
+      btn.id = 'soiree-publish-btn';
+      btn.innerHTML = `
+        <button class="btn-publish-final" onclick="Soiree.showFinal()">
+          <span style="font-size:1.5rem">🏆</span>
+          <span>PUBLIER LE RESULTAT FINAL</span>
+          <span style="font-size:0.75rem;opacity:0.8">17/17 bureaux — Appuyez pour partager</span>
+        </button>`;
+      // Insert after alert banner
+      const alert = document.getElementById('soiree-alert');
+      alert.parentNode.insertBefore(btn, alert.nextSibling);
+    }
+    btn.style.display = 'block';
+  }
+
+  // === FINAL OVERLAY (#7) ===
+  function showFinalOverlay(projArg, aggArg) {
+    const data = loadT2();
+    const proj = projArg || getProjection();
+    const agg = aggArg || getAggregate();
+
+    if (proj.method !== 'definitif') return;
+
+    // Determine winner
+    const candidates = [
+      { name: 'Lemoigne', pct: agg.pctLemoigne, voix: agg.lemoigne, color: COLORS.lemoigne },
+      { name: 'Da Silva', pct: agg.pctDasilva, voix: agg.dasilva, color: COLORS.dasilva },
+      { name: 'Grelet-Certenais', pct: agg.pctGrelet, voix: agg.grelet, color: COLORS.grelet }
+    ].sort((a, b) => b.pct - a.pct);
+
+    const winner = candidates[0];
+    const isLemoigneWinner = winner.name === 'Lemoigne';
+
+    // Remove existing overlay if any
+    const existing = document.getElementById('final-overlay');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'final-overlay';
+    overlay.innerHTML = `
+      <div class="final-backdrop" onclick="Soiree.closeFinal()"></div>
+      <div class="final-content">
+        ${isLemoigneWinner ? '<div class="confetti-container" id="confetti-box"></div>' : ''}
+        <div class="final-header">
+          <button class="final-close" onclick="Soiree.closeFinal()">&times;</button>
+        </div>
+        <div class="final-body">
+          <div class="final-icon">${isLemoigneWinner ? '🏆' : '📊'}</div>
+          <div class="final-title">${isLemoigneWinner ? 'VICTOIRE !' : 'RESULTAT DEFINITIF'}</div>
+          <div class="final-subtitle">Municipales La Fleche 2026 — 2nd tour</div>
+
+          <div class="final-results">
+            ${candidates.map((c, i) => `
+              <div class="final-candidate ${i === 0 ? 'final-winner' : ''}">
+                <div class="final-rank">${i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'}</div>
+                <div class="final-name" style="color:${c.color}">${c.name}</div>
+                <div class="final-pct" style="color:${c.color}">${c.pct.toFixed(2)}%</div>
+                <div class="final-voix">${c.voix.toLocaleString('fr-FR')} voix</div>
+                <div class="final-bar-track">
+                  <div class="final-bar-fill" style="width:${c.pct}%;background:${c.color}"></div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="final-stats">
+            <span>Participation : ${agg.participation.toFixed(1)}%</span>
+            <span>Exprimes : ${agg.exprimes.toLocaleString('fr-FR')}</span>
+          </div>
+
+          <div class="final-actions">
+            <button class="btn-final-share" onclick="Soiree.shareFinal()">
+              📤 PARTAGER LE RESULTAT
+            </button>
+            <button class="btn-final-close" onclick="Soiree.closeFinal()">
+              Fermer
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    // Animate entrance
+    requestAnimationFrame(() => {
+      overlay.classList.add('active');
+      // Launch confetti if winner
+      if (isLemoigneWinner) launchConfetti();
+    });
+
+    // Vibrate on result
+    if (navigator.vibrate) {
+      navigator.vibrate(isLemoigneWinner ? [100, 50, 100, 50, 200] : [200]);
+    }
+  }
+
+  function closeFinalOverlay() {
+    const overlay = document.getElementById('final-overlay');
+    if (overlay) {
+      overlay.classList.remove('active');
+      setTimeout(() => overlay.remove(), 400);
+    }
+  }
+
+  function shareFinal() {
+    closeFinalOverlay();
+    // Capture the alert banner (top card with results)
+    setTimeout(() => Share.capture('soiree-alert', 'resultat-final'), 300);
+  }
+
+  function launchConfetti() {
+    const box = document.getElementById('confetti-box');
+    if (!box) return;
+    const colors = ['#FFD700', '#5C6BC0', '#4FC3F7', '#66BB6A', '#FF9800', '#E91E63', '#fff'];
+    for (let i = 0; i < 80; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'confetti-dot';
+      dot.style.left = Math.random() * 100 + '%';
+      dot.style.background = colors[Math.floor(Math.random() * colors.length)];
+      dot.style.animationDelay = (Math.random() * 2) + 's';
+      dot.style.animationDuration = (2 + Math.random() * 3) + 's';
+      // Random shapes
+      if (Math.random() > 0.5) {
+        dot.style.width = '8px';
+        dot.style.height = '8px';
+        dot.style.borderRadius = '50%';
+      } else {
+        dot.style.width = '6px';
+        dot.style.height = '12px';
+        dot.style.borderRadius = '2px';
+      }
+      box.appendChild(dot);
+    }
+  }
+
   // === INIT ===
   function init() {
     ['s-votants', 's-blancs', 's-nuls', 's-lemoigne', 's-dasilva', 's-grelet'].forEach(id => {
@@ -698,5 +850,10 @@ const Soiree = (() => {
     });
   }
 
-  return { render, init, selectBV, saveBV, deleteBV };
+  return {
+    render, init, selectBV, saveBV, deleteBV,
+    showFinal: () => showFinalOverlay(),
+    closeFinal: closeFinalOverlay,
+    shareFinal
+  };
 })();
