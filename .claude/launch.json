@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "elections-dev",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["serve", "-l", "3030", "-s", "."],
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "3030"],
       "port": 3030
     }
   ]
