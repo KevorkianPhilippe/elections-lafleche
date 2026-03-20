@@ -3,6 +3,15 @@
 const Soiree = (() => {
   const STORE_KEY = 'elections-lafleche-t2';
 
+  // Noms des bureaux de vote
+  const BV_NAMES = {
+    "01": "Hôtel de Ville", "02": "Le Bas Rhin", "03": "Pasteur", "04": "Pape-Carpantier",
+    "05": "André Ferté III", "06": "André Ferté I", "07": "André Ferté II",
+    "08": "Gambetta I", "09": "Gambetta II", "10": "Le Carroi I", "11": "Le Carroi II",
+    "12": "Esp Henri Dunant", "13": "Jules Ferry", "14": "Saint-Germain I",
+    "15": "Verron", "16": "ZAC Canada", "17": "Saint-Germain II"
+  };
+
   // Couleurs candidats
   const COLORS = {
     lemoigne: '#5C6BC0',
@@ -804,6 +813,7 @@ const Soiree = (() => {
       return `<button class="bureau-btn ${statusClass} ${isSentinelle ? 'soiree-sentinelle' : ''}"
         data-bv="${bv}" style="${extraStyle}" onclick="Soiree.selectBV('${bv}')">
         ${parseInt(bv)}
+        <span style="font-size:0.5rem;display:block;opacity:0.8">${BV_NAMES[bv] || ''}</span>
         ${indicator}
         ${isSentinelle && !isFilled ? '<span style="font-size:0.5rem;display:block;color:var(--warning)">\u2605</span>' : ''}
       </button>`;
@@ -822,7 +832,7 @@ const Soiree = (() => {
 
       if (!r) {
         return `<tr style="opacity:0.35">
-          <td>${parseInt(bv)}${SENTINELLES.includes(bv) ? ' \u2605' : ''}</td>
+          <td>${parseInt(bv)} <span style="font-size:0.6rem;opacity:0.7">${BV_NAMES[bv] || ''}</span>${SENTINELLES.includes(bv) ? ' \u2605' : ''}</td>
           <td>-</td><td>-</td><td>-</td>
           <td style="color:var(--text-muted)">${(t1.lemoigne / t1Expr * 100).toFixed(1)}%</td>
           <td style="color:var(--text-muted)">${(t1.dasilva / t1Expr * 100).toFixed(1)}%</td>
@@ -862,7 +872,7 @@ const Soiree = (() => {
       }
 
       return `<tr>
-        <td><strong>${parseInt(bv)}</strong>${SENTINELLES.includes(bv) ? ' <span style="color:var(--warning)">\u2605</span>' : ''}</td>
+        <td><strong>${parseInt(bv)}</strong> <span style="font-size:0.6rem;opacity:0.7">${BV_NAMES[bv] || ''}</span>${SENTINELLES.includes(bv) ? ' <span style="color:var(--warning)">\u2605</span>' : ''}</td>
         <td style="color:${COLORS.lemoigne};font-weight:600">${r.lemoigne}</td>
         <td style="color:${COLORS.dasilva};font-weight:600">${r.dasilva || 0}</td>
         <td style="color:${COLORS.grelet};font-weight:600">${r.grelet}</td>
@@ -915,7 +925,7 @@ const Soiree = (() => {
     const feedback = document.getElementById('soiree-bv-feedback');
     if (feedback) feedback.style.display = 'none';
 
-    document.getElementById('soiree-bv-title').textContent = `Bureau n\u00B0${parseInt(bv)}`;
+    document.getElementById('soiree-bv-title').textContent = `Bureau n\u00B0${parseInt(bv)} — ${BV_NAMES[bv] || ''}`;
     document.getElementById('soiree-bv-num').value = bv;
     document.getElementById('s-inscrits').textContent = t1.inscrits;
 
@@ -1043,7 +1053,7 @@ const Soiree = (() => {
     feedbackEl.style.display = 'block';
     feedbackEl.innerHTML = `
       <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:10px;margin-top:12px;font-size:0.8rem">
-        <div style="font-weight:600;margin-bottom:8px">BV ${parseInt(bv)} \u2014 Comparaison T1 \u2192 T2</div>
+        <div style="font-weight:600;margin-bottom:8px">BV ${parseInt(bv)} ${BV_NAMES[bv] || ''} \u2014 Comparaison T1 \u2192 T2</div>
         <div style="display:flex;justify-content:space-between;margin-bottom:3px">
           <span style="color:var(--text-muted);font-size:0.7rem">Participation</span>
           <span>${partT1.toFixed(1)}% \u2192 <strong>${partT2.toFixed(1)}%</strong> ${delta(dPart)}</span>
