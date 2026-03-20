@@ -299,6 +299,16 @@
         <div id="soiree-projection-details"></div>
       </div>
 
+      <!-- Comparaison T1/T2 -->
+      <div class="card" id="soiree-comparison" style="display:none">
+        <h2>📊 Comparaison T1 → T2</h2>
+        <p class="muted">Sur les memes bureaux — indication fiable</p>
+        <div id="soiree-comparison-share" class="share-zone">
+          <div id="soiree-comparison-content"></div>
+          <button class="btn-share" onclick="Share.capture('soiree-comparison-share','comparaison-t1-t2')">Partager</button>
+        </div>
+      </div>
+
       <!-- Trend chart -->
       <div class="card">
         <h2>📈 Tendance</h2>
@@ -353,6 +363,7 @@
           <button class="btn btn-primary" id="soiree-save-btn">✓ Enregistrer</button>
           <button class="btn btn-danger btn-small" id="soiree-delete-btn" style="flex:0 0 auto;width:auto;padding:12px">🗑</button>
         </div>
+        <div id="soiree-bv-feedback" style="display:none"></div>
       </div>
 
       <!-- Tableau detail -->
@@ -370,7 +381,7 @@
                   <th>%L</th>
                   <th>%D</th>
                   <th>%G</th>
-                  <th>Δ</th>
+                  <th>Rep.</th>
                 </tr>
               </thead>
               <tbody id="soiree-table-body"></tbody>
@@ -452,7 +463,7 @@
   <script src="js/resultats.js?v=18"></script>
   <script src="js/projections.js?v=18"></script>
   <script src="js/analyse.js?v=18"></script>
-  <script src="js/soiree.js?v=20"></script>
+  <script src="js/soiree.js?v=21"></script>
   <script src="js/share.js?v=18"></script>
   <script src="js/app.js?v=19"></script>
 </body>
