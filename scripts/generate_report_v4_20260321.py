@@ -282,7 +282,7 @@ class VerdictBox(Flowable):
     def __init__(self, width):
         super().__init__()
         self.width = width
-        self.height = 98*mm
+        self.height = 88*mm
 
     def draw(self):
         c = self.canv
@@ -510,11 +510,11 @@ def build_pdf():
     # ── RAPPEL : projection pré-T1 confirmée ──
     pret1_text = (
         "<b>Confirmation d'une projection antérieure au T1</b> : dès avant le premier tour, "
-        "notre modèle (fondé sur les législatives 2024) projetait une victoire de Lemoigne "
-        "avec les probabilités suivantes : <b>Lemoigne 92%</b>, Grelet 8%, Da Silva 0%. "
-        "Le résultat réel du T1 (<b>43,7%</b> Lemoigne, en tête avec 4,2 points d'avance) "
-        "a confirmé cette projection, validant la robustesse du modèle. "
-        "La présente note actualise la projection en intégrant les données réelles du T1."
+        "notre modèle projetait une victoire de Lemoigne avec un score estimé entre <b>42 et 45%</b> "
+        "des suffrages exprimés et une probabilité de victoire de <b>85 à 90%</b>. "
+        "Le résultat réel du T1 (<b>43,7%</b>, en tête avec 4,2 points d'avance) est tombé "
+        "en plein cœur de notre intervalle de confiance, validant la robustesse du modèle. "
+        "La présente note actualise cette projection en intégrant les données réelles du T1."
     )
     pret1_data = [[Paragraph(pret1_text,
         ParagraphStyle('', fontSize=8.5, textColor=GREY_DARK, leading=12))]]

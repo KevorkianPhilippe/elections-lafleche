@@ -1,0 +1,118 @@
+FICHE ANTI-BOURRAGE D'URNE
+Elections municipales La Fleche 2026
+A destination des assesseurs et delegues
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. LA TECHNIQUE DE FRAUDE
+
+Le bourrage par emargement fictif :
+- Reperer un electeur inscrit mais absent
+- Imiter sa signature sur la liste d'emargement
+- Glisser un bulletin dans l'urne
+
+Resultat : le nombre de bulletins = le nombre de signatures. Indetectable au depouillement classique.
+
+Il suffit d'un moment d'inattention.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+2. LA PARADE
+
+Relever SIMULTANEMENT et A L'IMPROVISTE :
+- Le compteur mecanique de l'urne
+- Le nombre de signatures sur la liste d'emargement
+
+Si les 2 concordent = RAS
+Si ecart = anomalie a signaler
+
+MODE OPERATOIRE :
+1 - Choisir un moment calme (pas les pics)
+2 - Sans prevenir, relever le compteur
+3 - Compter les signatures d'emargement (seul ou a 2)
+4 - Noter heure + compteur + signatures
+5 - Comparer
+
+FREQUENCE : 3 controles minimum
+  ~10h30
+  ~14h30
+  ~17h00
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+3. EN CAS D'ECART
+
+1 - Informer le president calmement :
+"A [heure], le compteur indique [X] et nous avons compte [Y] signatures."
+
+2 - Demander une explication
+
+3 - S'il minimise, annoncer la consignation au PV (droit absolu - art. L.67)
+
+4 - Rediger factuellement :
+"A [heure], controle realise : compteur urne = [X], signatures emargement = [Y]. Ecart de [N] constate."
+
+L'inscription au PV rend la fraude exploitable devant le tribunal administratif.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4. QUI PEUT LE FAIRE ?
+
+ASSESSEUR :
+- Membre du bureau de vote
+- Acces permanent a la liste (il la tient)
+- Peut detenir une cle de l'urne
+- Co-responsable de la regularite
+- Signe le PV (obligatoire)
+
+DELEGUE :
+- Observateur habilite
+- Meme droit de controle (art. L.67, R.47)
+- Peut exiger inscription au PV
+- Peut signer le PV
+
+L'assesseur est le MIEUX PLACE : il est a la table, il a la liste sous les yeux.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+5. LE PRESIDENT PEUT-IL S'OPPOSER AU COMPTAGE DES SIGNATURES DU REGISTRE D'EMARGEMENT ?
+
+NON. Pour 3 raisons :
+
+1 - Droit general de controle : l'assesseur est co-responsable ; le delegue controle toutes les operations (art. L.67, R.47)
+
+2 - Interdiction d'empecher le controle (art. R.49) : la requisition du president ne peut empecher l'exercice des prerogatives
+
+3 - Argument imparable : le bureau fait DEJA ce comptage pour transmettre la participation a la prefecture a 12h et 17h !
+
+En cas de refus : faire inscrire le refus au PV = irregularite exploitable en contentieux.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+6. CONDITIONS PRATIQUES
+
+PREREQUIS :
+- Verifier le compteur de l'urne des 8h. S'il ne marche pas : consigner au PV
+- Une seule personne suffit (a 2 c'est plus rapide mais pas obligatoire)
+
+PRECAUTIONS :
+- Proceder hors pics d'affluence
+- Rester factuel et courtois
+- Ne pas deplacer la liste : compter sur place
+- Tout noter sur un carnet personnel
+
+EFFET DISSUASIF :
+Meme sans ecart, ces controles dissuadent. Le tricheur sait que chaque bulletin frauduleux cree un ecart detectable.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MEMENTO
+
+~10h30  Compteur: ___  Signatures: ___
+~14h30  Compteur: ___  Signatures: ___
+~17h00  Compteur: ___  Signatures: ___
+
+Si ecart : president + PV
+Textes : art. L.62-1, L.63, L.65, L.67, R.46, R.47, R.49
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Source : Code electoral (Legifrance) - Mars 2026

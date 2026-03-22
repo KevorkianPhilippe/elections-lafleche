@@ -1,0 +1,27 @@
+FICHE ANTI-BOURRAGE D'URNE
+Elections La Fleche 2026
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+LA FRAUDE : un assesseur signe a la place d'un absent sur la liste d'emargement puis glisse un bulletin dans l'urne. Compteur et signatures concordent = indetectable au depouillement.
+
+LA PARADE : 3 controles improvistes dans la journee (~10h30, ~14h30, ~17h)
+- Relever le compteur de l'urne
+- Compter les signatures d'emargement
+- Les 2 doivent etre egaux
+
+SI ECART : informer le president. S'il refuse d'agir, faire consigner au PV :
+"A [heure], compteur = [X], signatures = [Y], ecart = [N]."
+
+QUI PEUT LE FAIRE ? Assesseurs ET delegues (art. L.67, R.47, R.49)
+
+LE PRESIDENT PEUT-IL S'OPPOSER AU COMPTAGE DES SIGNATURES DU REGISTRE D'EMARGEMENT ? NON.
+- Art. R.49 : il ne peut empecher le controle
+- Le bureau fait DEJA ce comptage pour la prefecture (12h et 17h)
+- En cas de refus : l'inscrire au PV
+
+PREREQUIS :
+- Verifier le compteur de l'urne a 8h
+- Une seule personne suffit (a 2 c'est plus rapide mais pas obligatoire)
+- Proceder hors pics d'affluence
+
+L'effet dissuasif seul suffit souvent a empecher la fraude.

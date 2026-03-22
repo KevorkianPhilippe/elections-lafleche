@@ -277,103 +277,6 @@ class ProbabilityGauge(Flowable):
             draw_french_flag(c, cx + label_w/2 + 1.5*mm, 1.5*mm, flag_w, flag_h)
 
 
-class VerdictBox(Flowable):
-    """Encart verdict percutant avec drapeaux français autour de Lemoigne"""
-    def __init__(self, width):
-        super().__init__()
-        self.width = width
-        self.height = 98*mm
-
-    def draw(self):
-        c = self.canv
-        w = self.width
-        h = self.height
-
-        # Fond principal bleu marine
-        c.setFillColor(DARK_NAVY)
-        c.roundRect(0, 0, w, h, 4*mm, fill=1, stroke=0)
-
-        # Barre accent supérieure
-        c.setFillColor(BLUE_ACCENT)
-        c.roundRect(0, h - 3*mm, w, 3*mm, 1.5*mm, fill=1, stroke=0)
-
-        # Titre
-        c.setFont('Helvetica-Bold', 11)
-        c.setFillColor(WHITE)
-        c.drawCentredString(w/2, h - 13*mm, "PROJECTION SECOND TOUR — ESTIMATION CENTRALE")
-
-        # ── LEMOIGNE (centre, grand, avec drapeaux) ──
-        lem_y = h - 32*mm
-        c.setFont('Helvetica-Bold', 40)
-        c.setFillColor(BLUE_ACCENT)
-        c.drawCentredString(w/2, lem_y, "45,2%")
-
-        # Nom Lemoigne
-        name_y = lem_y - 12*mm
-        c.setFont('Helvetica-Bold', 15)
-        c.setFillColor(WHITE)
-        label_text = "ROMAIN LEMOIGNE"
-        label_w = c.stringWidth(label_text, 'Helvetica-Bold', 15)
-        c.drawCentredString(w/2, name_y, label_text)
-
-        # Grands drapeaux français de chaque côté
-        flag_w = 8*mm
-        flag_h = 5.5*mm
-        flag_y = name_y - 0.5*mm
-
-        # Drapeau gauche
-        draw_french_flag(c, w/2 - label_w/2 - flag_w - 3*mm, flag_y, flag_w, flag_h)
-        # Petit drapeau gauche supplémentaire
-        draw_french_flag(c, w/2 - label_w/2 - flag_w - 3*mm - flag_w - 2*mm, flag_y + 0.5*mm, flag_w * 0.7, flag_h * 0.7)
-        # Drapeau droit
-        draw_french_flag(c, w/2 + label_w/2 + 3*mm, flag_y, flag_w, flag_h)
-        # Petit drapeau droit supplémentaire
-        draw_french_flag(c, w/2 + label_w/2 + 3*mm + flag_w + 2*mm, flag_y + 0.5*mm, flag_w * 0.7, flag_h * 0.7)
-
-        # Probabilité de victoire (gros)
-        prob_y = name_y - 15*mm
-        c.setFont('Helvetica-Bold', 13)
-        c.setFillColor(HexColor("#66BB6A"))
-        c.drawCentredString(w/2, prob_y, "Probabilité de victoire : 90 à 95%")
-
-        # Ligne séparatrice
-        sep_y = prob_y - 6*mm
-        c.setStrokeColor(HexColor("#37474F"))
-        c.setLineWidth(0.5)
-        c.line(w * 0.1, sep_y, w * 0.9, sep_y)
-
-        # ── GRELET et DA SILVA (en bas, avec espace) ──
-        bottom_y = sep_y - 8*mm
-
-        # Grelet à gauche
-        c.setFont('Helvetica-Bold', 22)
-        c.setFillColor(HexColor("#EF5350"))
-        c.drawCentredString(w * 0.3, bottom_y, "41,4%")
-        c.setFont('Helvetica-Bold', 9)
-        c.setFillColor(HexColor("#B0BEC5"))
-        c.drawCentredString(w * 0.3, bottom_y - 6*mm, "GRELET-CERTENAIS")
-        c.setFont('Helvetica', 8)
-        c.setFillColor(HexColor("#90A4AE"))
-        c.drawCentredString(w * 0.3, bottom_y - 11*mm, "P(victoire) = 7%")
-
-        # Da Silva à droite
-        c.setFont('Helvetica-Bold', 22)
-        c.setFillColor(HexColor("#FDD835"))
-        c.drawCentredString(w * 0.7, bottom_y, "13,4%")
-        c.setFont('Helvetica-Bold', 9)
-        c.setFillColor(HexColor("#B0BEC5"))
-        c.drawCentredString(w * 0.7, bottom_y - 6*mm, "DA SILVA")
-        c.setFont('Helvetica', 8)
-        c.setFillColor(HexColor("#90A4AE"))
-        c.drawCentredString(w * 0.7, bottom_y - 11*mm, "P(victoire) < 1%")
-
-        # Méthodologie en bas
-        c.setFont('Helvetica-Oblique', 6.5)
-        c.setFillColor(HexColor("#78909C"))
-        c.drawCentredString(w/2, 3*mm,
-            f"Simulation stochastique — {NB_TIRAGES_TXT} scénarios — Inférence écologique 17 BV × 4 scrutins")
-
-
 class ScenarioTable(Flowable):
     """Tableau de scénarios élégant"""
     def __init__(self, width=170*mm):
@@ -485,90 +388,50 @@ def build_pdf():
     page_w = A4[0] - 30*mm
 
     # ══════════════════════════════════════════════
-    # PAGE 1 : COUVERTURE PERCUTANTE
+    # PAGE 1 : COUVERTURE
     # ══════════════════════════════════════════════
 
-    story.append(Spacer(1, 8*mm))
+    story.append(Spacer(1, 15*mm))
     story.append(ColorBar(page_w, 3*mm, DARK_NAVY))
-    story.append(Spacer(1, 5*mm))
+    story.append(Spacer(1, 8*mm))
 
     story.append(Paragraph("Élections municipales", styles['subtitle']))
     story.append(Paragraph("La Flèche 2026", styles['title']))
+    story.append(Spacer(1, 2*mm))
 
     cover_sub = ParagraphStyle('CoverSub', parent=styles['subtitle'],
-        fontSize=13, textColor=NAVY, fontName='Helvetica-Bold', spaceAfter=2*mm)
-    story.append(Paragraph("Note de projection — Second tour (triangulaire)", cover_sub))
+        fontSize=13, textColor=NAVY, fontName='Helvetica-Bold')
+    story.append(Paragraph("Note de projection — Second tour", cover_sub))
+    story.append(Paragraph("Triangulaire Lemoigne / Grelet-Certenais / Da Silva", styles['subtitle']))
 
+    story.append(Spacer(1, 5*mm))
     story.append(ColorBar(page_w, 1*mm, BLUE_ACCENT))
-    story.append(Spacer(1, 5*mm))
+    story.append(Spacer(1, 10*mm))
 
-    # ── VERDICT PRINCIPAL (immédiatement visible) ──
-    verdict_box = VerdictBox(page_w)
-    story.append(verdict_box)
-    story.append(Spacer(1, 5*mm))
+    ctx_style = ParagraphStyle('Ctx', parent=styles['body'], fontSize=10, leading=16)
+    story.append(Paragraph(
+        "<b>Auteur</b> : Philippe KEVORKIAN<br/>"
+        "<font size='8' color='#607D8B'>Membre diplômé de la Société Française des Analystes Financiers (SFAF)<br/>"
+        "Ingénieur SupAéro (ISAE-SUPAERO)</font>", ctx_style))
+    story.append(Paragraph(
+        "<b>Date de publication</b> : 21 mars 2026 (J-1 avant le scrutin)", ctx_style))
+    story.append(Paragraph(
+        "<b>Scrutin</b> : Second tour des élections municipales, 22 mars 2026", ctx_style))
+    story.append(Paragraph(
+        "<b>Configuration</b> : Triangulaire (3 listes qualifiées)", ctx_style))
+    story.append(Paragraph(
+        "<b>Commune</b> : La Flèche (Sarthe, 72200) — 10 330 inscrits, 17 bureaux de vote", ctx_style))
 
-    # ── RAPPEL : projection pré-T1 confirmée ──
-    pret1_text = (
-        "<b>Confirmation d'une projection antérieure au T1</b> : dès avant le premier tour, "
-        "notre modèle (fondé sur les législatives 2024) projetait une victoire de Lemoigne "
-        "avec les probabilités suivantes : <b>Lemoigne 92%</b>, Grelet 8%, Da Silva 0%. "
-        "Le résultat réel du T1 (<b>43,7%</b> Lemoigne, en tête avec 4,2 points d'avance) "
-        "a confirmé cette projection, validant la robustesse du modèle. "
-        "La présente note actualise la projection en intégrant les données réelles du T1."
-    )
-    pret1_data = [[Paragraph(pret1_text,
-        ParagraphStyle('', fontSize=8.5, textColor=GREY_DARK, leading=12))]]
-    pret1_table = Table(pret1_data, colWidths=[page_w - 10*mm])
-    pret1_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, -1), GREEN_LIGHT),
-        ('ROUNDEDCORNERS', [4, 4, 4, 4]),
-        ('TOPPADDING', (0, 0), (-1, -1), 3*mm),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 3*mm),
-        ('LEFTPADDING', (0, 0), (-1, -1), 4*mm),
-        ('RIGHTPADDING', (0, 0), (-1, -1), 4*mm),
-        ('BOX', (0, 0), (-1, -1), 0.5, GREEN),
-    ]))
-    story.append(pret1_table)
-    story.append(Spacer(1, 4*mm))
+    story.append(Spacer(1, 6*mm))
 
-    # ── INFOS CONTEXTUELLES (compact) ──
-    ctx_style = ParagraphStyle('Ctx', parent=styles['body'], fontSize=9, leading=13)
-    ctx_data = [[
-        Paragraph(
-            "<b>Auteur</b> : Philippe KEVORKIAN<br/>"
-            "<font size='7' color='#607D8B'>Membre diplômé de la Société Française<br/>"
-            "des Analystes Financiers (SFAF)<br/>"
-            "Ingénieur SupAéro (ISAE-SUPAERO)</font>",
-            ctx_style),
-        Paragraph(
-            "<b>Publication</b> : 21 mars 2026 (J-1)<br/>"
-            "<b>Scrutin</b> : 22 mars 2026<br/>"
-            "<b>Configuration</b> : Triangulaire<br/>"
-            "<b>Commune</b> : La Flèche (72200)<br/>"
-            "<b>Inscrits</b> : 10 330 — 17 bureaux de vote",
-            ctx_style),
-    ]]
-    ctx_table = Table(ctx_data, colWidths=[page_w/2]*2)
-    ctx_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, -1), GREY_BG),
-        ('ROUNDEDCORNERS', [4, 4, 4, 4]),
-        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-        ('TOPPADDING', (0, 0), (-1, -1), 3*mm),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 3*mm),
-        ('LEFTPADDING', (0, 0), (-1, -1), 4*mm),
-        ('RIGHTPADDING', (0, 0), (-1, -1), 4*mm),
-    ]))
-    story.append(ctx_table)
-    story.append(Spacer(1, 4*mm))
-
-    # ── MINI SOMMAIRE ──
-    toc_style = ParagraphStyle('TOC', fontName='Helvetica', fontSize=8,
-        textColor=GREY_DARK, leading=12, leftIndent=5*mm)
+    # Mini sommaire
+    toc_style = ParagraphStyle('TOC', fontName='Helvetica', fontSize=9,
+        textColor=GREY_DARK, leading=15, leftIndent=5*mm)
     toc_bold = ParagraphStyle('TOCBold', fontName='Helvetica-Bold', fontSize=9,
-        textColor=DARK_NAVY, leading=14, leftIndent=0)
+        textColor=DARK_NAVY, leading=15, leftIndent=0)
 
     story.append(Paragraph("<b>Sommaire</b>", toc_bold))
-    story.append(Spacer(1, 1*mm))
+    story.append(Spacer(1, 2*mm))
     toc_items = [
         ("1.", "Probabilité de victoire"),
         ("2.", "Scores attendus et intervalles de confiance"),
@@ -579,13 +442,39 @@ def build_pdf():
         ("", "<b>Conclusion</b>"),
         ("A.", "Annexe — Résultats détaillés du T1 par bureau de vote"),
         ("B.", "Annexe — Méthodologie : comment lire nos projections"),
-        ("C.", "Annexe — Mise à jour bayésienne le soir du scrutin"),
     ]
     for num, title in toc_items:
         prefix = f"<font color='#1565C0'><b>{num}</b></font> " if num else ""
         story.append(Paragraph(f"{prefix}{title}", toc_style))
 
-    story.append(Spacer(1, 4*mm))
+    story.append(Spacer(1, 6*mm))
+
+    # Encart verdict
+    verdict_data = [
+        [Paragraph('<b>ESTIMATION CENTRALE</b>', ParagraphStyle('', parent=styles['body'],
+            textColor=WHITE, fontSize=10, alignment=TA_CENTER)), '', ''],
+        [Paragraph('<font size="22"><b>45,2%</b></font><br/><font size="8">LEMOIGNE</font>',
+            ParagraphStyle('', textColor=WHITE, alignment=TA_CENTER, fontName='Helvetica-Bold', leading=28)),
+         Paragraph('<font size="22"><b>41,4%</b></font><br/><font size="8">GRELET-CERTENAIS</font>',
+            ParagraphStyle('', textColor=WHITE, alignment=TA_CENTER, fontName='Helvetica-Bold', leading=28)),
+         Paragraph('<font size="22"><b>13,4%</b></font><br/><font size="8">DA SILVA</font>',
+            ParagraphStyle('', textColor=WHITE, alignment=TA_CENTER, fontName='Helvetica-Bold', leading=28))],
+        [Paragraph(f'<font size="9">Probabilité de victoire Lemoigne : <b>90 à 95%</b></font>',
+            ParagraphStyle('', textColor=SOFT_BLUE, alignment=TA_CENTER)), '', '']
+    ]
+    verdict_table = Table(verdict_data, colWidths=[page_w/3]*3, rowHeights=[10*mm, 22*mm, 8*mm])
+    verdict_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), DARK_NAVY),
+        ('SPAN', (0, 0), (-1, 0)),
+        ('SPAN', (0, 2), (-1, 2)),
+        ('ROUNDEDCORNERS', [4, 4, 4, 4]),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('TOPPADDING', (0, 1), (-1, 1), 3*mm),
+        ('BOTTOMPADDING', (0, 1), (-1, 1), 3*mm),
+    ]))
+    story.append(verdict_table)
+
+    story.append(Spacer(1, 10*mm))
 
     story.append(Paragraph(
         f"<b>Méthodologie</b> : Inférence écologique croisée sur 4 scrutins nationaux (2022-2024), "
@@ -1783,157 +1672,6 @@ def build_pdf():
     ]))
     story.append(methodo_final_table)
 
-    story.append(PageBreak())
-
-    # ══════════════════════════════════════════════
-    # ANNEXE C : MISE À JOUR BAYÉSIENNE EN TEMPS RÉEL
-    # ══════════════════════════════════════════════
-
-    story.append(ColorBar(page_w, 2*mm, GREY_MED))
-    story.append(Spacer(1, 2*mm))
-    story.append(Paragraph("Annexe C — Mise à jour bayésienne le soir du scrutin", styles['h1']))
-
-    story.append(Paragraph(
-        "Le modèle ne s'arrête pas à la projection statique publiée dans cette note. "
-        "Une <b>application mobile</b> (progressive web app) permet de mettre à jour la projection "
-        "<b>en temps réel</b> le soir du 22 mars, au fur et à mesure que les résultats tombent "
-        "bureau par bureau.",
-        styles['body']))
-
-    story.append(Paragraph("C.1 Le principe : apprendre des premiers résultats", styles['h2']))
-
-    story.append(Paragraph(
-        "Le soir de l'élection, les 17 bureaux de vote ne publient pas leurs résultats "
-        "au même moment. Dès qu'un bureau est dépouillé, ses chiffres sont saisis dans "
-        "l'application. Le modèle utilise alors la <b>mise à jour bayésienne</b> pour "
-        "affiner ses projections :",
-        styles['body']))
-
-    bayes_steps = [
-        "<b>Avant tout résultat</b> : le modèle utilise les projections de cette note "
-        f"({NB_TIRAGES_TXT} scénarios simulés). Probabilité de victoire Lemoigne : 93%.",
-        "<b>Premier bureau dépouillé</b> : le résultat réel est comparé à ce que chacun "
-        "des {NB_TIRAGES_TXT} scénarios avait prédit pour ce bureau. Les scénarios proches "
-        "de la réalité gagnent du poids, les autres en perdent.",
-        "<b>Deuxième bureau, troisième…</b> : à chaque nouveau résultat, les poids sont "
-        "recalculés. La projection se précise de plus en plus. L'intervalle de confiance "
-        "se resserre.",
-        "<b>Après 5-6 bureaux</b> : la projection est généralement très fiable. "
-        "Après 10 bureaux, elle est quasi certaine."
-    ]
-    for i, item in enumerate(bayes_steps):
-        num_style = ParagraphStyle('Num', parent=styles['body'],
-            leftIndent=8*mm, bulletIndent=0, spaceBefore=1.5*mm)
-        story.append(Paragraph(f"<font color='#1565C0'><b>{i+1}.</b></font> {item}", num_style))
-
-    story.append(Spacer(1, 3*mm))
-
-    # Encadré analogie
-    bayes_analogy = (
-        "<b>Analogie</b> : imaginez que vous devinez le contenu d'un sac de billes "
-        "sans le voir. Avant de regarder, vous avez une estimation initiale (le « prior »). "
-        "Vous tirez une première bille : si elle est bleue, vous augmentez votre estimation "
-        "qu'il y a beaucoup de billes bleues. Chaque nouvelle bille tirée affine votre "
-        "estimation. C'est exactement ce que fait la mise à jour bayésienne avec les bureaux "
-        "de vote : chaque résultat réel est une « bille tirée du sac » qui affine la projection."
-    )
-    bayes_analogy_data = [[Paragraph(bayes_analogy, ParagraphStyle('', fontSize=8.5, textColor=GREY_DARK, leading=12))]]
-    bayes_analogy_table = Table(bayes_analogy_data, colWidths=[page_w - 10*mm])
-    bayes_analogy_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, -1), LIGHT_BLUE),
-        ('ROUNDEDCORNERS', [4, 4, 4, 4]),
-        ('TOPPADDING', (0, 0), (-1, -1), 3*mm),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 3*mm),
-        ('LEFTPADDING', (0, 0), (-1, -1), 4*mm),
-        ('RIGHTPADDING', (0, 0), (-1, -1), 4*mm),
-    ]))
-    story.append(bayes_analogy_table)
-    story.append(Spacer(1, 4*mm))
-
-    story.append(Paragraph("C.2 L'algorithme technique", styles['h2']))
-
-    story.append(Paragraph(
-        "Pour les lecteurs souhaitant comprendre le détail technique :",
-        styles['body']))
-
-    tech_items = [
-        "<b>Vraisemblance gaussienne</b> : pour chaque scénario simulé, on calcule la probabilité "
-        "d'observer le résultat réel du bureau, en supposant une erreur de modèle de ±4 points "
-        "plus l'erreur d'échantillonnage binomiale.",
-        "<b>Pondération</b> : les scénarios cohérents avec les résultats observés reçoivent un "
-        "poids fort ; les scénarios incompatibles reçoivent un poids quasi nul. Les nouvelles "
-        "probabilités de victoire sont calculées sur les scénarios pondérés.",
-        "<b>Rééchantillonnage (SIR)</b> : lorsque trop peu de scénarios concentrent le poids "
-        "(taille effective de l'échantillon &lt; N/4), un rééchantillonnage systématique est "
-        "effectué pour maintenir la diversité des simulations.",
-        "<b>Bureaux sentinelles</b> : l'application identifie 5 bureaux prioritaires "
-        "(n° 03, 07, 11, 12 et 17) dont les résultats sont les plus informatifs pour affiner "
-        "la projection. Ils sont mis en évidence dans l'interface pour être saisis en priorité."
-    ]
-    for i, item in enumerate(tech_items):
-        num_style = ParagraphStyle('Num', parent=styles['body'],
-            leftIndent=8*mm, bulletIndent=0, spaceBefore=1.5*mm)
-        story.append(Paragraph(f"<font color='#1565C0'><b>{i+1}.</b></font> {item}", num_style))
-
-    story.append(Spacer(1, 4*mm))
-
-    story.append(Paragraph("C.3 L'application mobile — Captures d'écran", styles['h2']))
-
-    story.append(Paragraph(
-        "L'application est accessible sur smartphone (progressive web app, installable "
-        "sans téléchargement). Voici les trois écrans principaux utilisés le soir du scrutin :",
-        styles['body']))
-
-    # Insérer les images mockup si elles existent
-    mockup_paths = [
-        os.path.join(OUTPUT_DIR, "mockup_soiree_grid.png"),
-        os.path.join(OUTPUT_DIR, "mockup_soiree_saisie.png"),
-        os.path.join(OUTPUT_DIR, "mockup_soiree_projection.png"),
-    ]
-    mockup_labels = [
-        "Écran 1 — Grille des 17 bureaux de vote (les bureaux sentinelles sont signalés en priorité)",
-        "Écran 2 — Saisie rapide des résultats d'un bureau (votants, blancs, nuls, voix par candidat)",
-        "Écran 3 — Projection mise à jour en temps réel (probabilités et courbe de tendance)",
-    ]
-    for path, label in zip(mockup_paths, mockup_labels):
-        if os.path.exists(path):
-            try:
-                img = Image(path, width=60*mm, height=100*mm)
-                img_data = [[img]]
-                img_table = Table(img_data, colWidths=[page_w])
-                img_table.setStyle(TableStyle([
-                    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                    ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-                ]))
-                story.append(img_table)
-            except Exception:
-                pass
-            story.append(Paragraph(f"<i>{label}</i>", styles['caption']))
-            story.append(Spacer(1, 3*mm))
-        else:
-            story.append(Paragraph(f"<i>[{label}]</i>", styles['caption']))
-            story.append(Spacer(1, 2*mm))
-
-    # Encadré final
-    bayes_final = (
-        "<b>Intérêt opérationnel</b> : grâce à la mise à jour bayésienne, l'équipe Lemoigne "
-        "peut connaître le résultat probable avec un haut degré de confiance dès que 5 à 6 bureaux "
-        "sont dépouillés — soit environ 30 à 45 minutes avant la proclamation officielle. "
-        "Ce temps d'avance permet de préparer la communication et d'anticiper les réactions."
-    )
-    bayes_final_data = [[Paragraph(bayes_final,
-        ParagraphStyle('', fontSize=9, textColor=WHITE, leading=13))]]
-    bayes_final_table = Table(bayes_final_data, colWidths=[page_w - 10*mm])
-    bayes_final_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, -1), DARK_NAVY),
-        ('ROUNDEDCORNERS', [4, 4, 4, 4]),
-        ('TOPPADDING', (0, 0), (-1, -1), 5*mm),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 5*mm),
-        ('LEFTPADDING', (0, 0), (-1, -1), 5*mm),
-        ('RIGHTPADDING', (0, 0), (-1, -1), 5*mm),
-    ]))
-    story.append(bayes_final_table)
-
     # Construction finale
     doc.build(story, onFirstPage=header_footer, onLaterPages=header_footer)
     print(f"PDF généré : {output_path}")
@@ -2183,155 +1921,7 @@ def generate_images():
     plt.close(fig)
     print(f"Image 4 : {path4}")
 
-    # ── MOCKUPS MOBILE pour annexe bayésienne ──
-
-    # Mockup 1 : Grille des bureaux
-    fig, ax = plt.subplots(1, 1, figsize=(4, 7), facecolor='#0D1B2A')
-    ax.set_xlim(0, 4)
-    ax.set_ylim(0, 7)
-    ax.axis('off')
-
-    # Status bar
-    ax.add_patch(FancyBboxPatch((0, 6.6), 4, 0.4, boxstyle="square", facecolor='#1B2838', edgecolor='none'))
-    ax.text(2, 6.78, 'Soirée électorale — T2', ha='center', fontsize=9, color='white', fontweight='bold')
-
-    ax.text(2, 6.3, 'Bureaux de vote', ha='center', fontsize=8, color='#B0BEC5')
-    ax.text(2, 6.0, 'Sélectionnez un bureau pour saisir', ha='center', fontsize=6, color='#546E7A')
-
-    # Grille 4x5 de bureaux
-    colors_bv = ['#43A047', '#43A047', '#FF9800', '#43A047', '#43A047',
-                 '#FF9800', '#43A047', '#43A047', '#43A047', '#455A64',
-                 '#FF9800', '#455A64', '#455A64', '#455A64', '#455A64',
-                 '#455A64', '#455A64']
-    labels_bv = [f'{i+1:02d}' for i in range(17)]
-
-    for i in range(17):
-        row = i // 4
-        col = i % 4
-        x = 0.3 + col * 0.9
-        y = 5.3 - row * 0.7
-        c = colors_bv[i]
-        box = FancyBboxPatch((x, y), 0.7, 0.55, boxstyle="round,pad=0.05",
-            facecolor=c, edgecolor='none', alpha=0.85)
-        ax.add_patch(box)
-        ax.text(x + 0.35, y + 0.27, labels_bv[i], ha='center', va='center',
-                fontsize=8, color='white', fontweight='bold')
-        # Sentinelle marker
-        if labels_bv[i] in ['03', '07', '11', '12', '17']:
-            ax.text(x + 0.62, y + 0.48, '*', ha='center', fontsize=7, color='#FFD54F', fontweight='bold')
-
-    ax.text(2, 1.8, 'Légende :', ha='center', fontsize=6, color='#B0BEC5')
-    ax.add_patch(FancyBboxPatch((0.5, 1.3), 0.3, 0.2, boxstyle="round,pad=0.02", facecolor='#43A047', edgecolor='none'))
-    ax.text(1.0, 1.37, 'Saisi', fontsize=6, color='#B0BEC5')
-    ax.add_patch(FancyBboxPatch((1.5, 1.3), 0.3, 0.2, boxstyle="round,pad=0.02", facecolor='#FF9800', edgecolor='none'))
-    ax.text(2.0, 1.37, 'Sentinelle', fontsize=6, color='#FFD54F')
-    ax.add_patch(FancyBboxPatch((2.7, 1.3), 0.3, 0.2, boxstyle="round,pad=0.02", facecolor='#455A64', edgecolor='none'))
-    ax.text(3.2, 1.37, 'En attente', fontsize=6, color='#B0BEC5')
-
-    # Barre progression
-    ax.add_patch(FancyBboxPatch((0.3, 0.7), 3.4, 0.3, boxstyle="round,pad=0.03", facecolor='#263238', edgecolor='none'))
-    ax.add_patch(FancyBboxPatch((0.3, 0.7), 3.4 * 8/17, 0.3, boxstyle="round,pad=0.03", facecolor='#4FC3F7', edgecolor='none'))
-    ax.text(2, 0.83, '8 / 17 bureaux', ha='center', fontsize=7, color='white', fontweight='bold')
-
-    path_m1 = os.path.join(OUTPUT_DIR, "mockup_soiree_grid.png")
-    fig.savefig(path_m1, dpi=200, bbox_inches='tight', pad_inches=0.1, facecolor='#0D1B2A')
-    plt.close(fig)
-    print(f"Mockup 1 : {path_m1}")
-
-    # Mockup 2 : Saisie d'un bureau
-    fig, ax = plt.subplots(1, 1, figsize=(4, 7), facecolor='#0D1B2A')
-    ax.set_xlim(0, 4)
-    ax.set_ylim(0, 7)
-    ax.axis('off')
-
-    ax.add_patch(FancyBboxPatch((0, 6.6), 4, 0.4, boxstyle="square", facecolor='#1B2838', edgecolor='none'))
-    ax.text(2, 6.78, 'Bureau n  07  * Sentinelle', ha='center', fontsize=9, color='#FFD54F', fontweight='bold')
-
-    fields = [
-        ('Inscrits', '664', '#455A64'),
-        ('Votants', '482', '#455A64'),
-        ('Blancs', '8', '#455A64'),
-        ('Nuls', '3', '#455A64'),
-        ('Lemoigne', '206', col_l),
-        ('Da Silva', '72', col_d),
-        ('Grelet-C.', '193', col_g),
-    ]
-
-    y_start = 6.1
-    for i, (label, val, color) in enumerate(fields):
-        y = y_start - i * 0.65
-        ax.text(0.4, y + 0.05, label, fontsize=8, color='#B0BEC5')
-        box = FancyBboxPatch((2.0, y - 0.12), 1.6, 0.4, boxstyle="round,pad=0.05",
-            facecolor='#1E3250', edgecolor=color, linewidth=1.5 if i >= 4 else 0.5)
-        ax.add_patch(box)
-        ax.text(2.8, y + 0.05, val, ha='center', fontsize=10, color='white', fontweight='bold')
-
-    # Bouton enregistrer
-    btn = FancyBboxPatch((0.8, 1.2), 2.4, 0.5, boxstyle="round,pad=0.08",
-        facecolor='#43A047', edgecolor='none')
-    ax.add_patch(btn)
-    ax.text(2, 1.43, '✓ Enregistrer', ha='center', fontsize=10, color='white', fontweight='bold')
-
-    # Contrôle
-    ax.text(2, 0.7, 'Exprimes : 471  |  Total voix : 471  OK', ha='center', fontsize=7, color='#66BB6A')
-
-    path_m2 = os.path.join(OUTPUT_DIR, "mockup_soiree_saisie.png")
-    fig.savefig(path_m2, dpi=200, bbox_inches='tight', pad_inches=0.1, facecolor='#0D1B2A')
-    plt.close(fig)
-    print(f"Mockup 2 : {path_m2}")
-
-    # Mockup 3 : Projection en temps réel
-    fig, ax = plt.subplots(1, 1, figsize=(4, 7), facecolor='#0D1B2A')
-    ax.set_xlim(0, 4)
-    ax.set_ylim(0, 7)
-    ax.axis('off')
-
-    ax.add_patch(FancyBboxPatch((0, 6.6), 4, 0.4, boxstyle="square", facecolor='#1B2838', edgecolor='none'))
-    ax.text(2, 6.78, 'Projection en direct — 8/17 BV', ha='center', fontsize=9, color='white', fontweight='bold')
-
-    # Probabilité mise à jour
-    ax.text(2, 6.15, 'Probabilité de victoire', ha='center', fontsize=8, color='#B0BEC5')
-    ax.text(2, 5.5, '96%', ha='center', fontsize=40, color='#4FC3F7', fontweight='bold')
-    ax.text(2, 5.1, 'LEMOIGNE', ha='center', fontsize=12, color='white', fontweight='bold')
-
-    # Barres de score
-    bar_data = [('Lemoigne', 46.1, col_l), ('Grelet-C.', 40.8, col_g), ('Da Silva', 13.1, col_d)]
-    for i, (name, pct, color) in enumerate(bar_data):
-        y = 4.3 - i * 0.65
-        ax.text(0.3, y + 0.05, name, fontsize=7, color='#B0BEC5')
-        ax.add_patch(FancyBboxPatch((1.8, y - 0.05), 1.8, 0.3, boxstyle="round,pad=0.03",
-            facecolor='#263238', edgecolor='none'))
-        ax.add_patch(FancyBboxPatch((1.8, y - 0.05), 1.8 * pct/60, 0.3, boxstyle="round,pad=0.03",
-            facecolor=color, edgecolor='none', alpha=0.8))
-        ax.text(1.8 + 1.8 * pct/60 + 0.1, y + 0.07, f'{pct}%', fontsize=7,
-                color='white', fontweight='bold')
-
-    # Mini graphe tendance
-    ax.add_patch(FancyBboxPatch((0.2, 0.8), 3.6, 1.8, boxstyle="round,pad=0.08",
-        facecolor='#1E3250', edgecolor='#455A64', linewidth=0.5))
-    ax.text(2, 2.35, 'Évolution de la projection', ha='center', fontsize=7, color='#B0BEC5')
-
-    # Courbe simplifiée
-    import numpy as np
-    bv_x = np.array([0, 1, 2, 3, 4, 5, 6, 7])
-    lem_y_vals = np.array([45.2, 44.8, 45.5, 46.2, 45.8, 46.0, 46.3, 46.1])
-    gre_y_vals = np.array([41.4, 41.8, 41.2, 40.6, 41.0, 40.8, 40.5, 40.8])
-
-    x_plot = 0.5 + bv_x * 0.4
-    lem_y_plot = 1.0 + (lem_y_vals - 40) * 0.15
-    gre_y_plot = 1.0 + (gre_y_vals - 40) * 0.15
-
-    ax.plot(x_plot, lem_y_plot, color=col_l, linewidth=2, marker='o', markersize=3)
-    ax.plot(x_plot, gre_y_plot, color=col_g, linewidth=2, marker='o', markersize=3)
-    ax.text(0.5, 0.9, '0 BV', fontsize=5, color='#546E7A')
-    ax.text(3.3, 0.9, '8 BV', fontsize=5, color='#546E7A')
-
-    path_m3 = os.path.join(OUTPUT_DIR, "mockup_soiree_projection.png")
-    fig.savefig(path_m3, dpi=200, bbox_inches='tight', pad_inches=0.1, facecolor='#0D1B2A')
-    plt.close(fig)
-    print(f"Mockup 3 : {path_m3}")
-
-    return [path1, path2, path3, path4, path_m1, path_m2, path_m3]
+    return [path1, path2, path3, path4]
 
 
 if __name__ == '__main__':

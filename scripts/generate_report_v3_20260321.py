@@ -282,7 +282,7 @@ class VerdictBox(Flowable):
     def __init__(self, width):
         super().__init__()
         self.width = width
-        self.height = 98*mm
+        self.height = 72*mm
 
     def draw(self):
         c = self.canv
@@ -300,20 +300,20 @@ class VerdictBox(Flowable):
         # Titre
         c.setFont('Helvetica-Bold', 11)
         c.setFillColor(WHITE)
-        c.drawCentredString(w/2, h - 13*mm, "PROJECTION SECOND TOUR — ESTIMATION CENTRALE")
+        c.drawCentredString(w/2, h - 12*mm, "PROJECTION SECOND TOUR — ESTIMATION CENTRALE")
 
         # ── LEMOIGNE (centre, grand, avec drapeaux) ──
-        lem_y = h - 32*mm
-        c.setFont('Helvetica-Bold', 40)
+        lem_y = h - 30*mm
+        c.setFont('Helvetica-Bold', 36)
         c.setFillColor(BLUE_ACCENT)
         c.drawCentredString(w/2, lem_y, "45,2%")
 
         # Nom Lemoigne
-        name_y = lem_y - 12*mm
-        c.setFont('Helvetica-Bold', 15)
+        name_y = lem_y - 10*mm
+        c.setFont('Helvetica-Bold', 14)
         c.setFillColor(WHITE)
         label_text = "ROMAIN LEMOIGNE"
-        label_w = c.stringWidth(label_text, 'Helvetica-Bold', 15)
+        label_w = c.stringWidth(label_text, 'Helvetica-Bold', 14)
         c.drawCentredString(w/2, name_y, label_text)
 
         # Grands drapeaux français de chaque côté
@@ -331,46 +331,44 @@ class VerdictBox(Flowable):
         draw_french_flag(c, w/2 + label_w/2 + 3*mm + flag_w + 2*mm, flag_y + 0.5*mm, flag_w * 0.7, flag_h * 0.7)
 
         # Probabilité de victoire (gros)
-        prob_y = name_y - 15*mm
-        c.setFont('Helvetica-Bold', 13)
+        prob_y = name_y - 14*mm
+        c.setFont('Helvetica-Bold', 12)
         c.setFillColor(HexColor("#66BB6A"))
         c.drawCentredString(w/2, prob_y, "Probabilité de victoire : 90 à 95%")
 
         # Ligne séparatrice
-        sep_y = prob_y - 6*mm
+        sep_y = prob_y - 5*mm
         c.setStrokeColor(HexColor("#37474F"))
         c.setLineWidth(0.5)
         c.line(w * 0.1, sep_y, w * 0.9, sep_y)
 
-        # ── GRELET et DA SILVA (en bas, avec espace) ──
-        bottom_y = sep_y - 8*mm
+        # ── GRELET et DA SILVA (en bas, plus petits) ──
+        bottom_y = sep_y - 9*mm
 
         # Grelet à gauche
-        c.setFont('Helvetica-Bold', 22)
+        c.setFont('Helvetica-Bold', 20)
         c.setFillColor(HexColor("#EF5350"))
         c.drawCentredString(w * 0.3, bottom_y, "41,4%")
-        c.setFont('Helvetica-Bold', 9)
-        c.setFillColor(HexColor("#B0BEC5"))
-        c.drawCentredString(w * 0.3, bottom_y - 6*mm, "GRELET-CERTENAIS")
         c.setFont('Helvetica', 8)
-        c.setFillColor(HexColor("#90A4AE"))
-        c.drawCentredString(w * 0.3, bottom_y - 11*mm, "P(victoire) = 7%")
+        c.setFillColor(HexColor("#B0BEC5"))
+        c.drawCentredString(w * 0.3, bottom_y - 5*mm, "GRELET-CERTENAIS")
+        c.setFont('Helvetica', 7)
+        c.drawCentredString(w * 0.3, bottom_y - 9*mm, "P(victoire) = 7%")
 
         # Da Silva à droite
-        c.setFont('Helvetica-Bold', 22)
+        c.setFont('Helvetica-Bold', 20)
         c.setFillColor(HexColor("#FDD835"))
         c.drawCentredString(w * 0.7, bottom_y, "13,4%")
-        c.setFont('Helvetica-Bold', 9)
-        c.setFillColor(HexColor("#B0BEC5"))
-        c.drawCentredString(w * 0.7, bottom_y - 6*mm, "DA SILVA")
         c.setFont('Helvetica', 8)
-        c.setFillColor(HexColor("#90A4AE"))
-        c.drawCentredString(w * 0.7, bottom_y - 11*mm, "P(victoire) < 1%")
+        c.setFillColor(HexColor("#B0BEC5"))
+        c.drawCentredString(w * 0.7, bottom_y - 5*mm, "DA SILVA")
+        c.setFont('Helvetica', 7)
+        c.drawCentredString(w * 0.7, bottom_y - 9*mm, "P(victoire) < 1%")
 
         # Méthodologie en bas
         c.setFont('Helvetica-Oblique', 6.5)
         c.setFillColor(HexColor("#78909C"))
-        c.drawCentredString(w/2, 3*mm,
+        c.drawCentredString(w/2, 2*mm,
             f"Simulation stochastique — {NB_TIRAGES_TXT} scénarios — Inférence écologique 17 BV × 4 scrutins")
 
 
@@ -510,11 +508,11 @@ def build_pdf():
     # ── RAPPEL : projection pré-T1 confirmée ──
     pret1_text = (
         "<b>Confirmation d'une projection antérieure au T1</b> : dès avant le premier tour, "
-        "notre modèle (fondé sur les législatives 2024) projetait une victoire de Lemoigne "
-        "avec les probabilités suivantes : <b>Lemoigne 92%</b>, Grelet 8%, Da Silva 0%. "
-        "Le résultat réel du T1 (<b>43,7%</b> Lemoigne, en tête avec 4,2 points d'avance) "
-        "a confirmé cette projection, validant la robustesse du modèle. "
-        "La présente note actualise la projection en intégrant les données réelles du T1."
+        "notre modèle projetait une victoire de Lemoigne avec un score estimé entre <b>42 et 45%</b> "
+        "des suffrages exprimés et une probabilité de victoire de <b>85 à 90%</b>. "
+        "Le résultat réel du T1 (<b>43,7%</b>, en tête avec 4,2 points d'avance) est tombé "
+        "en plein cœur de notre intervalle de confiance, validant la robustesse du modèle. "
+        "La présente note actualise cette projection en intégrant les données réelles du T1."
     )
     pret1_data = [[Paragraph(pret1_text,
         ParagraphStyle('', fontSize=8.5, textColor=GREY_DARK, leading=12))]]
