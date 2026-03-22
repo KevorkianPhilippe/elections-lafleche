@@ -399,6 +399,7 @@ const Soiree = (() => {
         ${proj.voixLemoigne ? `<div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px">
           Voix: Lem ${proj.voixLemoigne} \u00b7 Gre ${proj.voixGrelet} \u00b7 DaS ${proj.voixDasilva}
         </div>` : ''}
+        <button onclick="Share.capture('soiree-alert','projection-t2')" style="margin-top:10px;background:rgba(79,195,247,0.9);color:#000;border:none;border-radius:6px;padding:8px 18px;font-size:0.8rem;font-weight:600;cursor:pointer">\u{1F4E4} Partager</button>
       </div>`;
   }
 
