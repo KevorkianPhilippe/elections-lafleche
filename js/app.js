@@ -255,7 +255,7 @@ const App = (() => {
     // Render soiree T2 by default (election day!)
     navigate('soiree');
 
-    // Register service worker with auto-update
+    // Register service worker with auto-update + force refresh
     if ('serviceWorker' in navigator) {
       let refreshing = false;
       navigator.serviceWorker.addEventListener('controllerchange', () => {
@@ -264,13 +264,20 @@ const App = (() => {
         console.log('New version available, reloading...');
         window.location.reload();
       });
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => {
-          console.log('SW registered');
-          // Check for updates every 5 minutes
-          setInterval(() => reg.update(), 300000);
-        })
-        .catch(err => console.log('SW error:', err));
+      // Force unregister old SW then re-register fresh
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        const p = regs.map(r => r.unregister());
+        return Promise.all(p);
+      }).then(() => {
+        return caches.keys();
+      }).then(keys => {
+        return Promise.all(keys.map(k => caches.delete(k)));
+      }).then(() => {
+        return navigator.serviceWorker.register('./sw.js?v=23');
+      }).then(reg => {
+        console.log('SW re-registered fresh v23');
+        setInterval(() => reg.update(), 300000);
+      }).catch(err => console.log('SW error:', err));
     }
   }
 
