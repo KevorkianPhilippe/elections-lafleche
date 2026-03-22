@@ -1,4 +1,4 @@
-const CACHE_NAME = 'elections-lafleche-v23';
+const CACHE_NAME = 'elections-lafleche-v24';
 const ASSETS = [
   './',
   './index.html',
